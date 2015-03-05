@@ -6,16 +6,18 @@
 //  Copyright (c) 2015 47 Degrees. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import XCTest
 import Swiftz
-
 
 class Swift47DegTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        
+        let vemo : List<Int> = [1]
+        
     }
     
     override func tearDown() {

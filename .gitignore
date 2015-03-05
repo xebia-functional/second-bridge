@@ -24,3 +24,6 @@ Podfile.lock
 Carthage
 Cartfile.resolved
 
+#External libraries
+External/Swiftz
+.gitmodules
