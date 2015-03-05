@@ -23,7 +23,7 @@ class MapTests: XCTestCase {
     
     func testMapCreation() {
         let map = ["a" : 1, 2 : 2, 3 : "c", 4.5 : 4.5]
-        XCTAssertTrue(map.count == 3, "Map should have all elements added")
+        XCTAssertEqual(map.count, 4, "Map should have all elements added")
         XCTAssertNotNil(map["a"], "Map elements with String keys should be added")
         XCTAssertNotNil(map[2], "Map elements with Int keys should be added")
         XCTAssertNotNil(map[4.5], "Map elements with Double keys should be added")

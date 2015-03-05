@@ -31,22 +31,32 @@ struct HashableAny: Hashable, IntegerLiteralConvertible, FloatLiteralConvertible
     
     init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
         self.stringValue = "\(value)"
+        self.intValue = nil
+        self.floatValue = nil
     }
     
     init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
         self.stringValue = value
+        self.intValue = nil
+        self.floatValue = nil
     }
     
     init(stringLiteral value: StringLiteralType) {
         self.stringValue = value
+        self.intValue = nil
+        self.floatValue = nil
     }
     
     init(integerLiteral value: IntegerLiteralType) {
         self.intValue = value
+        self.stringValue = nil
+        self.floatValue = nil
     }
     
     init(floatLiteral value: FloatLiteralType) {
         self.floatValue = value
+        self.intValue = nil
+        self.stringValue = nil
     }
     
     var debugDescription : String {
