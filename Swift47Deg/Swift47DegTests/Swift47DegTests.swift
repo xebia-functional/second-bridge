@@ -14,10 +14,7 @@ class Swift47DegTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-        
-        let vemo : List<Int> = [1]
-        
+        // Put setup code here. This method is called before the invocation of each test method in the class.        
     }
     
     override func tearDown() {
