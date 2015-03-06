@@ -9,9 +9,10 @@
 // MARK: - HashableAny equality
 
 func ==(lhs: HashableAny, rhs: HashableAny) -> Bool {
-    switch (lhs.intValue, rhs.intValue, lhs.stringValue, rhs.stringValue) {
-    case let (.Some(_leftInt), .Some(_rightInt), _, _): return _leftInt == _rightInt
-    case let (_, _, .Some(_leftString), .Some(_rightString)): return _leftString == _rightString
+    switch (lhs.intValue, rhs.intValue, lhs.stringValue, rhs.stringValue, lhs.floatValue, rhs.floatValue) {
+    case let (.Some(_leftInt), .Some(_rightInt), _, _, _, _): return _leftInt == _rightInt
+    case let (_, _, .Some(_leftString), .Some(_rightString), _, _): return _leftString == _rightString
+    case let (_, _, _, _, .Some(_leftFloat), .Some(_rightFloat)): return _leftFloat == _rightFloat
     default: return false
     }
 }
@@ -91,7 +92,7 @@ func --=<T,U> (left: [T:U], right: [T]) -> [T:U] {
 // MARK: - Maps operators
 
 /// Append map | Appends the contents of the second map to the first. Keys are added to the first map if they don't exist, or their values overwritten if they do.
-func +<U> (left: Map<U>, right: Map<U>) -> Map<U> {
+func + (left: Map, right: Map) -> Map {
     var result = left
     for (key, value) in right {
         result[key] = value
@@ -100,19 +101,24 @@ func +<U> (left: Map<U>, right: Map<U>) -> Map<U> {
 }
 
 /// Append map | Appends the contents of the second map to the first. Keys are added to the first map if they don't exist, or their values overwritten if they do.
-func +=<U> (left: Map<U>, right: Map<U>) -> Map<U> {
-    return left + right
+func += (inout left: Map, right: Map) {
+    left = left + right
 }
 
 /// Append tuple | Appends one key/value pair contained in a tuple with the format (key, value).
-func +<U> (left: Map<U>, right: (HashableAny,U)) -> Map<U> {
+func + (left: Map, right: (HashableAny, AnyObject)) -> Map {
     var result = left
     result[right.0] = right.1
     return result
 }
 
+/// Append tuple | Appends one key/value pair contained in a tuple with the format (key, value).
+func += (inout left: Map, right: (HashableAny, AnyObject)) {
+    left = left + right
+}
+
 /// Append tuple array | Appends an array of tuples containing key/value pairs with the format (key, value).
-func +<U> (left: Map<U>, right: [(HashableAny,U)]) -> Map<U> {
+func + (left: Map, right: [(HashableAny, AnyObject)]) -> Map {
     var result = left
     for tuple in right {
         result = result + tuple
@@ -121,24 +127,24 @@ func +<U> (left: Map<U>, right: [(HashableAny,U)]) -> Map<U> {
 }
 
 /// Append tuple array | Appends an array of tuples containing key/value pairs with the format (key, value).
-func +=<U> (left: Map<U>, right: [(HashableAny,U)]) -> Map<U> {
-    return left + right
+func += (inout left: Map, right: [(HashableAny, AnyObject)]) {
+    left = left + right
 }
 
 /// Remove key | Removes a given key from the map. If it's not contained in the map, nothing happens.
-func -<U> (left: Map<U>, right: HashableAny) -> Map<U> {
+func - (left: Map, right: HashableAny) -> Map {
     var result = left
     result[right] = nil
     return result
 }
 
 /// Remove key | Removes a given key from the map. If it's not contained in the map, nothing happens.
-func -=<U> (left: Map<U>, right: HashableAny) -> Map<U> {
-    return left - right
+func -= (inout left: Map, right: HashableAny) {
+    return left = left - right
 }
 
 /// Remove keys | Removes the keys contained in an array from the source map. If they're not contained in the map, nothing happens.
-func --<U> (left: Map<U>, right: [HashableAny]) -> Map<U> {
+func -- (left: Map, right: [HashableAny]) -> Map {
     var result = left
     for key in right {
         result = result - key
@@ -147,6 +153,6 @@ func --<U> (left: Map<U>, right: [HashableAny]) -> Map<U> {
 }
 
 /// Remove keys | Removes the keys contained in an array from the source map. If they're not contained in the map, nothing happens.
-func --=<U> (left: Map<U>, right: [HashableAny]) -> Map<U> {
-    return left -- right
+func --= (inout left: Map, right: [HashableAny]) {
+    left = left -- right
 }
