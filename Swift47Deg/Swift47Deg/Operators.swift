@@ -156,3 +156,71 @@ func -- (left: Map, right: [HashableAny]) -> Map {
 func --= (inout left: Map, right: [HashableAny]) {
     left = left -- right
 }
+
+// MARK: - Typed maps
+
+/// Append typed map | Appends the contents of the second map to the first. Keys are added to the first map if they don't exist, or their values overwritten if they do.
+func +<T> (left: TypedMap<T>, right: TypedMap<T>) -> TypedMap<T> {
+    var result = left
+    for (key, value) in right {
+        result[key] = value
+    }
+    return result
+}
+
+/// Append typed map | Appends the contents of the second map to the first. Keys are added to the first map if they don't exist, or their values overwritten if they do.
+func +=<T> (inout left: TypedMap<T>, right: TypedMap<T>) {
+    left = left + right
+}
+
+/// Append tuple | Appends one key/value pair contained in a tuple with the format (key, value).
+func +<T> (left: TypedMap<T>, right: (HashableAny, T)) -> TypedMap<T> {
+    var result = left
+    result[right.0] = right.1
+    return result
+}
+
+/// Append tuple | Appends one key/value pair contained in a tuple with the format (key, value).
+func +=<T> (inout left: TypedMap<T>, right: (HashableAny, T)) {
+    left = left + right
+}
+
+/// Append tuple array | Appends an array of tuples containing key/value pairs with the format (key, value).
+func +<T> (left: TypedMap<T>, right: [(HashableAny, T)]) -> TypedMap<T> {
+    var result = left
+    for tuple in right {
+        result = result + tuple
+    }
+    return result
+}
+
+/// Append tuple array | Appends an array of tuples containing key/value pairs with the format (key, value).
+func +=<T> (inout left: TypedMap<T>, right: [(HashableAny, T)]) {
+    left = left + right
+}
+
+/// Remove key | Removes a given key from the typed map. If it's not contained in the map, nothing happens.
+func -<T> (left: TypedMap<T>, right: HashableAny) -> TypedMap<T> {
+    var result = left
+    result[right] = nil
+    return result
+}
+
+/// Remove key | Removes a given key from the typed map. If it's not contained in the map, nothing happens.
+func -=<T> (inout left: TypedMap<T>, right: HashableAny) {
+    return left = left - right
+}
+
+/// Remove keys | Removes the keys contained in an array from the source typed map. If they're not contained in the map, nothing happens.
+func --<T> (left: TypedMap<T>, right: [HashableAny]) -> TypedMap<T> {
+    var result = left
+    for key in right {
+        result = result - key
+    }
+    return result
+}
+
+/// Remove keys | Removes the keys contained in an array from the source typed map. If they're not contained in the map, nothing happens.
+func --=<T> (inout left: TypedMap<T>, right: [HashableAny]) {
+    left = left -- right
+}
