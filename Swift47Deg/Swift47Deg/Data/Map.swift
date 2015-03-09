@@ -108,7 +108,7 @@ extension Map {
     /**
     :returns: An array containing all the keys from the current map. Note: might return different results for different runs, as the underlying collection type is unordered.
     */
-    func keys() -> [HashableAny] {
+    var keys : [HashableAny] {
         return Array(internalDict.keys)
     }
     
@@ -167,7 +167,48 @@ extension Map {
     :returns: A new map containing the elements from the selection
     */
     func drop(n: Int) -> Map {
-        let keys = self.keys()
-        return self.filter({ find(keys, $0.0) >= n })
+        let keys = self.keys
+        let keysToExclude = keys.filter({ find(keys, $0) < n })
+        return self -- keysToExclude
+    }
+    
+    /**
+    Selects all elements except the last n ones. Note: might return different results for different runs, as the underlying collection type is unordered.
+    
+    :param: n Number of elements to be excluded from the selection
+    
+    :returns: A new typed map containing the elements from the selection
+    */
+    func dropRight(n: Int) -> Map {
+        let keys = self.keys
+        let keysToExclude = keys.filter({ find(keys, $0) >= self.count - n })
+        return self -- keysToExclude
+    }
+    
+    /**
+    Drops longest prefix of elements that satisfy a predicate. Note: might return different results for different runs, as the underlying collection type is unordered.
+    
+    :param: n Number of elements to be excluded from the selection
+    
+    :returns: The longest suffix of this traversable collection whose first element does not satisfy the predicate p.
+    */
+    func dropWhile(p: (Key, Value) -> Bool) -> Map {
+        func findSuffixFirstIndex() -> Int? {
+            var count = 0
+            for key in self.keys {
+                if let value: AnyObject = self[key] {
+                    if !p(key, value) {
+                        return count
+                    }
+                }
+                count++
+            }
+            return nil
+        }
+        
+        if let firstIndex = findSuffixFirstIndex() {
+            return self.drop(firstIndex)
+        }
+        return self
     }
 }

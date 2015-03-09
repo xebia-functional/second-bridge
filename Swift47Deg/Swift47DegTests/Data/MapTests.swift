@@ -126,7 +126,7 @@ class MapTests: XCTestCase {
         let addingMap : Map = ["a": "a", "b": "b"]
         map += addingMap
         XCTAssertEqual(map.values() as [String], ["a", "b"], "Maps should know their values")
-        XCTAssertEqual(map.keys(), ["a", "b"], "Maps should know their keys")
+        XCTAssertEqual(map.keys, ["a", "b"], "Maps should know their keys")
         XCTAssertTrue(map.contains("a"), "Maps should figure out if they contain a key")
         XCTAssertFalse(map.contains("c"), "Maps should figure out if they contain a key")
         
@@ -141,6 +141,16 @@ class MapTests: XCTestCase {
         let anotherMap : Map = ["a" : 1, "b" : 2, "c" : 3, "d" : 4, "e" : 5, "f" : 6]
         let droppedMap = anotherMap.drop(2)
         XCTAssertEqual(droppedMap.count, 4, "Maps should be droppable")
+        XCTAssertEqual(droppedMap.keys.first!, anotherMap.keys[2], "Typed maps should be droppable")
+        
+        let droppedRightMap = anotherMap.dropRight(2)
+        XCTAssertEqual(droppedRightMap.count, 4, "Typed maps should be droppable")
+        XCTAssertEqual(droppedRightMap.keys.last!, anotherMap.keys[3], "Typed maps should be droppable")
+        
+        let droppedWhileMap = anotherMap.dropWhile { (key: HashableAny, value: AnyObject) -> Bool in
+            key != anotherMap.keys[2]
+        }
+        XCTAssertEqual(droppedWhileMap.keys[0], anotherMap.keys[2], "Typed maps should be droppable with while closure")
     }
     
 }
