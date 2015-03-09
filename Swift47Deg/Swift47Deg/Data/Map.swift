@@ -76,12 +76,29 @@ extension Map {
     }
     
     /**
-    Returns a new map containing all the keys from the current one that satisfy the `includeElement` closure. Takes into account values AND keys.
+    Returns a new map containing all the keys/value pairs from the current one that satisfy the `includeElement` closure. Takes into account both values AND keys.
     */
     func filter(includeElement: ((HashableAny, AnyObject)) -> Bool) -> Map {
         return Map(Swift.filter(self, { (key: HashableAny, value: AnyObject) -> Bool in
             includeElement((key, value))
         }))
+    }
+    
+    /**
+    Returns a new map containing all the keys from the current one that satisfy the `includeElement` closure.
+    */
+    func filterKeys(includeElement: (HashableAny) -> Bool) -> Map {
+        return self.filter({ (item: (key: HashableAny, value: AnyObject)) -> Bool in
+            includeElement(item.key)
+        })
+    }
+    
+    /**
+    Returns a new map obtained by removing all key/value pairs for which the `removeElement` closure returns true.
+    */
+    func filterNot(removeElement: ((HashableAny, AnyObject)) -> Bool) -> Map {
+        let itemsToExclude = self.filter(removeElement)
+        return self -- itemsToExclude.keys
     }
     
     /**
@@ -95,11 +112,23 @@ extension Map {
     
     /**
     Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element of the current map.
+    
+    :param: initialValue The initial value used to start the accumulation process
+    :param: combine A function that takes the current total of the process and the current item, and returns the next total value.
     */
     func reduce(initialValue: AnyObject, combine: (AnyObject, AnyObject) -> AnyObject) -> AnyObject {
         return Swift.reduce(self, initialValue) { (currentTotal, currentElement) -> Value in
             return combine(currentTotal, currentElement.1)
         }
+    }
+    
+    /**
+    Finds the first element of the map satisfying a predicate, if any. Note: might return different results for different runs, as the underlying collection type is unordered.
+    
+    :param: predicate The predicate to check the map items against
+    */
+    func find(predicate: ((HashableAny, AnyObject) -> Bool)) -> (HashableAny, AnyObject)? {
+        return Swift.filter(self, predicate)[0]
     }
 }
 
@@ -168,7 +197,7 @@ extension Map {
     */
     func drop(n: Int) -> Map {
         let keys = self.keys
-        let keysToExclude = keys.filter({ find(keys, $0) < n })
+        let keysToExclude = keys.filter({ Swift.find(keys, $0) < n })
         return self -- keysToExclude
     }
     
@@ -181,7 +210,7 @@ extension Map {
     */
     func dropRight(n: Int) -> Map {
         let keys = self.keys
-        let keysToExclude = keys.filter({ find(keys, $0) >= self.count - n })
+        let keysToExclude = keys.filter({ Swift.find(keys, $0) >= self.count - n })
         return self -- keysToExclude
     }
     
@@ -216,8 +245,6 @@ extension Map {
     Checks equality between this and another map. As Maps can hold any type of object, a closure to check equality (and perform casting if needed) between the different values is needed.
     
     :param: equals A closure that check equality between values
-    
-    :returns:
     */
     func equals(anotherMap: Map, equals: (AnyObject, AnyObject) -> Bool) -> Bool {
         if self.count == anotherMap.count {
@@ -233,5 +260,14 @@ extension Map {
             return true
         }
         return false
+    }
+    
+    /**
+    Tests whether a predicate holds for some of the elements of this map.
+    
+    :param: p Predicate to check against the elements of this map
+    */
+    func exists(p: ((HashableAny, AnyObject)) -> Bool) -> Bool {
+        return self.filter(p).count > 0
     }
 }

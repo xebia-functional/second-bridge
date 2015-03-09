@@ -95,16 +95,36 @@ class TypedMapTests : XCTestCase {
             (value as Int) < 3})
         XCTAssertEqual(filteredMap.count, 2, "Typed maps should be filterable with valid conditions")
         
-        let filteredMapByKey = map.filter { (element: (key: HashableAny, value: Int)) -> Bool in
+        let filteredMapByKeyAndValue = map.filter { (element: (key: HashableAny, value: Int)) -> Bool in
             return element.key != "f" && element.value as Int != 1
         }
-        XCTAssertEqual(filteredMapByKey.count, 4, "Maps should be filterable with conditions based on keys and values")
-                
+        XCTAssertEqual(filteredMapByKeyAndValue.count, 4, "Maps should be filterable with conditions based on keys and values")
+        
+        let filteredMapByKey = map.filterKeys { (key: HashableAny) -> Bool in
+            key != "f"
+        }
+        XCTAssertEqual(filteredMapByKey.count, 5, "Maps should be filterable with conditions based on keys alone")
+        XCTAssertNil(filteredMapByKey["f"], "Maps should be filterable with conditions based on keys alone")
+        
+        let filteredNotMap = map.filterNot { (item: (HashableAny, Int)) -> Bool in
+            item.0 == "a" || item.1 == 6
+        }
+        XCTAssertEqual(filteredNotMap.count, 4, "Maps should be filterable with conditions based on NOT conditions")
+        XCTAssertNil(filteredNotMap["a"], "Maps should be filterable with conditions based on NOT conditions")
+        XCTAssertNil(filteredNotMap["f"], "Maps should be filterable with conditions based on NOT conditions")
+        XCTAssertNotNil(filteredNotMap["b"], "Maps should be filterable with conditions based on NOT conditions")
+        
         let mappedMap = map.map({(Int) -> Int in 2 })
         XCTAssertEqual(mappedMap["a"]! as Int, 2, "Typed maps should be mappable")
         
         let reducedResult = map.reduce(0, combine: +)
         XCTAssertEqual(reducedResult, 21, "Typed maps should be reducible")
+        
+        let findResult = map.find { (key: HashableAny, value: Int) -> Bool in
+            key == "f"
+        }
+        XCTAssertTrue(findResult != nil, "Typed maps should support find function")
+        XCTAssertEqual(findResult!.0, "f" as HashableAny, "Typed maps should support find function")
     }
     
     func testTypedMapBasicFunctions() {
@@ -137,6 +157,9 @@ class TypedMapTests : XCTestCase {
             key != anotherMap.keys[2]
         }
         XCTAssertEqual(droppedWhileMap.keys[0], anotherMap.keys[2], "Typed maps should be droppable with while closure")
+        
+        XCTAssertTrue(anotherMap.exists({ $0.0 == "a" }), "Typed maps should work with exists function")
+        XCTAssertFalse(anotherMap.exists({ $0.1 > 7 }), "Typed maps should work with exists function")
     }
     
     

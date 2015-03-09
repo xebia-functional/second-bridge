@@ -72,12 +72,29 @@ extension TypedMap {
     }
     
     /**
-    Returns a new typed map containing all the keys from the current one that satisfy the `includeElement` closure. Takes into account values AND keys.
+    Returns a new typed map containing all the keys/value pairs from the current one that satisfy the `includeElement` closure. Takes into account both values AND keys.
     */
     func filter(includeElement: ((HashableAny, T)) -> Bool) -> TypedMap {
         return TypedMap(Swift.filter(self, { (key: HashableAny, value: T) -> Bool in
             includeElement((key, value))
         }))
+    }
+    
+    /**
+    Returns a new map containing all the keys from the current one that satisfy the `includeElement` closure.
+    */
+    func filterKeys(includeElement: (HashableAny) -> Bool) -> TypedMap {
+        return self.filter({ (item: (key: HashableAny, value: T)) -> Bool in
+            includeElement(item.key)
+        })
+    }
+    
+    /**
+    Returns a new typed map obtained by removing all key/value pairs for which the `removeElement` closure returns true.
+    */
+    func filterNot(removeElement: ((HashableAny, T)) -> Bool) -> TypedMap {
+        let itemsToExclude = self.filter(removeElement)
+        return self -- itemsToExclude.keys
     }
     
     /**
@@ -96,6 +113,15 @@ extension TypedMap {
         return Swift.reduce(self, initialValue) { (currentTotal, currentElement) -> U in
             return combine(currentTotal, currentElement.1)
         }
+    }
+    
+    /**
+    Finds the first element of the typed map satisfying a predicate, if any. Note: might return different results for different runs, as the underlying collection type is unordered.
+    
+    :param: predicate The predicate to check the map items against
+    */
+    func find(predicate: ((HashableAny, T) -> Bool)) -> (HashableAny, T)? {
+        return Swift.filter(self, predicate)[0]
     }
 }
 
@@ -156,7 +182,7 @@ extension TypedMap {
     */
     func drop(n: Int) -> TypedMap {
         let keys = self.keys
-        let keysToExclude = keys.filter({ find(keys, $0) < n })
+        let keysToExclude = keys.filter({ Swift.find(keys, $0) < n })
         return self -- keysToExclude
     }
     
@@ -169,7 +195,7 @@ extension TypedMap {
     */
     func dropRight(n: Int) -> TypedMap {
         let keys = self.keys
-        let keysToExclude = keys.filter({ find(keys, $0) >= self.count - n })
+        let keysToExclude = keys.filter({ Swift.find(keys, $0) >= self.count - n })
         return self -- keysToExclude
     }
     
@@ -198,5 +224,14 @@ extension TypedMap {
             return self.drop(firstIndex)
         }
         return self
+    }
+    
+    /**
+    Tests whether a predicate holds for some of the elements of this map.
+    
+    :param: p Predicate to check against the elements of this map
+    */
+    func exists(p: ((HashableAny, T)) -> Bool) -> Bool {
+        return self.filter(p).count > 0
     }
 }
