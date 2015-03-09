@@ -66,18 +66,36 @@ extension Map {
         self = Map() + arrayOfGenerators
     }
     
+    /**
+    Returns a new map containing all the keys from the current map that satisfy the `includeElement` closure. Only takes into account values, not keys.
+    */
     func filter(includeElement: (AnyObject) -> Bool) -> Map {
         return Map(Swift.filter(self, { (key: HashableAny, value: AnyObject) -> Bool in
             includeElement(value)
         }))
     }
     
+    /**
+    Returns a new map containing all the keys from the current one that satisfy the `includeElement` closure. Takes into account values AND keys.
+    */
+    func filter(includeElement: ((HashableAny, AnyObject)) -> Bool) -> Map {
+        return Map(Swift.filter(self, { (key: HashableAny, value: AnyObject) -> Bool in
+            includeElement((key, value))
+        }))
+    }
+    
+    /**
+    Returns a new map containing the results of mapping `transform` over its elements.
+    */
     func map(transform: (AnyObject) -> AnyObject) -> Map {
         return Map(Swift.map(self, { (key: Key, value: Value) -> (Key, Value) in
             return (key, transform(value))
         }))
     }
     
+    /**
+    Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element of the current map.
+    */
     func reduce(initialValue: AnyObject, combine: (AnyObject, AnyObject) -> AnyObject) -> AnyObject {
         return Swift.reduce(self, initialValue) { (currentTotal, currentElement) -> Value in
             return combine(currentTotal, currentElement.1)
@@ -87,22 +105,45 @@ extension Map {
 
 // MARK: Basic utils
 extension Map {
+    /**
+    :returns: An array containing all the keys from the current map. Note: might return different results for different runs, as the underlying collection type is unordered.
+    */
     func keys() -> [HashableAny] {
         return Array(internalDict.keys)
     }
     
+    /**
+    :returns: True if the map doesn't contain any element.
+    */
     func isEmpty() -> Bool {
         return internalDict.keys.isEmpty
     }
     
+    /**
+    :returns: An array containing the different values from the current map. Note: might return different results for different runs, as the underlying collection type is unordered.
+    */
     func values() -> [AnyObject] {
         return Array(internalDict.values)
     }
     
+    /**
+    Checks if a certain key is binded to a value in the current map.
+    
+    :param: key The key to be checked.
+    
+    :returns: True if the map contains an element binded to the key.
+    */
     func contains(key: HashableAny) -> Bool {
         return internalDict[key] != nil
     }
     
+    /** 
+    Generate a string composed by the different values contained in the map, concatenated.
+    
+    :param: separator A string used to separate each element to be concatenated. If it's a nil, the different strings are not separated.
+    
+    :returns: A string containing all the different values contained in the map
+    */
     func addString(separator: String?) -> String {
         let separatorToUse = (separator != nil) ? separator! : ""
         return self.reduce("", combine: { (currentTotal, currentItem) -> AnyObject in
@@ -117,104 +158,16 @@ extension Map {
             return separatorToUse
         }) as String
     }
-}
-
-// MARK: - Typed map
-
-struct TypedMap<T: Printable> {
-    private var internalDict : Dictionary<HashableAny, T>
     
-    subscript(key: HashableAny) -> T? {
-        get {
-            return internalDict[key]
-        }
-        set {
-            internalDict[key] = newValue
-        }
-    }
+    /** 
+    Selects all elements except the first n ones. Note: might return different results for different runs, as the underlying collection type is unordered.
     
-    var count : Int {
-        return self.internalDict.count
-    }
-}
-
-extension TypedMap : DictionaryLiteralConvertible {
-    typealias Key = HashableAny
-    typealias Value = T
+    :param: n Number of elements to be excluded from the selection
     
-    init(dictionaryLiteral elements: (Key, Value)...) {
-        var tempDict = Dictionary<Key, Value>()
-        for element in elements {
-            tempDict[element.0] = element.1
-        }
-        internalDict = tempDict
-    }
-}
-
-extension TypedMap : SequenceType {
-    typealias Generator = GeneratorOf<(HashableAny, T)>
-    
-    func generate() -> Generator {
-        var index : Int = 0
-        
-        return Generator {
-            if index < self.internalDict.count {
-                let key = Array(self.internalDict.keys)[index]
-                index++
-                return (key, self.internalDict[key]!)
-            }
-            return nil
-        }
-    }
-}
-
-// MARK: Higher-order functions
-extension TypedMap {
-    init(_ arrayOfGenerators: [Generator.Element]) {
-        self = TypedMap() + arrayOfGenerators
-    }
-    
-    func filter(includeElement: (T) -> Bool) -> TypedMap {
-        return TypedMap(Swift.filter(self, { (key: HashableAny, value: T) -> Bool in
-            includeElement(value)
-        }))
-    }
-    
-    func map(transform: (T) -> T) -> TypedMap {
-        return TypedMap(Swift.map(self, { (key: Key, value: Value) -> (Key, Value) in
-            return (key, transform(value))
-        }))
-    }
-    
-    func reduce<U>(initialValue: U, combine: (U, T) -> U) -> U {
-        return Swift.reduce(self, initialValue) { (currentTotal, currentElement) -> U in
-            return combine(currentTotal, currentElement.1)
-        }
-    }
-}
-
-// MARK: Basic utils
-extension TypedMap {
-    func keys() -> [HashableAny] {
-        return Array(internalDict.keys)
-    }
-    
-    func isEmpty() -> Bool {
-        return internalDict.keys.isEmpty
-    }
-    
-    func values() -> [T] {
-        return Array(internalDict.values)
-    }
-    
-    func contains(key: HashableAny) -> Bool {
-        return internalDict[key] != nil
-    }
-    
-    func addString(separator: String?) -> String {
-        let separatorToUse = (separator != nil) ? separator! : ""
-        return self.reduce("", combine: { (currentString, currentItem) -> String in
-            currentString + currentItem.description + separatorToUse
-        })
+    :returns: A new map containing the elements from the selection
+    */
+    func drop(n: Int) -> Map {
+        let keys = self.keys()
+        return self.filter({ find(keys, $0.0) >= n })
     }
 }
