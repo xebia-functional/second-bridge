@@ -6,7 +6,8 @@
 //  Copyright (c) 2015 47 Degrees. All rights reserved.
 //
 
-// MARK: - HashableAny equality
+// MARK: - Equality
+// MARK: HashableAny equality
 
 func ==(lhs: HashableAny, rhs: HashableAny) -> Bool {
     switch (lhs.intValue, rhs.intValue, lhs.stringValue, rhs.stringValue, lhs.floatValue, rhs.floatValue) {
@@ -17,7 +18,24 @@ func ==(lhs: HashableAny, rhs: HashableAny) -> Bool {
     }
 }
 
-// MARK: - Dictionary operators
+func ==<T: Equatable>(lhs: TypedMap<T>, rhs: TypedMap<T>) -> Bool {
+    if lhs.count == rhs.count {
+        for key in rhs.keys {
+            switch (lhs[key], rhs[key]) {
+            case let(.Some(leftValue), .Some(rightValue)):
+                if leftValue != rightValue {
+                    return false
+                }
+            default: return false
+            }
+        }
+        return true
+    }
+    return false
+}
+
+// MARK: - Operators
+// MARK: Dictionary
 
 /// Append dictionary | Appends the contents of the second dictionary to the first. Keys are added to the first dictionary if they don't exist, or their values overwritten if they do.
 func +<T, U> (left: [T:U], right: [T:U]) -> [T:U] {
@@ -89,7 +107,7 @@ func --=<T,U> (left: [T:U], right: [T]) -> [T:U] {
 }
 
 
-// MARK: - Maps operators
+// MARK: Maps
 
 /// Append map | Appends the contents of the second map to the first. Keys are added to the first map if they don't exist, or their values overwritten if they do.
 func + (left: Map, right: Map) -> Map {
@@ -157,7 +175,7 @@ func --= (inout left: Map, right: [HashableAny]) {
     left = left -- right
 }
 
-// MARK: - Typed maps
+// MARK: Typed maps
 
 /// Append typed map | Appends the contents of the second map to the first. Keys are added to the first map if they don't exist, or their values overwritten if they do.
 func +<T> (left: TypedMap<T>, right: TypedMap<T>) -> TypedMap<T> {

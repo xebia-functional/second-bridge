@@ -139,4 +139,15 @@ class TypedMapTests : XCTestCase {
         XCTAssertEqual(droppedWhileMap.keys[0], anotherMap.keys[2], "Typed maps should be droppable with while closure")
     }
     
+    
+    func testTypedMapEquality() {
+        let aMap : TypedMap<Int> = ["a" : 1, "c" : 3, "d" : 4, "e" : 5, "f" : 6,  "b" : 2]
+        let anotherMap : TypedMap<Int> = ["a" : 1, "b" : 2, "c" : 3, "d" : 4, "e" : 5, "f" : 6]
+        XCTAssertTrue(aMap == anotherMap, "Typed maps should support equality")
+        
+        let droppedMap = anotherMap.drop(1)
+        XCTAssertFalse(aMap == droppedMap, "Typed maps should support equality")
+        
+        XCTAssertFalse(aMap == TypedMap<Int>(), "Typed maps should support equality")
+    }
 }

@@ -153,6 +153,20 @@ class MapTests: XCTestCase {
         XCTAssertEqual(droppedWhileMap.keys[0], anotherMap.keys[2], "Typed maps should be droppable with while closure")
     }
     
+    func testMapEquality() {
+        let aMap : Map = ["a" : 1, "c" : 3, "d" : 4, "e" : 5, "f" : 6,  "b" : 2]
+        let anotherMap : Map = ["a" : 1, "b" : 2, "c" : 3, "d" : 4, "e" : 5, "f" : 6]
+        let equalityChecker = { (lhs: AnyObject, rhs: AnyObject) -> Bool in
+            (lhs as Int) == (rhs as Int)
+        }
+        XCTAssertTrue(aMap.equals(anotherMap, equals: equalityChecker), "Maps should support assisted equality")
+        
+        let droppedMap = anotherMap.drop(1)
+        XCTAssertFalse(aMap.equals(droppedMap, equals: equalityChecker), "Maps should support equality")
+        
+        XCTAssertFalse(aMap.equals(Map(), equals: equalityChecker), "Maps should support equality")
+    }
+    
 }
 
 

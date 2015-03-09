@@ -211,4 +211,27 @@ extension Map {
         }
         return self
     }
+    
+    /**
+    Checks equality between this and another map. As Maps can hold any type of object, a closure to check equality (and perform casting if needed) between the different values is needed.
+    
+    :param: equals A closure that check equality between values
+    
+    :returns:
+    */
+    func equals(anotherMap: Map, equals: (AnyObject, AnyObject) -> Bool) -> Bool {
+        if self.count == anotherMap.count {
+            for (key, value) in self {
+                if let anotherValue: AnyObject = anotherMap[key] {
+                    if !equals(value, anotherValue) {
+                        return false
+                    }
+                } else {
+                    return false
+                }
+            }
+            return true
+        }
+        return false
+    }
 }
