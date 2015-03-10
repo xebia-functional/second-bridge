@@ -107,11 +107,20 @@ extension Map {
     }
     
     /**
-    Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element of the current map.
+    Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element's value of the current map.
     */
     func reduce<U>(initialValue: U, combine: (U, Value) -> U) -> U {
         return Swift.reduce(self, initialValue) { (currentTotal, currentElement) -> U in
             return combine(currentTotal, currentElement.1)
+        }
+    }
+    
+    /**
+    Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element (taking also into account the key) of the current map.
+    */
+    func reduceByKeyValue<U>(initialValue: U, combine: (U, (Key, Value)) -> U) -> U {
+        return Swift.reduce(self, initialValue) { (currentTotal, currentElement) -> U in
+            return combine(currentTotal, currentElement)
         }
     }
     
@@ -230,4 +239,37 @@ extension Map {
         }
         return nil
     }
+    
+    /**
+    :returns: Returns all elements except the last (equivalent to Scala's init()). Note: might return different results for different runs, as the underlying collection type is unordered.
+    */
+    func initSegment() -> Map {
+        return self.dropRight(1)
+    }
+    
+    /**
+    :returns: Returns the last element as an optional value, or nil if any. Note: might return different results for different runs, as the underlying collection type is unordered.
+    */
+    func last() -> (Key, Value)? {
+        if let lastKey = self.keys.last {
+            return (lastKey, self[lastKey]!)
+        }
+        return nil
+    }
+    
+    func maxBy<U: Comparable>(f: (Value) -> U) -> (Key, Value)? {
+        if !self.isEmpty() {
+            let keys = self.keys
+            if let firstKey = keys.first {
+                return self.reduceByKeyValue((firstKey, self[firstKey]!), combine: { (currentMax: (Key, Value), currentItem: (Key, Value)) -> (Key, Value) in
+                    if f(currentMax.1) < f(currentItem.1) {
+                        return currentItem
+                    }
+                    return currentMax
+                })
+            }
+        }
+        return nil
+    }
+    
 }

@@ -1,5 +1,5 @@
 //
-//  TypedMapTests.swift
+//  MapTests.swift
 //  Swift47Deg
 //
 //  Created by Javier de Silóniz Sandino on 9/3/15.
@@ -11,18 +11,18 @@ import XCTest
 
 class MapTests : XCTestCase {
     
-    // MARK: - Typed map tests
+    // MARK: - Map tests
     
     func testTypedMapCreation() {
         let map : Map<Int> = ["a" : 1, 2 : 2, 4.5: 3]
-        XCTAssertEqual(map.count, 3, "Typed maps should have all elements added")
-        XCTAssertNotNil(map["a"], "Typed map elements with String keys should be added")
-        XCTAssertNotNil(map[2], "Typed maps elements with Int keys should be added")
-        XCTAssertNotNil(map[4.5], "Typed maps elements with Double keys should be added")
+        XCTAssertEqual(map.count, 3, "Maps should have all elements added")
+        XCTAssertNotNil(map["a"], "Map elements with String keys should be added")
+        XCTAssertNotNil(map[2], "Maps elements with Int keys should be added")
+        XCTAssertNotNil(map[4.5], "Maps elements with Double keys should be added")
         
-        XCTAssertEqual(map["a"]!, 1, "Typed maps elements with String keys should be added")
-        XCTAssertEqual(map[2]!, 2, "Typed maps elements with Int keys should be added")
-        XCTAssertEqual(map[4.5]!, 3, "Typed maps elements with Double keys should be added")
+        XCTAssertEqual(map["a"]!, 1, "Maps elements with String keys should be added")
+        XCTAssertEqual(map[2]!, 2, "Maps elements with Int keys should be added")
+        XCTAssertEqual(map[4.5]!, 3, "Maps elements with Double keys should be added")
     }
     
     func testTypedMapEnumeration() {
@@ -31,41 +31,41 @@ class MapTests : XCTestCase {
         var loops = 0
         for (index, value) in map {
             switch index {
-            case "a": XCTAssertEqual(map[index]!, value, "Typed map elements should be iterable")
-            case 2: XCTAssertEqual(map[index]!, value, "Typed map elements should be iterable")
-            case 3: XCTAssertEqual(map[index]!, value, "Typed map elements should be iterable")
-            case 4.5: XCTAssertEqual(map[index]!, value, "Typed map elements should be iterable")
+            case "a": XCTAssertEqual(map[index]!, value, "Map elements should be iterable")
+            case 2: XCTAssertEqual(map[index]!, value, "Map elements should be iterable")
+            case 3: XCTAssertEqual(map[index]!, value, "Map elements should be iterable")
+            case 4.5: XCTAssertEqual(map[index]!, value, "Map elements should be iterable")
             default: break
             }
             loops++
         }
-        XCTAssertEqual(loops, 4, "Typed map elements should be iterable")
+        XCTAssertEqual(loops, 4, "Map elements should be iterable")
     }
     
     func testTypedMapAddition() {
         var map : Map<Int> = [:]
         map = map + ["a" : 1]
-        XCTAssertNotNil(map["a"], "Typed map addition with another typed map should work")
+        XCTAssertNotNil(map["a"], "Map addition with another Map should work")
         XCTAssertEqual(map["a"]! as Int, 1, "Map addition with another map should work")
         
         let addingMap : Map<Int> = [2 : 2]
         map += addingMap
-        XCTAssertNotNil(map[2], "Typed map addition with another typed map should work")
+        XCTAssertNotNil(map[2], "Map addition with another Map should work")
         XCTAssertEqual(map[2]! as Int, 2, "Map addition with another map should work")
         
         map = map + (4.5, 4)
-        XCTAssertNotNil(map[4.5], "Typed map addition with a tuple should work")
-        XCTAssertEqual(map[4.5]!, 4, "Typed map addition with a tuple should work")
+        XCTAssertNotNil(map[4.5], "Map addition with a tuple should work")
+        XCTAssertEqual(map[4.5]!, 4, "Map addition with a tuple should work")
         
         map += ("b", 5)
-        XCTAssertNotNil(map["b"], "Typed map addition with a tuple should work")
-        XCTAssertEqual(map["b"]!, 5, "Typed map addition with a tuple should work")
+        XCTAssertNotNil(map["b"], "Map addition with a tuple should work")
+        XCTAssertEqual(map["b"]!, 5, "Map addition with a tuple should work")
         
         map += [("foo", 7), ("bar", 8)]
-        XCTAssertNotNil(map["foo"], "Typed map addition with a tuple array should work")
-        XCTAssertEqual(map["foo"]!, 7, "Typed map addition with a tuple array should work")
-        XCTAssertNotNil(map["bar"], "Typed map addition with a tuple array should work")
-        XCTAssertEqual(map["bar"]!, 8, "Typed map addition with a tuple array should work")
+        XCTAssertNotNil(map["foo"], "Map addition with a tuple array should work")
+        XCTAssertEqual(map["foo"]!, 7, "Map addition with a tuple array should work")
+        XCTAssertNotNil(map["bar"], "Map addition with a tuple array should work")
+        XCTAssertEqual(map["bar"]!, 8, "Map addition with a tuple array should work")
     }
     
     func testTypedMapSubstraction() {
@@ -93,7 +93,7 @@ class MapTests : XCTestCase {
         
         let filteredMap = map.filter({ (value) -> Bool in
             (value as Int) < 3})
-        XCTAssertEqual(filteredMap.count, 2, "Typed maps should be filterable with valid conditions")
+        XCTAssertEqual(filteredMap.count, 2, "Maps should be filterable with valid conditions")
         
         let filteredMapByKeyAndValue = map.filter { (element: (key: HashableAny, value: Int)) -> Bool in
             return element.key != "f" && element.value as Int != 1
@@ -115,57 +115,89 @@ class MapTests : XCTestCase {
         XCTAssertNotNil(filteredNotMap["b"], "Maps should be filterable with conditions based on NOT conditions")
         
         let mappedMap = map.map({(Int) -> Int in 2 })
-        XCTAssertEqual(mappedMap["a"]! as Int, 2, "Typed maps should be mappable")
+        XCTAssertEqual(mappedMap["a"]! as Int, 2, "Maps should be mappable")
         
         let reducedResult = map.reduce(0, combine: +)
-        XCTAssertEqual(reducedResult, 21, "Typed maps should be reducible")
+        XCTAssertEqual(reducedResult, 21, "Maps should be reducible")
+        
+        let reducedByKeyValueResult = map.reduceByKeyValue(0, combine: { (total: Int, currentItem: (key: HashableAny, value: Int)) -> Int in
+            if currentItem.key != "f" {
+                return total + currentItem.value
+            }
+            return total
+        })
+        XCTAssertEqual(reducedByKeyValueResult, 15, "Maps should be reducible taking into account both values and keys")
         
         let findResult = map.find { (key: HashableAny, value: Int) -> Bool in
             key == "f"
         }
-        XCTAssertTrue(findResult != nil, "Typed maps should support find function")
-        XCTAssertEqual(findResult!.0, "f" as HashableAny, "Typed maps should support find function")
+        XCTAssertTrue(findResult != nil, "Maps should support find function")
+        XCTAssertEqual(findResult!.0, "f" as HashableAny, "Maps should support find function")
     }
     
     func testTypedMapBasicFunctions() {
         var map : Map<Int> = [:]
-        XCTAssertTrue(map.isEmpty(), "Typed maps should know if they're empty")
+        XCTAssertTrue(map.isEmpty(), "Maps should know if they're empty")
         
         let addingMap : Map<Int> = ["a": 1, "b": 2]
         map += addingMap
-        XCTAssertEqual(map.values(), [1, 2], "Typed maps should know their values")
-        XCTAssertEqual(map.keys, ["a", "b"], "Typed maps should know their keys")
-        XCTAssertTrue(map.contains("a"), "Typed maps should figure out if they contain a key")
-        XCTAssertFalse(map.contains("c"), "Typed maps should figure out if they contain a key")
+        XCTAssertEqual(map.values(), [1, 2], "Maps should know their values")
+        XCTAssertEqual(map.keys, ["a", "b"], "Maps should know their keys")
+        XCTAssertTrue(map.contains("a"), "Maps should figure out if they contain a key")
+        XCTAssertFalse(map.contains("c"), "Maps should figure out if they contain a key")
         
         let anotherMap : Map<Int> = ["a" : 1, "b" : 2, "c" : 3, "d" : 4, "e" : 5, "f" : 6]
         let droppedMap = anotherMap.drop(2)
-        XCTAssertEqual(droppedMap.count, 4, "Typed maps should be droppable")
-        XCTAssertEqual(droppedMap.keys.first!, anotherMap.keys[2], "Typed maps should be droppable")
+        XCTAssertEqual(droppedMap.count, 4, "Maps should be droppable")
+        XCTAssertEqual(droppedMap.keys.first!, anotherMap.keys[2], "Maps should be droppable")
         
         let droppedRightMap = anotherMap.dropRight(2)
-        XCTAssertEqual(droppedRightMap.count, 4, "Typed maps should be droppable")
-        XCTAssertEqual(droppedRightMap.keys.last!, anotherMap.keys[3], "Typed maps should be droppable")
+        XCTAssertEqual(droppedRightMap.count, 4, "Maps should be droppable")
+        XCTAssertEqual(droppedRightMap.keys.last!, anotherMap.keys[3], "Maps should be droppable")
         
         let droppedWhileMap = anotherMap.dropWhile { (key: HashableAny, value: Int) -> Bool in
             key != anotherMap.keys[2]
         }
-        XCTAssertEqual(droppedWhileMap.keys[0], anotherMap.keys[2], "Typed maps should be droppable with while closure")
+        XCTAssertEqual(droppedWhileMap.keys[0], anotherMap.keys[2], "Maps should be droppable with while closure")
         
-        XCTAssertTrue(anotherMap.exists({ $0.0 == "a" }), "Typed maps should work with exists function")
-        XCTAssertFalse(anotherMap.exists({ $0.1 > 7 }), "Typed maps should work with exists function")
+        XCTAssertTrue(anotherMap.exists({ $0.0 == "a" }), "Maps should work with exists function")
+        XCTAssertFalse(anotherMap.exists({ $0.1 > 7 }), "Maps should work with exists function")
+        
+        if let max = anotherMap.maxBy({ $0 }) {
+            XCTAssertEqual(max.1, 6, "Maps' maxBy function should work OK")
+        } else {
+            XCTFail("Maps' maxBy function should work OK")
+        }
+        
+        if let head = anotherMap.head() {
+            XCTAssertEqual(head.0, anotherMap.keys[0], "Maps should have their heads accessible, even if they're not ordered")
+        } else {
+            XCTFail("Maps should have their heads accessible, even if they're not ordered")
+        }
+        XCTAssertNil(Map().head()?.1, "Empty maps shouldn't have a head")
+        
+        
+        let initSegment = anotherMap.initSegment()
+        XCTAssertEqual(initSegment.count, anotherMap.count - 1, "Maps' initSegment should return all elements but the last one")
+        XCTAssertEqual(initSegment.keys.last!, anotherMap.keys[anotherMap.count - 2], "Maps' initSegment should return all elements but the last one")
+        
+        if let lastElement = anotherMap.last() {
+            XCTAssertEqual(lastElement.0, anotherMap.keys[anotherMap.count - 1], "Non empty maps should have a last element")
+        } else {
+            XCTFail("Non empty maps should have a last element")
+        }
     }
     
     
     func testTypedMapEquality() {
         let aMap : Map<Int> = ["a" : 1, "c" : 3, "d" : 4, "e" : 5, "f" : 6,  "b" : 2]
         let anotherMap : Map<Int> = ["a" : 1, "b" : 2, "c" : 3, "d" : 4, "e" : 5, "f" : 6]
-        XCTAssertTrue(aMap == anotherMap, "Typed maps should support equality")
+        XCTAssertTrue(aMap == anotherMap, "Maps should support equality")
         
         let droppedMap = anotherMap.drop(1)
-        XCTAssertFalse(aMap == droppedMap, "Typed maps should support equality")
+        XCTAssertFalse(aMap == droppedMap, "Maps should support equality")
         
-        XCTAssertFalse(aMap == Map<Int>(), "Typed maps should support equality")
+        XCTAssertFalse(aMap == Map<Int>(), "Maps should support equality")
     }
     
     func testAnyObjectMap() {
@@ -175,16 +207,16 @@ class MapTests : XCTestCase {
         let itemD : Map<Int> = ["a": 1]
         
         let map : Map<Any> = ["a": itemA, "b": itemB, "c": itemC, 4: itemD]
-        XCTAssertEqual(map.count, 4, "Typed maps should support any type by using the Any protocol")
-        XCTAssertNotNil(map["a"] as Int, "Typed maps should support any type by using the Any protocol")
-        XCTAssertNotNil(map["b"] as Double, "Typed maps should support any type by using the Any protocol")
-        XCTAssertNotNil(map["c"] as String, "Typed maps should support any type by using the Any protocol")
+        XCTAssertEqual(map.count, 4, "Maps should support any type by using the Any protocol")
+        XCTAssertNotNil(map["a"] as Int, "Maps should support any type by using the Any protocol")
+        XCTAssertNotNil(map["b"] as Double, "Maps should support any type by using the Any protocol")
+        XCTAssertNotNil(map["c"] as String, "Maps should support any type by using the Any protocol")
         
         if let storedMap = map[4] as? Map<Int> {
-            XCTAssertNotNil(storedMap["a"], "Typed maps should support any type by using the Any protocol")
-            XCTAssertEqual(storedMap["a"]!, 1, "Typed maps should support any type by using the Any protocol")
+            XCTAssertNotNil(storedMap["a"], "Maps should support any type by using the Any protocol")
+            XCTAssertEqual(storedMap["a"]!, 1, "Maps should support any type by using the Any protocol")
         } else {
-            XCTFail("Typed maps should support any type by using the Any protocol")
+            XCTFail("Maps should support any type by using the Any protocol")
         }
     }
 }
