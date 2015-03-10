@@ -18,7 +18,7 @@ func ==(lhs: HashableAny, rhs: HashableAny) -> Bool {
     }
 }
 
-func ==<T: Equatable>(lhs: TypedMap<T>, rhs: TypedMap<T>) -> Bool {
+func ==<T: Equatable>(lhs: Map<T>, rhs: Map<T>) -> Bool {
     if lhs.count == rhs.count {
         for key in rhs.keys {
             switch (lhs[key], rhs[key]) {
@@ -108,77 +108,8 @@ func --=<T,U> (left: [T:U], right: [T]) -> [T:U] {
 
 
 // MARK: Maps
-
-/// Append map | Appends the contents of the second map to the first. Keys are added to the first map if they don't exist, or their values overwritten if they do.
-func + (left: Map, right: Map) -> Map {
-    var result = left
-    for (key, value) in right {
-        result[key] = value
-    }
-    return result
-}
-
-/// Append map | Appends the contents of the second map to the first. Keys are added to the first map if they don't exist, or their values overwritten if they do.
-func += (inout left: Map, right: Map) {
-    left = left + right
-}
-
-/// Append tuple | Appends one key/value pair contained in a tuple with the format (key, value).
-func + (left: Map, right: (HashableAny, AnyObject)) -> Map {
-    var result = left
-    result[right.0] = right.1
-    return result
-}
-
-/// Append tuple | Appends one key/value pair contained in a tuple with the format (key, value).
-func += (inout left: Map, right: (HashableAny, AnyObject)) {
-    left = left + right
-}
-
-/// Append tuple array | Appends an array of tuples containing key/value pairs with the format (key, value).
-func + (left: Map, right: [(HashableAny, AnyObject)]) -> Map {
-    var result = left
-    for tuple in right {
-        result = result + tuple
-    }
-    return result
-}
-
-/// Append tuple array | Appends an array of tuples containing key/value pairs with the format (key, value).
-func += (inout left: Map, right: [(HashableAny, AnyObject)]) {
-    left = left + right
-}
-
-/// Remove key | Removes a given key from the map. If it's not contained in the map, nothing happens.
-func - (left: Map, right: HashableAny) -> Map {
-    var result = left
-    result[right] = nil
-    return result
-}
-
-/// Remove key | Removes a given key from the map. If it's not contained in the map, nothing happens.
-func -= (inout left: Map, right: HashableAny) {
-    return left = left - right
-}
-
-/// Remove keys | Removes the keys contained in an array from the source map. If they're not contained in the map, nothing happens.
-func -- (left: Map, right: [HashableAny]) -> Map {
-    var result = left
-    for key in right {
-        result = result - key
-    }
-    return result
-}
-
-/// Remove keys | Removes the keys contained in an array from the source map. If they're not contained in the map, nothing happens.
-func --= (inout left: Map, right: [HashableAny]) {
-    left = left -- right
-}
-
-// MARK: Typed maps
-
 /// Append typed map | Appends the contents of the second map to the first. Keys are added to the first map if they don't exist, or their values overwritten if they do.
-func +<T> (left: TypedMap<T>, right: TypedMap<T>) -> TypedMap<T> {
+func +<T> (left: Map<T>, right: Map<T>) -> Map<T> {
     var result = left
     for (key, value) in right {
         result[key] = value
@@ -187,24 +118,24 @@ func +<T> (left: TypedMap<T>, right: TypedMap<T>) -> TypedMap<T> {
 }
 
 /// Append typed map | Appends the contents of the second map to the first. Keys are added to the first map if they don't exist, or their values overwritten if they do.
-func +=<T> (inout left: TypedMap<T>, right: TypedMap<T>) {
+func +=<T> (inout left: Map<T>, right: Map<T>) {
     left = left + right
 }
 
 /// Append tuple | Appends one key/value pair contained in a tuple with the format (key, value).
-func +<T> (left: TypedMap<T>, right: (HashableAny, T)) -> TypedMap<T> {
+func +<T> (left: Map<T>, right: (HashableAny, T)) -> Map<T> {
     var result = left
     result[right.0] = right.1
     return result
 }
 
 /// Append tuple | Appends one key/value pair contained in a tuple with the format (key, value).
-func +=<T> (inout left: TypedMap<T>, right: (HashableAny, T)) {
+func +=<T> (inout left: Map<T>, right: (HashableAny, T)) {
     left = left + right
 }
 
 /// Append tuple array | Appends an array of tuples containing key/value pairs with the format (key, value).
-func +<T> (left: TypedMap<T>, right: [(HashableAny, T)]) -> TypedMap<T> {
+func +<T> (left: Map<T>, right: [(HashableAny, T)]) -> Map<T> {
     var result = left
     for tuple in right {
         result = result + tuple
@@ -213,24 +144,24 @@ func +<T> (left: TypedMap<T>, right: [(HashableAny, T)]) -> TypedMap<T> {
 }
 
 /// Append tuple array | Appends an array of tuples containing key/value pairs with the format (key, value).
-func +=<T> (inout left: TypedMap<T>, right: [(HashableAny, T)]) {
+func +=<T> (inout left: Map<T>, right: [(HashableAny, T)]) {
     left = left + right
 }
 
 /// Remove key | Removes a given key from the typed map. If it's not contained in the map, nothing happens.
-func -<T> (left: TypedMap<T>, right: HashableAny) -> TypedMap<T> {
+func -<T> (left: Map<T>, right: HashableAny) -> Map<T> {
     var result = left
     result[right] = nil
     return result
 }
 
 /// Remove key | Removes a given key from the typed map. If it's not contained in the map, nothing happens.
-func -=<T> (inout left: TypedMap<T>, right: HashableAny) {
+func -=<T> (inout left: Map<T>, right: HashableAny) {
     return left = left - right
 }
 
 /// Remove keys | Removes the keys contained in an array from the source typed map. If they're not contained in the map, nothing happens.
-func --<T> (left: TypedMap<T>, right: [HashableAny]) -> TypedMap<T> {
+func --<T> (left: Map<T>, right: [HashableAny]) -> Map<T> {
     var result = left
     for key in right {
         result = result - key
@@ -239,6 +170,6 @@ func --<T> (left: TypedMap<T>, right: [HashableAny]) -> TypedMap<T> {
 }
 
 /// Remove keys | Removes the keys contained in an array from the source typed map. If they're not contained in the map, nothing happens.
-func --=<T> (inout left: TypedMap<T>, right: [HashableAny]) {
+func --=<T> (inout left: Map<T>, right: [HashableAny]) {
     left = left -- right
 }

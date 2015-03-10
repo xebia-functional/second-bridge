@@ -2,14 +2,14 @@
 //  Map.swift
 //  Swift47Deg
 //
-//  Created by Javier de Silóniz Sandino on 5/3/15.
+//  Created by Javier de Silóniz Sandino on 9/3/15.
 //  Copyright (c) 2015 47 Degrees. All rights reserved.
 //
 
 import Foundation
 
-/// Map | An immutable iterable collection containing pairs of keys and values. Each key is of type HashableAny to allow to have keys with different types (currently supported types are Int, Float, and String). Each value is of type AnyObject which means you can store any type of instance in a Map, but also makes you responsible to downcast its contents to perform operations with returned values.
-struct Map {
+/// Map | An immutable iterable collection containing pairs of keys and values. Each key is of type HashableAny to allow to have keys with different types (currently supported types are Int, Float, and String). Each value is of a type T. If you need to store values of different types, make an instance of Map<Any>.
+struct Map<T> {
     private var internalDict : Dictionary<Key, Value>
     
     subscript(key: Key) -> Value? {
@@ -20,7 +20,7 @@ struct Map {
             internalDict[key] = newValue
         }
     }
-
+    
     var count : Int {
         return self.internalDict.count
     }
@@ -28,7 +28,7 @@ struct Map {
 
 extension Map : DictionaryLiteralConvertible {
     typealias Key = HashableAny
-    typealias Value = AnyObject
+    typealias Value = T
     
     init(dictionaryLiteral elements: (Key, Value)...) {
         var tempDict = Dictionary<Key, Value>()
@@ -36,10 +36,6 @@ extension Map : DictionaryLiteralConvertible {
             tempDict[element.0] = element.1
         }
         internalDict = tempDict
-    }
-    
-    init(dictionarySource: [Key: Value]) {
-        internalDict = dictionarySource
     }
 }
 
@@ -112,12 +108,9 @@ extension Map {
     
     /**
     Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element of the current map.
-    
-    :param: initialValue The initial value used to start the accumulation process
-    :param: combine A function that takes the current total of the process and the current item, and returns the next total value.
     */
-    func reduce(initialValue: Value, combine: (Value, Value) -> Value) -> Value {
-        return Swift.reduce(self, initialValue) { (currentTotal, currentElement) -> Value in
+    func reduce<U>(initialValue: U, combine: (U, Value) -> U) -> U {
+        return Swift.reduce(self, initialValue) { (currentTotal, currentElement) -> U in
             return combine(currentTotal, currentElement.1)
         }
     }
@@ -166,29 +159,7 @@ extension Map {
         return internalDict[key] != nil
     }
     
-    /** 
-    Generate a string composed by the different values contained in the map, concatenated.
-    
-    :param: separator A string used to separate each element to be concatenated. If it's a nil, the different strings are not separated.
-    
-    :returns: A string containing all the different values contained in the map
-    */
-    func addString(separator: String?) -> String {
-        let separatorToUse = (separator != nil) ? separator! : ""
-        return self.reduce("", combine: { (currentTotal, currentItem) -> Value in
-            let currentString = currentTotal as String
-            if currentItem is String {
-                let itemAsString = currentItem as String
-                return currentString + itemAsString + separatorToUse
-            } else if (currentItem.description? != nil) {
-                let description = currentItem.description!
-                return currentString + separatorToUse + description
-            }
-            return separatorToUse
-        }) as String
-    }
-    
-    /** 
+    /**
     Selects all elements except the first n ones. Note: might return different results for different runs, as the underlying collection type is unordered.
     
     :param: n Number of elements to be excluded from the selection
@@ -206,7 +177,7 @@ extension Map {
     
     :param: n Number of elements to be excluded from the selection
     
-    :returns: A new typed map containing the elements from the selection
+    :returns: A new map containing the elements from the selection
     */
     func dropRight(n: Int) -> Map {
         let keys = self.keys
@@ -225,7 +196,7 @@ extension Map {
         func findSuffixFirstIndex() -> Int? {
             var count = 0
             for key in self.keys {
-                if let value: Value = self[key] {
+                if let value = self[key] {
                     if !p(key, value) {
                         return count
                     }
@@ -239,27 +210,6 @@ extension Map {
             return self.drop(firstIndex)
         }
         return self
-    }
-    
-    /**
-    Checks equality between this and another map. As Maps can hold any type of object, a closure to check equality (and perform casting if needed) between the different values is needed.
-    
-    :param: equals A closure that check equality between values
-    */
-    func equals(anotherMap: Map, equals: (Value, Value) -> Bool) -> Bool {
-        if self.count == anotherMap.count {
-            for (key, value) in self {
-                if let anotherValue: Value = anotherMap[key] {
-                    if !equals(value, anotherValue) {
-                        return false
-                    }
-                } else {
-                    return false
-                }
-            }
-            return true
-        }
-        return false
     }
     
     /**
