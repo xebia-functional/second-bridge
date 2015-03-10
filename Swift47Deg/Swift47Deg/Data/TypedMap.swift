@@ -9,10 +9,10 @@
 import Foundation
 
 /// Map | An immutable iterable collection containing pairs of keys and values. Each key is of type HashableAny to allow to have keys with different types (currently supported types are Int, Float, and String). Each value is of a type T. If you need to store values of different types, use the type Map.
-struct TypedMap<T: Printable> {
-    private var internalDict : Dictionary<HashableAny, T>
+struct TypedMap<T> {
+    private var internalDict : Dictionary<Key, Value>
     
-    subscript(key: HashableAny) -> T? {
+    subscript(key: Key) -> Value? {
         get {
             return internalDict[key]
         }
@@ -40,7 +40,7 @@ extension TypedMap : DictionaryLiteralConvertible {
 }
 
 extension TypedMap : SequenceType {
-    typealias Generator = GeneratorOf<(HashableAny, T)>
+    typealias Generator = GeneratorOf<(Key, Value)>
     
     func generate() -> Generator {
         var index : Int = 0
@@ -65,8 +65,8 @@ extension TypedMap {
     /**
     Returns a new typed map containing all the keys from the current map that satisfy the `includeElement` closure. Only takes into account values, not keys.
     */
-    func filter(includeElement: (T) -> Bool) -> TypedMap {
-        return TypedMap(Swift.filter(self, { (key: HashableAny, value: T) -> Bool in
+    func filter(includeElement: (Value) -> Bool) -> TypedMap {
+        return TypedMap(Swift.filter(self, { (key: Key, value: Value) -> Bool in
             includeElement(value)
         }))
     }
@@ -74,8 +74,8 @@ extension TypedMap {
     /**
     Returns a new typed map containing all the keys/value pairs from the current one that satisfy the `includeElement` closure. Takes into account both values AND keys.
     */
-    func filter(includeElement: ((HashableAny, T)) -> Bool) -> TypedMap {
-        return TypedMap(Swift.filter(self, { (key: HashableAny, value: T) -> Bool in
+    func filter(includeElement: ((Key, Value)) -> Bool) -> TypedMap {
+        return TypedMap(Swift.filter(self, { (key: Key, value: Value) -> Bool in
             includeElement((key, value))
         }))
     }
@@ -83,8 +83,8 @@ extension TypedMap {
     /**
     Returns a new map containing all the keys from the current one that satisfy the `includeElement` closure.
     */
-    func filterKeys(includeElement: (HashableAny) -> Bool) -> TypedMap {
-        return self.filter({ (item: (key: HashableAny, value: T)) -> Bool in
+    func filterKeys(includeElement: (Key) -> Bool) -> TypedMap {
+        return self.filter({ (item: (key: Key, value: Value)) -> Bool in
             includeElement(item.key)
         })
     }
@@ -92,7 +92,7 @@ extension TypedMap {
     /**
     Returns a new typed map obtained by removing all key/value pairs for which the `removeElement` closure returns true.
     */
-    func filterNot(removeElement: ((HashableAny, T)) -> Bool) -> TypedMap {
+    func filterNot(removeElement: ((Key, Value)) -> Bool) -> TypedMap {
         let itemsToExclude = self.filter(removeElement)
         return self -- itemsToExclude.keys
     }
@@ -100,7 +100,7 @@ extension TypedMap {
     /**
     Returns a new typed map containing the results of mapping `transform` over its elements.
     */
-    func map(transform: (T) -> T) -> TypedMap {
+    func map(transform: (Value) -> Value) -> TypedMap {
         return TypedMap(Swift.map(self, { (key: Key, value: Value) -> (Key, Value) in
             return (key, transform(value))
         }))
@@ -109,18 +109,18 @@ extension TypedMap {
     /**
     Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element of the current typed map.
     */
-    func reduce<U>(initialValue: U, combine: (U, T) -> U) -> U {
+    func reduce<U>(initialValue: U, combine: (U, Value) -> U) -> U {
         return Swift.reduce(self, initialValue) { (currentTotal, currentElement) -> U in
             return combine(currentTotal, currentElement.1)
         }
     }
     
     /**
-    Finds the first element of the typed map satisfying a predicate, if any. Note: might return different results for different runs, as the underlying collection type is unordered.
+    Returns the first element of the typed map satisfying a predicate, if any. Note: might return different results for different runs, as the underlying collection type is unordered.
     
     :param: predicate The predicate to check the map items against
     */
-    func find(predicate: ((HashableAny, T) -> Bool)) -> (HashableAny, T)? {
+    func find(predicate: ((Key, Value) -> Bool)) -> (Key, Value)? {
         return Swift.filter(self, predicate)[0]
     }
 }
@@ -130,7 +130,7 @@ extension TypedMap {
     /**
     :returns: An array containing all the keys from the current typed map. Note: might return different results for different runs, as the underlying collection type is unordered.
     */
-    var keys : [HashableAny] {
+    var keys : [Key] {
         return Array(internalDict.keys)
     }
     
@@ -144,7 +144,7 @@ extension TypedMap {
     /**
     :returns: An array containing the different values from the current typed map. Note: might return different results for different runs, as the underlying collection type is unordered.
     */
-    func values() -> [T] {
+    func values() -> [Value] {
         return Array(internalDict.values)
     }
     
@@ -155,22 +155,8 @@ extension TypedMap {
     
     :returns: True if the typed map contains an element binded to the key.
     */
-    func contains(key: HashableAny) -> Bool {
+    func contains(key: Key) -> Bool {
         return internalDict[key] != nil
-    }
-    
-    /**
-    Generate a string composed by the different values contained in the typed map, concatenated.
-    
-    :param: separator A string used to separate each element to be concatenated. If it's a nil, the different strings are not separated.
-    
-    :returns: A string containing all the different values contained in the typed map
-    */
-    func addString(separator: String?) -> String {
-        let separatorToUse = (separator != nil) ? separator! : ""
-        return self.reduce("", combine: { (currentString, currentItem) -> String in
-            currentString + currentItem.description + separatorToUse
-        })
     }
     
     /**
@@ -231,7 +217,17 @@ extension TypedMap {
     
     :param: p Predicate to check against the elements of this map
     */
-    func exists(p: ((HashableAny, T)) -> Bool) -> Bool {
+    func exists(p: ((Key, Value)) -> Bool) -> Bool {
         return self.filter(p).count > 0
+    }
+    
+    /**
+    :returns: Returns the first element of this typed map (if there are any). Note: might return different results for different runs, as the underlying collection type is unordered.
+    */
+    func head() -> (Key, Value)? {
+        if let headKey = self.internalDict.keys.first {
+            return (headKey, self[headKey]!)
+        }
+        return nil
     }
 }

@@ -10,9 +10,9 @@ import Foundation
 
 /// Map | An immutable iterable collection containing pairs of keys and values. Each key is of type HashableAny to allow to have keys with different types (currently supported types are Int, Float, and String). Each value is of type AnyObject which means you can store any type of instance in a Map, but also makes you responsible to downcast its contents to perform operations with returned values.
 struct Map {
-    private var internalDict : Dictionary<HashableAny, AnyObject>
+    private var internalDict : Dictionary<Key, Value>
     
-    subscript(key: HashableAny) -> AnyObject? {
+    subscript(key: Key) -> Value? {
         get {
             return internalDict[key]
         }
@@ -44,7 +44,7 @@ extension Map : DictionaryLiteralConvertible {
 }
 
 extension Map : SequenceType {
-    typealias Generator = GeneratorOf<(HashableAny, AnyObject)>
+    typealias Generator = GeneratorOf<(Key, Value)>
     
     func generate() -> Generator {
         var index : Int = 0
@@ -69,8 +69,8 @@ extension Map {
     /**
     Returns a new map containing all the keys from the current map that satisfy the `includeElement` closure. Only takes into account values, not keys.
     */
-    func filter(includeElement: (AnyObject) -> Bool) -> Map {
-        return Map(Swift.filter(self, { (key: HashableAny, value: AnyObject) -> Bool in
+    func filter(includeElement: (Value) -> Bool) -> Map {
+        return Map(Swift.filter(self, { (key: Key, value: Value) -> Bool in
             includeElement(value)
         }))
     }
@@ -78,8 +78,8 @@ extension Map {
     /**
     Returns a new map containing all the keys/value pairs from the current one that satisfy the `includeElement` closure. Takes into account both values AND keys.
     */
-    func filter(includeElement: ((HashableAny, AnyObject)) -> Bool) -> Map {
-        return Map(Swift.filter(self, { (key: HashableAny, value: AnyObject) -> Bool in
+    func filter(includeElement: ((Key, Value)) -> Bool) -> Map {
+        return Map(Swift.filter(self, { (key: Key, value: Value) -> Bool in
             includeElement((key, value))
         }))
     }
@@ -87,8 +87,8 @@ extension Map {
     /**
     Returns a new map containing all the keys from the current one that satisfy the `includeElement` closure.
     */
-    func filterKeys(includeElement: (HashableAny) -> Bool) -> Map {
-        return self.filter({ (item: (key: HashableAny, value: AnyObject)) -> Bool in
+    func filterKeys(includeElement: (Key) -> Bool) -> Map {
+        return self.filter({ (item: (key: Key, value: Value)) -> Bool in
             includeElement(item.key)
         })
     }
@@ -96,7 +96,7 @@ extension Map {
     /**
     Returns a new map obtained by removing all key/value pairs for which the `removeElement` closure returns true.
     */
-    func filterNot(removeElement: ((HashableAny, AnyObject)) -> Bool) -> Map {
+    func filterNot(removeElement: ((Key, Value)) -> Bool) -> Map {
         let itemsToExclude = self.filter(removeElement)
         return self -- itemsToExclude.keys
     }
@@ -104,7 +104,7 @@ extension Map {
     /**
     Returns a new map containing the results of mapping `transform` over its elements.
     */
-    func map(transform: (AnyObject) -> AnyObject) -> Map {
+    func map(transform: (Value) -> Value) -> Map {
         return Map(Swift.map(self, { (key: Key, value: Value) -> (Key, Value) in
             return (key, transform(value))
         }))
@@ -116,18 +116,18 @@ extension Map {
     :param: initialValue The initial value used to start the accumulation process
     :param: combine A function that takes the current total of the process and the current item, and returns the next total value.
     */
-    func reduce(initialValue: AnyObject, combine: (AnyObject, AnyObject) -> AnyObject) -> AnyObject {
+    func reduce(initialValue: Value, combine: (Value, Value) -> Value) -> Value {
         return Swift.reduce(self, initialValue) { (currentTotal, currentElement) -> Value in
             return combine(currentTotal, currentElement.1)
         }
     }
     
     /**
-    Finds the first element of the map satisfying a predicate, if any. Note: might return different results for different runs, as the underlying collection type is unordered.
+    Returns the first element of the map satisfying a predicate, if any. Note: might return different results for different runs, as the underlying collection type is unordered.
     
     :param: predicate The predicate to check the map items against
     */
-    func find(predicate: ((HashableAny, AnyObject) -> Bool)) -> (HashableAny, AnyObject)? {
+    func find(predicate: ((Key, Value) -> Bool)) -> (Key, Value)? {
         return Swift.filter(self, predicate)[0]
     }
 }
@@ -137,7 +137,7 @@ extension Map {
     /**
     :returns: An array containing all the keys from the current map. Note: might return different results for different runs, as the underlying collection type is unordered.
     */
-    var keys : [HashableAny] {
+    var keys : [Key] {
         return Array(internalDict.keys)
     }
     
@@ -151,7 +151,7 @@ extension Map {
     /**
     :returns: An array containing the different values from the current map. Note: might return different results for different runs, as the underlying collection type is unordered.
     */
-    func values() -> [AnyObject] {
+    func values() -> [Value] {
         return Array(internalDict.values)
     }
     
@@ -162,7 +162,7 @@ extension Map {
     
     :returns: True if the map contains an element binded to the key.
     */
-    func contains(key: HashableAny) -> Bool {
+    func contains(key: Key) -> Bool {
         return internalDict[key] != nil
     }
     
@@ -175,7 +175,7 @@ extension Map {
     */
     func addString(separator: String?) -> String {
         let separatorToUse = (separator != nil) ? separator! : ""
-        return self.reduce("", combine: { (currentTotal, currentItem) -> AnyObject in
+        return self.reduce("", combine: { (currentTotal, currentItem) -> Value in
             let currentString = currentTotal as String
             if currentItem is String {
                 let itemAsString = currentItem as String
@@ -225,7 +225,7 @@ extension Map {
         func findSuffixFirstIndex() -> Int? {
             var count = 0
             for key in self.keys {
-                if let value: AnyObject = self[key] {
+                if let value: Value = self[key] {
                     if !p(key, value) {
                         return count
                     }
@@ -246,10 +246,10 @@ extension Map {
     
     :param: equals A closure that check equality between values
     */
-    func equals(anotherMap: Map, equals: (AnyObject, AnyObject) -> Bool) -> Bool {
+    func equals(anotherMap: Map, equals: (Value, Value) -> Bool) -> Bool {
         if self.count == anotherMap.count {
             for (key, value) in self {
-                if let anotherValue: AnyObject = anotherMap[key] {
+                if let anotherValue: Value = anotherMap[key] {
                     if !equals(value, anotherValue) {
                         return false
                     }
@@ -267,7 +267,17 @@ extension Map {
     
     :param: p Predicate to check against the elements of this map
     */
-    func exists(p: ((HashableAny, AnyObject)) -> Bool) -> Bool {
+    func exists(p: ((Key, Value)) -> Bool) -> Bool {
         return self.filter(p).count > 0
+    }
+    
+    /**
+    :returns: Returns the first element of this map (if there are any). Note: might return different results for different runs, as the underlying collection type is unordered.
+    */
+    func head() -> (Key, Value)? {
+        if let headKey = self.internalDict.keys.first {
+            return (headKey, self[headKey]!)
+        }
+        return nil
     }
 }

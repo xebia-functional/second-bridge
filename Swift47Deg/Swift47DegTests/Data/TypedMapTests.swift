@@ -138,12 +138,6 @@ class TypedMapTests : XCTestCase {
         XCTAssertTrue(map.contains("a"), "Typed maps should figure out if they contain a key")
         XCTAssertFalse(map.contains("c"), "Typed maps should figure out if they contain a key")
         
-        let test = map.addString("")
-        XCTAssertEqual(map.addString(""), "12", "Typed map's addString function should work OK")
-        
-        map += ["c": 1]
-        XCTAssertEqual(map.addString(""), "121", "Typed map's addString function should work OK")
-        
         let anotherMap : TypedMap<Int> = ["a" : 1, "b" : 2, "c" : 3, "d" : 4, "e" : 5, "f" : 6]
         let droppedMap = anotherMap.drop(2)
         XCTAssertEqual(droppedMap.count, 4, "Typed maps should be droppable")
@@ -172,5 +166,25 @@ class TypedMapTests : XCTestCase {
         XCTAssertFalse(aMap == droppedMap, "Typed maps should support equality")
         
         XCTAssertFalse(aMap == TypedMap<Int>(), "Typed maps should support equality")
+    }
+    
+    func testAnyObjectMap() {
+        let itemA = 2
+        let itemB = 4.5
+        let itemC = "a"
+        let itemD : TypedMap<Int> = ["a": 1]
+        
+        let map : TypedMap<Any> = ["a": itemA, "b": itemB, "c": itemC, 4: itemD]
+        XCTAssertEqual(map.count, 4, "Typed maps should support any type by using the Any protocol")
+        XCTAssertNotNil(map["a"] as Int, "Typed maps should support any type by using the Any protocol")
+        XCTAssertNotNil(map["b"] as Double, "Typed maps should support any type by using the Any protocol")
+        XCTAssertNotNil(map["c"] as String, "Typed maps should support any type by using the Any protocol")
+        
+        if let storedMap = map[4] as? TypedMap<Int> {
+            XCTAssertNotNil(storedMap["a"], "Typed maps should support any type by using the Any protocol")
+            XCTAssertEqual(storedMap["a"]!, 1, "Typed maps should support any type by using the Any protocol")
+        } else {
+            XCTFail("Typed maps should support any type by using the Any protocol")
+        }
     }
 }
