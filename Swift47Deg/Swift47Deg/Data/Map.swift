@@ -109,7 +109,7 @@ extension Map {
     /**
     Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element's value of the current map.
     */
-    func reduce<U>(initialValue: U, combine: (U, Value) -> U) -> U {
+    func reduceByValue<U>(initialValue: U, combine: (U, Value) -> U) -> U {
         return Swift.reduce(self, initialValue) { (currentTotal, currentElement) -> U in
             return combine(currentTotal, currentElement.1)
         }
@@ -118,7 +118,7 @@ extension Map {
     /**
     Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element (taking also into account the key) of the current map.
     */
-    func reduceByKeyValue<U>(initialValue: U, combine: (U, (Key, Value)) -> U) -> U {
+    func reduce<U>(initialValue: U, combine: (U, (Key, Value)) -> U) -> U {
         return Swift.reduce(self, initialValue) { (currentTotal, currentElement) -> U in
             return combine(currentTotal, currentElement)
         }
@@ -166,6 +166,27 @@ extension Map {
     */
     func contains(key: Key) -> Bool {
         return internalDict[key] != nil
+    }
+    
+    /**
+    Generate a string composed by the different values contained in the map, concatenated.
+    
+    :param: separator A string used to separate each element to be concatenated. If it's a nil, the different strings are not separated.
+    
+    :returns: A string containing all the different values contained in the map. If the map contains String values, they'll be concatenated as such. If not, addString relies on String interpolation to perform the concatenation.
+    */
+    func addString(separator: String?) -> String {
+        let separatorToUse = (separator == nil) ? "" : separator!
+        let result = self.reduceByValue("", combine: { (result: String, currentValue: T) -> String in
+            switch currentValue {
+            case let stringValue as String: return result + stringValue + separatorToUse
+            default: return result + "\(currentValue)" + separatorToUse
+            }
+        })
+        if separatorToUse == "" {
+            return result
+        }
+        return result.substringToIndex(result.endIndex.predecessor())
     }
     
     /**
@@ -257,12 +278,26 @@ extension Map {
         return nil
     }
     
+    /**
+    :returns: Returns the maximum value of the results of applying the function `f` to each element of the map as an optional value, or nil if the map is empty. The result type of `f` is expected to return a type conforming to the Comparable protocol.
+    */
     func maxBy<U: Comparable>(f: (Value) -> U) -> (Key, Value)? {
+        return comparisonBy(f, compareFunction: { $1 > $0 })
+    }
+    
+    /**
+    :returns: Returns the minimum value of the results of applying the function `f` to each element of the map as an optional value, or nil if the map is empty. The result type of `f` is expected to return a type conforming to the Comparable protocol.
+    */
+    func minBy<U: Comparable>(f: (Value) -> U) -> (Key, Value)? {
+        return comparisonBy(f, compareFunction: { $1 < $0 })
+    }
+    
+    private func comparisonBy<U: Comparable>(f: (Value) -> U, compareFunction: (x: U, y: U) -> Bool) -> (Key, Value)? {
         if !self.isEmpty() {
             let keys = self.keys
             if let firstKey = keys.first {
-                return self.reduceByKeyValue((firstKey, self[firstKey]!), combine: { (currentMax: (Key, Value), currentItem: (Key, Value)) -> (Key, Value) in
-                    if f(currentMax.1) < f(currentItem.1) {
+                return self.reduce((firstKey, self[firstKey]!), combine: { (currentMax: (Key, Value), currentItem: (Key, Value)) -> (Key, Value) in
+                    if compareFunction(x: f(currentMax.1), y: f(currentItem.1)) {
                         return currentItem
                     }
                     return currentMax
@@ -270,6 +305,28 @@ extension Map {
             }
         }
         return nil
+    }
+    
+    /**
+    Removes the provided key from the current map, and returns a new map without that key/value binding. Also an optional containing the value bound to the key.
+    
+    :param: key The key to remove
+    */
+    func remove(key: HashableAny) -> (Map, Value?) {
+        let map = self
+        let value = self[key]
+        return (map - key, value)
+    }
+    
+    /**
+    Removes the provided key from the current map, and returns an optional containing the value bound to that key.
+    
+    :param: key The key to remove
+    */
+    mutating func remove(key: HashableAny) -> Value? {
+        let value = self[key]
+        self = self - key
+        return value
     }
     
 }

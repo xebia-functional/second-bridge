@@ -117,10 +117,10 @@ class MapTests : XCTestCase {
         let mappedMap = map.map({(Int) -> Int in 2 })
         XCTAssertEqual(mappedMap["a"]! as Int, 2, "Maps should be mappable")
         
-        let reducedResult = map.reduce(0, combine: +)
+        let reducedResult = map.reduceByValue(0, combine: +)
         XCTAssertEqual(reducedResult, 21, "Maps should be reducible")
         
-        let reducedByKeyValueResult = map.reduceByKeyValue(0, combine: { (total: Int, currentItem: (key: HashableAny, value: Int)) -> Int in
+        let reducedByKeyValueResult = map.reduce(0, combine: { (total: Int, currentItem: (key: HashableAny, value: Int)) -> Int in
             if currentItem.key != "f" {
                 return total + currentItem.value
             }
@@ -169,6 +169,12 @@ class MapTests : XCTestCase {
             XCTFail("Maps' maxBy function should work OK")
         }
         
+        if let min = anotherMap.minBy({ $0 }) {
+            XCTAssertEqual(min.1, 1, "Maps' minBy function should work OK")
+        } else {
+            XCTFail("Maps' minBy function should work OK")
+        }
+        
         if let head = anotherMap.head() {
             XCTAssertEqual(head.0, anotherMap.keys[0], "Maps should have their heads accessible, even if they're not ordered")
         } else {
@@ -185,6 +191,37 @@ class MapTests : XCTestCase {
             XCTAssertEqual(lastElement.0, anotherMap.keys[anotherMap.count - 1], "Non empty maps should have a last element")
         } else {
             XCTFail("Non empty maps should have a last element")
+        }
+        
+        let stringMap : Map<String> = ["a" : "a", "b" : "b", "c" : "c"]
+        let intMap : Map<Int> = ["a": 1, "b": 2, "c": 3]
+        let floatMap : Map<Float> = ["a": 4.5, "b": 3.14159]
+        let concatenation = stringMap.addString(nil)
+        XCTAssertEqual(stringMap.addString(nil), "abc", "Maps should be convertible to String with addString()")
+        XCTAssertEqual(stringMap.addString(" "), "a b c", "Maps should be convertible to String with addString()")
+        XCTAssertEqual(intMap.addString(" "), "1 2 3", "Maps should be convertible to String with addString(), no matter its content type")
+        XCTAssertEqual(floatMap.addString(" "), "4.5 3.14159", "Maps should be convertible to String with addString(), no matter its content type")
+        
+        let removedKeyMap = anotherMap.remove("f").0
+        XCTAssertTrue(removedKeyMap.count == anotherMap.count - 1, "Maps should be removable")
+        XCTAssertNil(removedKeyMap["f"], "Maps should be removable")
+        
+        if let removedKeyValue = anotherMap.remove("f").1 {
+            XCTAssertEqual(removedKeyValue, anotherMap["f"]!, "Maps should be removable")
+        } else {
+            XCTFail("Maps should be removable")
+        }
+        
+        let removedNonexistantKeyMap = anotherMap.remove("lol").0
+        XCTAssertTrue(removedNonexistantKeyMap.count == anotherMap.count, "Removal of a map unbound key should fail gracefully")
+        
+        var mutableMap = anotherMap
+        if let value = mutableMap.remove("f") {
+            XCTAssertNil(mutableMap["f"], "Maps should be removable")
+            XCTAssertTrue(mutableMap.count == anotherMap.count - 1, "Maps should be removable")
+            XCTAssertEqual(value, anotherMap["f"]!, "Maps should be removable")
+        } else {
+            XCTFail("Maps should be removable")
         }
     }
     
