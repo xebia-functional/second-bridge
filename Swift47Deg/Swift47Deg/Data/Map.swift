@@ -23,7 +23,7 @@ struct Map<T> {
         }
     }
     
-    var count : Int {
+    var size : Int {
         return self.internalDict.count
     }
 }
@@ -178,7 +178,15 @@ extension Map {
     :param: p Predicate to check against the elements of this map
     */
     func exists(p: ((Key, Value)) -> Bool) -> Bool {
-        return self.filter(p).count > 0
+        return self.filter(p).size > 0
+    }
+    
+    
+    /**
+    Counts the number of elements in the map which satisfy a predicate.
+    */
+    func count(p: ((Key, Value)) -> Bool) -> Int {
+        return self.filter(p).size
     }
 }
 
@@ -207,8 +215,21 @@ extension Map {
     */
     func dropRight(n: Int) -> Map {
         let keys = self.keys
-        let keysToExclude = keys.filter({ Swift.find(keys, $0) >= self.count - n })
+        let keysToExclude = keys.filter({ Swift.find(keys, $0) >= self.size - n })
         return self -- keysToExclude
+    }
+    
+    private func findFirstIndexToNotSatisfyPredicate(p: (Key, Value) -> Bool) -> Int? {
+        var count = 0
+        for key in self.keys {
+            if let value = self[key] {
+                if !p(key, value) {
+                    return count
+                }
+            }
+            count++
+        }
+        return nil
     }
     
     /**
@@ -216,23 +237,10 @@ extension Map {
     
     :param: n Number of elements to be excluded from the selection
     
-    :returns: The longest suffix of this traversable collection whose first element does not satisfy the predicate p.
+    :returns: The longest suffix of this map whose first element does not satisfy the predicate p.
     */
     func dropWhile(p: (Key, Value) -> Bool) -> Map {
-        func findSuffixFirstIndex() -> Int? {
-            var count = 0
-            for key in self.keys {
-                if let value = self[key] {
-                    if !p(key, value) {
-                        return count
-                    }
-                }
-                count++
-            }
-            return nil
-        }
-        
-        if let firstIndex = findSuffixFirstIndex() {
+        if let firstIndex = findFirstIndexToNotSatisfyPredicate(p) {
             return self.drop(firstIndex)
         }
         return self
@@ -285,6 +293,48 @@ extension Map {
         let value = self[key]
         self = self - key
         return value
+    }
+    
+    /** 
+    :returns: A map containing all the elements of the current one except the last.
+    */
+    func tail() -> Map {
+        return self.dropRight(1)
+    }
+    
+    /**
+    :returns: A map containing the first n elements.
+    */
+    func take(n: Int) -> Map {
+        return self.dropRight(self.size - n)
+    }
+    
+    /**
+    :returns: A map containing the last n elements.
+    */
+    func takeRight(n: Int) -> Map {
+        return self.drop(self.size - n)
+    }
+    
+    /**
+    :returns: A map containing the longest prefix of elements that satisfy a predicate.
+    */
+    func takeWhile(p: (Key, Value) -> Bool) -> Map {
+        if let firstIndex = findFirstIndexToNotSatisfyPredicate(p) {
+            return self.dropRight(firstIndex)
+        }
+        return self
+    }
+    
+    /**
+    :returns: An array of tuples containing each key and value for every element in the map.
+    */
+    func toArray() -> [(Key, Value)] {
+        return self.reduce([], combine: { (result: [(Key, Value)], currentItem: (Key, T)) -> [(Key, Value)] in
+            var temp = result
+            temp.append((currentItem.0, currentItem.1))
+            return temp
+        })
     }
 }
 

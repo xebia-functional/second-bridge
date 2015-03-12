@@ -19,7 +19,7 @@ func ==(lhs: HashableAny, rhs: HashableAny) -> Bool {
 }
 
 func ==<T: Equatable>(lhs: Map<T>, rhs: Map<T>) -> Bool {
-    if lhs.count == rhs.count {
+    if lhs.size == rhs.size {
         for key in rhs.keys {
             switch (lhs[key], rhs[key]) {
             case let(.Some(leftValue), .Some(rightValue)):
