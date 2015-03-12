@@ -8,6 +8,8 @@
 
 import Foundation
 
+// MARK: - Map declaration and protocol implementations
+
 /// Map | An immutable iterable collection containing pairs of keys and values. Each key is of type HashableAny to allow to have keys with different types (currently supported types are Int, Float, and String). Each value is of a type T. If you need to store values of different types, make an instance of Map<Any>.
 struct Map<T> {
     private var internalDict : Dictionary<Key, Value>
@@ -57,6 +59,7 @@ extension Map : SequenceType {
 }
 
 // MARK: Higher-order functions
+
 extension Map {
     init(_ arrayOfGenerators: [Generator.Element]) {
         self = Map() + arrayOfGenerators
@@ -134,7 +137,8 @@ extension Map {
     }
 }
 
-// MARK: Basic utils
+// MARK: Basic functions
+
 extension Map {
     /**
     :returns: An array containing all the keys from the current map. Note: might return different results for different runs, as the underlying collection type is unordered.
@@ -169,26 +173,18 @@ extension Map {
     }
     
     /**
-    Generate a string composed by the different values contained in the map, concatenated.
+    Tests whether a predicate holds for some of the elements of this map.
     
-    :param: separator A string used to separate each element to be concatenated. If it's a nil, the different strings are not separated.
-    
-    :returns: A string containing all the different values contained in the map. If the map contains String values, they'll be concatenated as such. If not, addString relies on String interpolation to perform the concatenation.
+    :param: p Predicate to check against the elements of this map
     */
-    func addString(separator: String?) -> String {
-        let separatorToUse = (separator == nil) ? "" : separator!
-        let result = self.reduceByValue("", combine: { (result: String, currentValue: T) -> String in
-            switch currentValue {
-            case let stringValue as String: return result + stringValue + separatorToUse
-            default: return result + "\(currentValue)" + separatorToUse
-            }
-        })
-        if separatorToUse == "" {
-            return result
-        }
-        return result.substringToIndex(result.endIndex.predecessor())
+    func exists(p: ((Key, Value)) -> Bool) -> Bool {
+        return self.filter(p).count > 0
     }
-    
+}
+
+// MARK: - addition/removal/modification of elements in the map
+
+extension Map {
     /**
     Selects all elements except the first n ones. Note: might return different results for different runs, as the underlying collection type is unordered.
     
@@ -243,15 +239,6 @@ extension Map {
     }
     
     /**
-    Tests whether a predicate holds for some of the elements of this map.
-    
-    :param: p Predicate to check against the elements of this map
-    */
-    func exists(p: ((Key, Value)) -> Bool) -> Bool {
-        return self.filter(p).count > 0
-    }
-    
-    /**
     :returns: Returns the first element of this map (if there are any). Note: might return different results for different runs, as the underlying collection type is unordered.
     */
     func head() -> (Key, Value)? {
@@ -276,6 +263,70 @@ extension Map {
             return (lastKey, self[lastKey]!)
         }
         return nil
+    }
+    
+    /**
+    Removes the provided key from the current map, and returns a new map without that key/value binding. Also an optional containing the value bound to the key.
+    
+    :param: key The key to remove
+    */
+    func remove(key: HashableAny) -> (Map, Value?) {
+        let map = self
+        let value = self[key]
+        return (map - key, value)
+    }
+    
+    /**
+    Removes the provided key from the current map, and returns an optional containing the value bound to that key.
+    
+    :param: key The key to remove
+    */
+    mutating func remove(key: HashableAny) -> Value? {
+        let value = self[key]
+        self = self - key
+        return value
+    }
+}
+
+// MARK: - numeric operations
+extension Map {
+    private func convertValueToNumber(value: Value) -> Double? {
+        switch value {
+        case let number as Double: return number
+        case let number as Int: return Double(number)
+        case let numberString as String:
+            if let number = NSNumberFormatter().numberFromString(numberString) {
+                return number.doubleValue
+            }
+            return nil
+        default: return nil
+        }
+    }
+    
+    /**
+    Applies a binary numeric operation to each value contained in the map, if it's castable to a number. If a value contains a String representation of a number, its content will be converted to a Double value suitable for the multiplication. Any other value will be ignored.
+    */
+    func applyNumericOperation(initialValue: Double, f: (Double, Double) -> Double) -> Double {
+        return self.reduce(initialValue, combine: { (currentTotal: Double, currentItem: (Key, Value)) -> Double in
+            if let number = self.convertValueToNumber(currentItem.1) {
+                return f(currentTotal, number)
+            }
+            return currentTotal
+        })
+    }
+    
+    /**
+    :returns: The product of the multiplication of each value contained in the map, if it's castable to a number. If a value contains a String representation of a number, its content will be converted to a Double value suitable for the multiplication. Any other value will be ignored.
+    */
+    func product() -> Double {
+        return self.applyNumericOperation(1, *)
+    }
+    
+    /**
+    :returns: The product of the sum of each value contained in the map, if it's castable to a number. If a value contains a String representation of a number, its content will be converted to a Double value suitable for the multiplication. Any other value will be ignored.
+    */
+    func sum() -> Double {
+        return self.applyNumericOperation(0, +)
     }
     
     /**
@@ -306,27 +357,28 @@ extension Map {
         }
         return nil
     }
-    
+}
+
+// MARK: - string operations
+extension Map {
     /**
-    Removes the provided key from the current map, and returns a new map without that key/value binding. Also an optional containing the value bound to the key.
+    Generate a string composed by the different values contained in the map, concatenated.
     
-    :param: key The key to remove
+    :param: separator A string used to separate each element to be concatenated. If it's a nil, the different strings are not separated.
+    
+    :returns: A string containing all the different values contained in the map. If the map contains String values, they'll be concatenated as such. If not, addString relies on String interpolation to perform the concatenation.
     */
-    func remove(key: HashableAny) -> (Map, Value?) {
-        let map = self
-        let value = self[key]
-        return (map - key, value)
+    func addString(separator: String?) -> String {
+        let separatorToUse = (separator == nil) ? "" : separator!
+        let result = self.reduceByValue("", combine: { (result: String, currentValue: T) -> String in
+            switch currentValue {
+            case let stringValue as String: return result + stringValue + separatorToUse
+            default: return result + "\(currentValue)" + separatorToUse
+            }
+        })
+        if separatorToUse == "" {
+            return result
+        }
+        return result.substringToIndex(result.endIndex.predecessor())
     }
-    
-    /**
-    Removes the provided key from the current map, and returns an optional containing the value bound to that key.
-    
-    :param: key The key to remove
-    */
-    mutating func remove(key: HashableAny) -> Value? {
-        let value = self[key]
-        self = self - key
-        return value
-    }
-    
 }

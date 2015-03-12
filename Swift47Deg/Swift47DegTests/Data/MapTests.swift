@@ -25,7 +25,7 @@ class MapTests : XCTestCase {
         XCTAssertEqual(map[4.5]!, 3, "Maps elements with Double keys should be added")
     }
     
-    func testTypedMapEnumeration() {
+    func testMapEnumeration() {
         let map : Map<Int> = ["a" : 1, 2 : 2, 3 : 3, 4.5 : 4]
         
         var loops = 0
@@ -42,7 +42,7 @@ class MapTests : XCTestCase {
         XCTAssertEqual(loops, 4, "Map elements should be iterable")
     }
     
-    func testTypedMapAddition() {
+    func testMapAddition() {
         var map : Map<Int> = [:]
         map = map + ["a" : 1]
         XCTAssertNotNil(map["a"], "Map addition with another Map should work")
@@ -68,7 +68,7 @@ class MapTests : XCTestCase {
         XCTAssertEqual(map["bar"]!, 8, "Map addition with a tuple array should work")
     }
     
-    func testTypedMapSubstraction() {
+    func testMapSubstraction() {
         var map : Map<Int> = ["a" : 1, "b" : 2, "c" : 3, "d" : 4, "e" : 5, "f" : 6]
         
         map = map - "a"
@@ -88,7 +88,7 @@ class MapTests : XCTestCase {
         XCTAssertEqual(map.count, 0, "Map keys should be removable")
     }
     
-    func testTypedMapHigherOrderFunctions() {
+    func testMapHigherOrderFunctions() {
         let map : Map<Int> = ["a" : 1, "b" : 2, "c" : 3, "d" : 4, "e" : 5, "f" : 6]
         
         let filteredMap = map.filter({ (value) -> Bool in
@@ -135,7 +135,7 @@ class MapTests : XCTestCase {
         XCTAssertEqual(findResult!.0, "f" as HashableAny, "Maps should support find function")
     }
     
-    func testTypedMapBasicFunctions() {
+    func testMapBasicFunctions() {
         var map : Map<Int> = [:]
         XCTAssertTrue(map.isEmpty(), "Maps should know if they're empty")
         
@@ -147,33 +147,8 @@ class MapTests : XCTestCase {
         XCTAssertFalse(map.contains("c"), "Maps should figure out if they contain a key")
         
         let anotherMap : Map<Int> = ["a" : 1, "b" : 2, "c" : 3, "d" : 4, "e" : 5, "f" : 6]
-        let droppedMap = anotherMap.drop(2)
-        XCTAssertEqual(droppedMap.count, 4, "Maps should be droppable")
-        XCTAssertEqual(droppedMap.keys.first!, anotherMap.keys[2], "Maps should be droppable")
-        
-        let droppedRightMap = anotherMap.dropRight(2)
-        XCTAssertEqual(droppedRightMap.count, 4, "Maps should be droppable")
-        XCTAssertEqual(droppedRightMap.keys.last!, anotherMap.keys[3], "Maps should be droppable")
-        
-        let droppedWhileMap = anotherMap.dropWhile { (key: HashableAny, value: Int) -> Bool in
-            key != anotherMap.keys[2]
-        }
-        XCTAssertEqual(droppedWhileMap.keys[0], anotherMap.keys[2], "Maps should be droppable with while closure")
-        
         XCTAssertTrue(anotherMap.exists({ $0.0 == "a" }), "Maps should work with exists function")
         XCTAssertFalse(anotherMap.exists({ $0.1 > 7 }), "Maps should work with exists function")
-        
-        if let max = anotherMap.maxBy({ $0 }) {
-            XCTAssertEqual(max.1, 6, "Maps' maxBy function should work OK")
-        } else {
-            XCTFail("Maps' maxBy function should work OK")
-        }
-        
-        if let min = anotherMap.minBy({ $0 }) {
-            XCTAssertEqual(min.1, 1, "Maps' minBy function should work OK")
-        } else {
-            XCTFail("Maps' minBy function should work OK")
-        }
         
         if let head = anotherMap.head() {
             XCTAssertEqual(head.0, anotherMap.keys[0], "Maps should have their heads accessible, even if they're not ordered")
@@ -223,10 +198,47 @@ class MapTests : XCTestCase {
         } else {
             XCTFail("Maps should be removable")
         }
+        
     }
     
+    func testMapAdditionRemovalOrModificationOfElements() {
+        let anotherMap : Map<Int> = ["a" : 1, "b" : 2, "c" : 3, "d" : 4, "e" : 5, "f" : 6]
+        let droppedMap = anotherMap.drop(2)
+        XCTAssertEqual(droppedMap.count, 4, "Maps should be droppable")
+        XCTAssertEqual(droppedMap.keys.first!, anotherMap.keys[2], "Maps should be droppable")
+        
+        let droppedRightMap = anotherMap.dropRight(2)
+        XCTAssertEqual(droppedRightMap.count, 4, "Maps should be droppable")
+        XCTAssertEqual(droppedRightMap.keys.last!, anotherMap.keys[3], "Maps should be droppable")
+        
+        let droppedWhileMap = anotherMap.dropWhile { (key: HashableAny, value: Int) -> Bool in
+            key != anotherMap.keys[2]
+        }
+        XCTAssertEqual(droppedWhileMap.keys[0], anotherMap.keys[2], "Maps should be droppable with while closure")
+    }
     
-    func testTypedMapEquality() {
+    func tesMapNumericOperations() {
+        let mixedMap : Map = ["a": 1, "b": 3.5, "c" : "a", "d": 2, "e": "5.0"]
+        let anotherMap : Map<Int> = ["a" : 1, "b" : 2, "c" : 3, "d" : 4, "e" : 5, "f" : 6]
+        
+        XCTAssertEqual(mixedMap.product(), 35, "Maps should be able to calculate a product of its values even if not of them are numbers")
+        XCTAssertEqual(mixedMap.sum(), 11.5, "Maps should be able to calculate a sum of its values even if not of them are numbers")
+        XCTAssertEqual(mixedMap.applyNumericOperation(0, -), -11.5, "Maps should be able to easily perform a binary calculation of its values even if not of them are numbers")
+        
+        if let max = anotherMap.maxBy({ $0 }) {
+            XCTAssertEqual(max.1, 6, "Maps' maxBy function should work OK")
+        } else {
+            XCTFail("Maps' maxBy function should work OK")
+        }
+        
+        if let min = anotherMap.minBy({ $0 }) {
+            XCTAssertEqual(min.1, 1, "Maps' minBy function should work OK")
+        } else {
+            XCTFail("Maps' minBy function should work OK")
+        }
+    }
+    
+    func testMapEquality() {
         let aMap : Map<Int> = ["a" : 1, "c" : 3, "d" : 4, "e" : 5, "f" : 6,  "b" : 2]
         let anotherMap : Map<Int> = ["a" : 1, "b" : 2, "c" : 3, "d" : 4, "e" : 5, "f" : 6]
         XCTAssertTrue(aMap == anotherMap, "Maps should support equality")
