@@ -10,6 +10,8 @@
 		596D703D1AADB79B00CE9962 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596D703C1AADB79B00CE9962 /* Map.swift */; };
 		596D703E1AADB79B00CE9962 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596D703C1AADB79B00CE9962 /* Map.swift */; };
 		596D70421AADB80400CE9962 /* MapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596D70401AADB80400CE9962 /* MapTests.swift */; };
+		5981E3C91AB6DFE600F052A0 /* Traversable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5981E3C81AB6DFE600F052A0 /* Traversable.swift */; };
+		5981E3CA1AB6DFE600F052A0 /* Traversable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5981E3C81AB6DFE600F052A0 /* Traversable.swift */; };
 		59D811B71AA87B7C005F7761 /* HashableAny.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D811B61AA87B7C005F7761 /* HashableAny.swift */; };
 		59D811B81AA87B7C005F7761 /* HashableAny.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D811B61AA87B7C005F7761 /* HashableAny.swift */; };
 		59D811BA1AA87D98005F7761 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D811B91AA87D98005F7761 /* Operators.swift */; };
@@ -68,6 +70,7 @@
 /* Begin PBXFileReference section */
 		596D703C1AADB79B00CE9962 /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		596D70401AADB80400CE9962 /* MapTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapTests.swift; sourceTree = "<group>"; };
+		5981E3C81AB6DFE600F052A0 /* Traversable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Traversable.swift; sourceTree = "<group>"; };
 		59D811B61AA87B7C005F7761 /* HashableAny.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashableAny.swift; sourceTree = "<group>"; };
 		59D811B91AA87D98005F7761 /* Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 		59F0C70F1AA8B8150070C03F /* Swiftz-iOS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Swiftz-iOS.xcodeproj"; path = "../External/Swiftz/Swiftz-iOS.xcodeproj"; sourceTree = "<group>"; };
@@ -99,6 +102,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5981E3C61AB6DFD200F052A0 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				5981E3C81AB6DFE600F052A0 /* Traversable.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		59D811B21AA87B3B005F7761 /* Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +160,7 @@
 			children = (
 				59D811B91AA87D98005F7761 /* Operators.swift */,
 				59D811B21AA87B3B005F7761 /* Data */,
+				5981E3C61AB6DFD200F052A0 /* Protocols */,
 				A183A1271AA85FA500C535A6 /* Swift47Deg.h */,
 				A183A1251AA85FA500C535A6 /* Supporting Files */,
 			);
@@ -316,6 +328,7 @@
 				59D811B71AA87B7C005F7761 /* HashableAny.swift in Sources */,
 				596D703D1AADB79B00CE9962 /* Map.swift in Sources */,
 				59D811BA1AA87D98005F7761 /* Operators.swift in Sources */,
+				5981E3C91AB6DFE600F052A0 /* Traversable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,6 +341,7 @@
 				596D70421AADB80400CE9962 /* MapTests.swift in Sources */,
 				A183A1351AA85FA500C535A6 /* Swift47DegTests.swift in Sources */,
 				596D703E1AADB79B00CE9962 /* Map.swift in Sources */,
+				5981E3CA1AB6DFE600F052A0 /* Traversable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

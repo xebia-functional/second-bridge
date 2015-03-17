@@ -1,10 +1,18 @@
-//
-//  Map.swift
-//  Swift47Deg
-//
-//  Created by Javier de Silóniz Sandino on 9/3/15.
-//  Copyright (c) 2015 47 Degrees. All rights reserved.
-//
+/*
+* Copyright (C) 2015 47 Degrees, LLC http://47deg.com hello@47deg.com
+*
+* Licensed under the Apache License, Version 2.0 (the "License"); you may
+* not use this file except in compliance with the License. You may obtain
+* a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 
 import Foundation
 
@@ -58,6 +66,15 @@ extension Map : SequenceType {
     }
 }
 
+extension Map : Traversable {
+    typealias ItemType = (Key, Value)
+    func foreach(f: ((Key, T)) -> ()) {
+for (key, value) in self.internalDict {
+            f((key, value))
+        }
+    }
+}
+
 // MARK: Higher-order functions
 
 extension Map {
@@ -69,17 +86,17 @@ extension Map {
     Returns a new map containing all the keys from the current map that satisfy the `includeElement` closure. Only takes into account values, not keys.
     */
     func filter(includeElement: (Value) -> Bool) -> Map {
-        return Map(Swift.filter(self, { (key: Key, value: Value) -> Bool in
-            includeElement(value)
-        }))
+        return self.filter { (item) -> Bool in
+            includeElement(item.1)
+        }
     }
     
     /**
     Returns a new map containing all the keys/value pairs from the current one that satisfy the `includeElement` closure. Takes into account both values AND keys.
     */
     func filter(includeElement: ((Key, Value)) -> Bool) -> Map {
-        return Map(Swift.filter(self, { (key: Key, value: Value) -> Bool in
-            includeElement((key, value))
+        return Map(travFilter(self, { (item) -> Bool in
+            return includeElement(item)
         }))
     }
     
@@ -103,28 +120,24 @@ extension Map {
     /**
     Returns a new map containing the results of mapping `transform` over its elements.
     */
-    func map(transform: (Value) -> Value) -> Map {
-        return Map(Swift.map(self, { (key: Key, value: Value) -> (Key, Value) in
-            return (key, transform(value))
-        }))
+    func map<U>(transform: (Value) -> U) -> Map<U> {
+        return Map<U>(travMap(self, { return ($0.0, transform($0.1)) }))
     }
     
     /**
     Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element's value of the current map.
     */
     func reduceByValue<U>(initialValue: U, combine: (U, Value) -> U) -> U {
-        return Swift.reduce(self, initialValue) { (currentTotal, currentElement) -> U in
+        return self.reduce(initialValue, combine: { (currentTotal, currentElement) -> U in
             return combine(currentTotal, currentElement.1)
-        }
+        })
     }
     
     /**
     Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element (taking also into account the key) of the current map.
     */
     func reduce<U>(initialValue: U, combine: (U, (Key, Value)) -> U) -> U {
-        return Swift.reduce(self, initialValue) { (currentTotal, currentElement) -> U in
-            return combine(currentTotal, currentElement)
-        }
+         return travReduce(self, initialValue, combine)
     }
     
     /**
@@ -133,7 +146,20 @@ extension Map {
     :param: predicate The predicate to check the map items against
     */
     func find(predicate: ((Key, Value) -> Bool)) -> (Key, Value)? {
-        return Swift.filter(self, predicate)[0]
+        let result = self.filter(predicate)
+        if result.size > 0 {
+            let key = result.keys[0]
+            return (key, result[key]!)
+        }
+        return nil
+    }
+    
+    
+    /**
+    Returns the result of applying `transform` on each element of the map, and then flattening the results into an array.
+    */
+    func flatMapValues(transform: (Value) -> [Value]) -> [Value] {
+        return travFlatMap(self, { transform($0.1) })
     }
 }
 
