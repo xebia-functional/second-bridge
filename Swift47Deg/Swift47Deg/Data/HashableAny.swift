@@ -68,6 +68,24 @@ struct HashableAny: Hashable, IntegerLiteralConvertible, FloatLiteralConvertible
         self.stringValue = nil
     }
     
+    init(intValue: Int) {
+        self.intValue = intValue
+        self.stringValue = nil
+        self.floatValue = nil
+    }
+    
+    init(floatValue: Double) {
+        self.intValue = nil
+        self.stringValue = nil
+        self.floatValue = floatValue
+    }
+    
+    init(stringValue: String) {
+        self.intValue = nil
+        self.stringValue = stringValue
+        self.floatValue = nil
+    }
+    
     var debugDescription : String {
         return currentValue.description
     }

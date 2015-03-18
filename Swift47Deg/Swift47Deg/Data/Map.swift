@@ -69,9 +69,33 @@ extension Map : SequenceType {
 extension Map : Traversable {
     typealias ItemType = (Key, Value)
     func foreach(f: ((Key, T)) -> ()) {
-for (key, value) in self.internalDict {
+        for (key, value) in self.internalDict {
             f((key, value))
         }
+    }
+    
+    /**
+    Build a new Map instance with the elements contained in the `elements` array.
+    */
+    func build(elements: [ItemType]) -> Map {
+        return Map(elements)
+    }
+    
+    /**
+    Build a new Map instance with the elements contained in the provided Traversable instance. If the items contained belong to another Map with the same type (key, value), it simply adds it, and if it finds only values of the same type it fills the keys with the available indices. 
+    */
+    func buildFromTraversable<U where U : Traversable>(traversable: U) -> Map {
+        var result : Map = Map()
+        var index = 0
+        traversable.foreach { (item) -> () in
+            switch item {
+            case let sameTypeItem as ItemType: result = result + sameTypeItem
+            case let sameTypeValue as Value: let key = HashableAny(intValue: index); result = result + (key, sameTypeValue)
+            default: break
+            }
+            index++
+        }
+        return result
     }
 }
 
@@ -154,12 +178,25 @@ extension Map {
         return nil
     }
     
-    
     /**
     Returns the result of applying `transform` on each element of the map, and then flattening the results into an array.
     */
     func flatMapValues(transform: (Value) -> [Value]) -> [Value] {
         return travFlatMap(self, { transform($0.1) })
+    }
+    
+    /**
+    Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element (taking also into account the key) of the current map. Iteration is done in reverse order to reduce/foldRight.
+    */
+    func foldLeft<U>(initialValue: U, combine: (U, (Key, Value)) -> U) -> U {
+        return travFoldLeft(self, initialValue, combine)
+    }
+    
+    /**
+    Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element (taking also into account the key) of the current map. Iteration is done in the same order as reduce/foldRight.
+    */
+    func foldRight<U>(initialValue: U, combine: (U, (Key, Value)) -> U) -> U {
+        return travFoldRight(self, initialValue, combine)
     }
 }
 
@@ -356,11 +393,7 @@ extension Map {
     :returns: An array of tuples containing each key and value for every element in the map.
     */
     func toArray() -> [(Key, Value)] {
-        return self.reduce([], combine: { (result: [(Key, Value)], currentItem: (Key, T)) -> [(Key, Value)] in
-            var temp = result
-            temp.append((currentItem.0, currentItem.1))
-            return temp
-        })
+        return travToArray(self)
     }
 }
 

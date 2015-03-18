@@ -300,26 +300,18 @@ class MapTests : XCTestCase {
     
     func testMapTraversability() {
         let aMap : Map<Int> = ["a" : 1, "c" : 3, "d" : 4, "e" : 5, "f" : 6,  "b" : 2]
-        let result = aMap.map({ $0 * 2 })
         
-        XCTAssertEqual(result["a"]!, aMap["a"]! * 2, "Maps should be traversable")
-        XCTAssertEqual(result.size, 6, "Maps are traversable")
+        var count = 0
+        aMap.foreach { (item) -> () in
+            count++; return ()
+        }
+        XCTAssertEqual(count, aMap.size, "Maps should be traversable and have a foreach function")        
         
-        let filteredMap = aMap.filter({ (value) -> Bool in
-            value > 1})
-        XCTAssertEqual(filteredMap.size, aMap.size - 1, "Maps should be traversable")
-        XCTAssertNil(filteredMap["a"], "Maps should be traversable")
+        let traversalityTestMap = aMap.buildFromTraversable(aMap)
+        XCTAssertTrue(traversalityTestMap == aMap, "Maps should be traversable and be able to be built from other Traversables")
         
-        let reduceResult = aMap.reduce(0, combine: { (total: Int, currentItem: (HashableAny, Int)) -> Int in
-            total + currentItem.1
-        })
-        XCTAssertEqual(reduceResult, 21, "Maps should be traversable")
-        
-        let flatMapResult = aMap.flatMapValues({ (item) -> [Int] in
-            [item - 1, item, item + 1]
-        })
-        XCTAssertEqual(flatMapResult.count, aMap.size * 3, "Maps should be traversable")
-        XCTAssertEqual(flatMapResult[0], flatMapResult[1] - 1, "Maps should be traversable")
-        XCTAssertEqual(flatMapResult[2], flatMapResult[1] + 1, "Maps should be traversable")
+        var mapFromArrayTrav = Map<Int>()
+        mapFromArrayTrav = mapFromArrayTrav.build([("a", 1), ("b", 2), ("c", 3)])
+        XCTAssertEqual(mapFromArrayTrav.size, 3, "Maps should be traversable and built from an array of valid tuples")
     }
 }

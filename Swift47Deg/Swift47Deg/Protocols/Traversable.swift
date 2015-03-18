@@ -16,17 +16,33 @@
 
 import Foundation
 
+/**
+Datatypes conforming to this protocol should expose certain functions that allow to traverse through them, and also being built from other Traversable types (although the latter has some limitations due to Swift type constraints restrictions). All Traversable instances have access to the following methods: `travReduce`, `travMap`, `travFilter`, `travFlatMap`, `travReverse`, `travFoldRight`, `travFoldLeft`, and `travToArray`.
+*/
 protocol Traversable {
     typealias ItemType
     
+    /** 
+    Traverse all items of the instance, and call the provided function on each one.
+    */
     func foreach(f: (ItemType) -> ())
+    
+    /**
+    Build a new instance of the same Traversable type with the elements contained in the `elements` array (i.e.: returned from the trav*** functions).
+    */
+    func build(elements: [ItemType]) -> Self
+    
+    /**
+    Build a new instance of the same Traversable type with the elements contained in the provided Traversable instance. Users calling this function are responsible of transforming the data of each item to a valid ItemType suitable for the current Traversable class.
+    */
+    func buildFromTraversable<U where U : Traversable>(traversable: U) -> Self
 }
 
 // MARK: - Global functions
 // These functions are available for all Traversable-conforming types
 
 /**
-Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element (taking also into account the key) of the current traversable.
+Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element of the current traversable.
 */
 func travReduce<S: Traversable, U>(source: S, initialValue: U, combine: (U, S.ItemType) -> U) -> U {
     var result = initialValue
@@ -70,5 +86,35 @@ Returns a traversable with elements in inverse order. Note: it won't produce a c
 func travReverse<S: Traversable>(source: S) -> [S.ItemType] {
     return travReduce(source, Array<S.ItemType>(), { (total, item) -> [S.ItemType] in
         [item] + total
+    })
+}
+
+/**
+Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element of the current traversable from left to right. Equivalent to `travReduce`.
+*/
+func travFoldRight<S: Traversable, U>(source: S, initialValue: U, combine: (U, S.ItemType) -> U) -> U {
+    return travReduce(source, initialValue, combine)
+}
+
+/**
+Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element of the current traversable from right to left. A reversal equivalent to `travReduce`.
+*/
+func travFoldLeft<S: Traversable, U>(source: S, initialValue: U, combine: (U, S.ItemType) -> U) -> U {
+    let array = travToArray(source)
+    var index = array.count - 1
+    var result = initialValue
+    while(index >= 0) {
+        result = combine(result, array[index])
+        index--
+    }
+    return result
+}
+
+/**
+Returns an array containing the elements of this Traversable.
+*/
+func travToArray<S: Traversable>(source: S) -> [S.ItemType] {
+    return travReduce(source, Array<S.ItemType>(), { (total, item) -> [S.ItemType] in
+        total + [item]
     })
 }
