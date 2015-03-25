@@ -21,6 +21,7 @@ import Swiftz
 
 infix operator ||-> { associativity left precedence 140 }
 infix operator &&-> { associativity left precedence 140 }
+infix operator => { associativity left precedence 140 }
 
 // MARK: - Partial function container
 
@@ -57,7 +58,7 @@ func orElse<T, U>(a: PartialFunction<T, U>, b: PartialFunction<T, U>) -> Functio
 }
 
 /**
-Returns a new function by chaining two existing functions. First function `a` is evaluated, and its result is then passed to function `b`.
+Returns a new function by chaining two existing functions. First function `a` is evaluated, and its result is then passed to function `b` to be evaluated.
 */
 func andThen<T, U, V>(a: Function<T, U>, b: Function<U, V>) -> Function<T, V> {
     return Function.arr({ (x: T) -> V in
@@ -77,15 +78,13 @@ func ||-><T, U>(a: PartialFunction<T, U>, b: PartialFunction<T, U>) -> Function<
 }
 
 /**
-Returns a new function by chaining two existing functions. First function `left` is evaluated, and its result is then passed to function `right`.
+Returns a new function by chaining two existing functions. First function `left` is evaluated, and its result is then passed to function `right` to be evaluated.
 */
 func &&-><T, U, V>(a: Function<T, U>, b: Function<U, V>) -> Function<T, V> {
     return andThen(a, b)
 }
 
 // MARK: - Partial function builder
-
-infix operator => { associativity left precedence 140 }
 
 /**
 Defines a function whose execution is restricted to a certain set of values defined by the left function. i.e. to define a partial function to multiply all even values by two:
