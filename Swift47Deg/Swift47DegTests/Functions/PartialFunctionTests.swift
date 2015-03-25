@@ -51,4 +51,14 @@ class PartialFunctionTests: XCTestCase {
         XCTAssertEqual(complexOp.apply(3), "Odd", "Partial functions should be attachable with orElse and andThen conditionals")
         XCTAssertEqual(complexOp.apply(4), "Even", "Partial functions should be attachable with orElse and andThen conditionals")
     }
+    
+    func testCollect() {
+        let map : Map<Double> = ["a" : -1, "b" : 0, "c" : 1, "d" : 2, "e" : 3, "f" : 4]
+        let squareRoot = Function<(HashableAny, Double), Bool>.arr({ $0.1 >= 0 }) => Function<(HashableAny, Double), (HashableAny, Double)>.arr({ ($0.0, sqrt(Double($0.1))) })
+        let collectResult = map.collect(squareRoot)
+        
+        XCTAssertNil(collectResult["a"], "Collect function should obbey to its partial function's restrictions")
+        XCTAssertEqual(collectResult["b"]!, 0, "Collect function should execute its function to all allowed members of the Traversable")
+        XCTAssertEqual(collectResult["f"]! * collectResult["f"]!, map["f"]!, "Collect function should execute its function to all allowed members of the Traversable")
+    }
 }

@@ -198,6 +198,13 @@ extension Map {
     func foldRight<U>(initialValue: U, combine: (U, (Key, Value)) -> U) -> U {
         return travFoldRight(self, initialValue, combine)
     }
+    
+    /**
+    Returns an array containing the results of mapping the partial function `f` over a set of this map's elements that match the condition defined in `f`'s `isDefinedAt`.
+    */
+    func collect<U>(f: PartialFunction<ItemType, (HashableAny, U)>) -> Map<U> {
+        return Map<U>(travCollect(self, f))
+    }
 }
 
 // MARK: Basic functions

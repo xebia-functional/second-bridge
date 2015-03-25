@@ -118,3 +118,15 @@ func travToArray<S: Traversable>(source: S) -> [S.ItemType] {
         total + [item]
     })
 }
+
+/**
+Returns an array containing the results of mapping the partial function `f` over a set of the elements of this Traversable that match the condition defined in `f`'s `isDefinedAt`.
+*/
+func travCollect<S, U where S: Traversable>(source: S, f: PartialFunction<S.ItemType, U>) -> [U] {
+    return travReduce(source, Array<U>(), { (total : [U], currentItem : S.ItemType) -> [U] in
+        if f.isDefinedAt.apply(currentItem) == true {
+            return total + [f.function.apply(currentItem)]
+        }
+        return total
+    })
+}
