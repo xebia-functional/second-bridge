@@ -9,13 +9,8 @@
 import Foundation
 import Swiftz
 
-extension Function {
-    typealias A = T
-    typealias B = U
-    
-    
-}
-
+infix operator ||-> { associativity left precedence 140 }
+infix operator &&-> { associativity left precedence 140 }
 
 struct PartialFunction<T, U> {
     let function : Function<T, U>
@@ -27,13 +22,27 @@ struct PartialFunction<T, U> {
     }
 }
 
-func buildPartialFunctionOrElse<T, U>(a: PartialFunction<T, U>, b: PartialFunction<T, U>)(value: T) -> Function<T, U> {
-    let functionToApply = { (value: T) -> U in
-        if a.isDefinedAt.apply(value) {
-            return a.function.apply(value)
+func buildPartialFunctionOrElse<T, U>(a: PartialFunction<T, U>, b: PartialFunction<T, U>) -> Function<T, U> {
+    let functionToApply = { (x: T) -> U in
+        if a.isDefinedAt.apply(x) {
+            return a.function.apply(x)
         }
-        return b.function.apply(value)
+        return b.function.apply(x)
     }
     return Function.arr(functionToApply)
 }
 
+func buildPartialFunctionAndThen<T, U, V>(a: Function<T, U>, b: Function<U, V>) -> Function<T, V> {
+    return Function.arr({ (x: T) -> V in
+        let rA = a.apply(x)
+        return b.apply(rA)
+    })
+}
+
+func ||-><T, U>(a: PartialFunction<T, U>, b: PartialFunction<T, U>) -> Function<T, U> {
+    return buildPartialFunctionOrElse(a, b)
+}
+
+func &&-><T, U, V>(a: Function<T, U>, b: Function<U, V>) -> Function<T, V> {
+    return buildPartialFunctionAndThen(a, b)
+}

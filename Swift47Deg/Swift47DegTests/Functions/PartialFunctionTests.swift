@@ -8,6 +8,7 @@
 
 import UIKit
 import XCTest
+import Swiftz
 
 class PartialFunctionTests: XCTestCase {
     
@@ -21,4 +22,13 @@ class PartialFunctionTests: XCTestCase {
         super.tearDown()
     }
     
+    func testPartialFunctions() {
+        let doubleEvens = PartialFunction<Int, Int>(function: Function.arr({ $0 * 2 }), isDefinedAt: Function.arr({ $0 % 2 == 0 }))
+        let tripleOdds = PartialFunction<Int, Int>(function: Function.arr({ $0 * 3 }), isDefinedAt: Function.arr({ $0 % 2 != 0 }))
+        
+        let whatToDo = doubleEvens ||-> tripleOdds
+        
+        XCTAssertEqual(whatToDo.apply(3), 9, "Partial functions should be attachable with orElse conditionals")
+        XCTAssertEqual(whatToDo.apply(4), 8, "Partial functions should be attachable with orElse conditionals")
+    }
 }
