@@ -140,7 +140,7 @@ class ListTests: XCTestCase {
     }
     
     
-    func testReduceRigth(){
+    func testReduceRight(){
         
         let a = List(1, 3, 5, 7)
         XCTAssert({a.reduceRight(+) == 16 }(),"Applied reduceRight with type int, should be 16")
@@ -150,7 +150,7 @@ class ListTests: XCTestCase {
         
     }
     
-    func testReduceRigthInitial(){
+    func testReduceRightInitial(){
         
         let a = List(1, 3, 5, 7)
         let result = a.reduceRight(+, initial: 0)
