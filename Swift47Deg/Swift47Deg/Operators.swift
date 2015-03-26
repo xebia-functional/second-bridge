@@ -14,6 +14,8 @@
 * limitations under the License.
 */
 
+import Swiftz
+
 // MARK: - Equality
 // MARK: HashableAny equality
 
@@ -180,4 +182,11 @@ public func --<T> (left: Map<T>, right: [HashableAny]) -> Map<T> {
 /// Remove keys | Removes the keys contained in an array from the source typed map. If they're not contained in the map, nothing happens.
 public func --=<T> (inout left: Map<T>, right: [HashableAny]) {
     left = left -- right
+}
+
+//MARK: - List
+
+/// Compare two List
+func == <A,B>(left: List<A> ,rigth: List<B>) -> Bool{
+    return (left.length() == 0 && rigth.length() == 0)
 }

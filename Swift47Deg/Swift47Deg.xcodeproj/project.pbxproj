@@ -22,6 +22,12 @@
 		59D811C31AA8A4FC005F7761 /* Swift47Deg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A183A1221AA85FA500C535A6 /* Swift47Deg.framework */; };
 		59F0C71A1AA8B8590070C03F /* Swiftz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F0C7151AA8B8150070C03F /* Swiftz.framework */; };
 		59F0C71C1AA8B86B0070C03F /* Swiftz.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59F0C7151AA8B8150070C03F /* Swiftz.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A12A11541AC31ADE00FE8A80 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12A11521AC31ADE00FE8A80 /* List.swift */; };
+		A12A11551AC31ADE00FE8A80 /* Range.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12A11531AC31ADE00FE8A80 /* Range.swift */; };
+		A12A11581AC31B0A00FE8A80 /* ListTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12A11571AC31B0A00FE8A80 /* ListTest.swift */; };
+		A12A115B1AC31B2200FE8A80 /* RangeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12A115A1AC31B2200FE8A80 /* RangeTests.swift */; };
+		A12A115C1AC31B4A00FE8A80 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12A11521AC31ADE00FE8A80 /* List.swift */; };
+		A12A115D1AC31B4A00FE8A80 /* Range.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12A11531AC31ADE00FE8A80 /* Range.swift */; };
 		A183A1281AA85FA500C535A6 /* Swift47Deg.h in Headers */ = {isa = PBXBuildFile; fileRef = A183A1271AA85FA500C535A6 /* Swift47Deg.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A183A1351AA85FA500C535A6 /* Swift47DegTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A183A1341AA85FA500C535A6 /* Swift47DegTests.swift */; };
 /* End PBXBuildFile section */
@@ -86,6 +92,10 @@
 		59D811B61AA87B7C005F7761 /* HashableAny.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashableAny.swift; sourceTree = "<group>"; };
 		59D811B91AA87D98005F7761 /* Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 		59F0C70F1AA8B8150070C03F /* Swiftz-iOS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Swiftz-iOS.xcodeproj"; path = "../External/Swiftz/Swiftz-iOS.xcodeproj"; sourceTree = "<group>"; };
+		A12A11521AC31ADE00FE8A80 /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
+		A12A11531AC31ADE00FE8A80 /* Range.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Range.swift; sourceTree = "<group>"; };
+		A12A11571AC31B0A00FE8A80 /* ListTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTest.swift; sourceTree = "<group>"; };
+		A12A115A1AC31B2200FE8A80 /* RangeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeTests.swift; sourceTree = "<group>"; };
 		A183A1221AA85FA500C535A6 /* Swift47Deg.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Swift47Deg.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A183A1261AA85FA500C535A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A183A1271AA85FA500C535A6 /* Swift47Deg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Swift47Deg.h; sourceTree = "<group>"; };
@@ -150,6 +160,7 @@
 		59D811C01AA89842005F7761 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				A12A11571AC31B0A00FE8A80 /* ListTest.swift */,
 				596D70401AADB80400CE9962 /* MapTests.swift */,
 			);
 			path = Data;
@@ -162,6 +173,23 @@
 				59F0C7171AA8B8150070C03F /* Swiftz-iOSTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A12A11511AC31ADE00FE8A80 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				A12A11521AC31ADE00FE8A80 /* List.swift */,
+				A12A11531AC31ADE00FE8A80 /* Range.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		A12A11591AC31B2200FE8A80 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				A12A115A1AC31B2200FE8A80 /* RangeTests.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		A183A1181AA85FA500C535A6 = {
@@ -186,6 +214,7 @@
 		A183A1241AA85FA500C535A6 /* Swift47Deg */ = {
 			isa = PBXGroup;
 			children = (
+				A12A11511AC31ADE00FE8A80 /* Extension */,
 				59C9BCA71AC2DD440043C96E /* Functions */,
 				59D811B91AA87D98005F7761 /* Operators.swift */,
 				59D811B21AA87B3B005F7761 /* Data */,
@@ -207,6 +236,7 @@
 		A183A1311AA85FA500C535A6 /* Swift47DegTests */ = {
 			isa = PBXGroup;
 			children = (
+				A12A11591AC31B2200FE8A80 /* Extension */,
 				59C9BCAC1AC2DD500043C96E /* Functions */,
 				59D811C01AA89842005F7761 /* Data */,
 				A183A1341AA85FA500C535A6 /* Swift47DegTests.swift */,
@@ -361,6 +391,8 @@
 				59D811BA1AA87D98005F7761 /* Operators.swift in Sources */,
 				5981E3C91AB6DFE600F052A0 /* Traversable.swift in Sources */,
 				59C9BCA91AC2DD440043C96E /* PartialFunction.swift in Sources */,
+				A12A11541AC31ADE00FE8A80 /* List.swift in Sources */,
+				A12A11551AC31ADE00FE8A80 /* Range.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,14 +400,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A12A115C1AC31B4A00FE8A80 /* List.swift in Sources */,
+				A12A115D1AC31B4A00FE8A80 /* Range.swift in Sources */,
 				59D811B81AA87B7C005F7761 /* HashableAny.swift in Sources */,
 				59C9BCAA1AC2DD440043C96E /* PartialFunction.swift in Sources */,
 				59D811BB1AA87D98005F7761 /* Operators.swift in Sources */,
 				59C9BCAE1AC2DD500043C96E /* PartialFunctionTests.swift in Sources */,
 				596D70421AADB80400CE9962 /* MapTests.swift in Sources */,
 				A183A1351AA85FA500C535A6 /* Swift47DegTests.swift in Sources */,
+				A12A11581AC31B0A00FE8A80 /* ListTest.swift in Sources */,
 				596D703E1AADB79B00CE9962 /* Map.swift in Sources */,
 				5981E3CA1AB6DFE600F052A0 /* Traversable.swift in Sources */,
+				A12A115B1AC31B2200FE8A80 /* RangeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
