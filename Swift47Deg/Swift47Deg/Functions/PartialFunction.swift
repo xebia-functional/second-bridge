@@ -19,9 +19,9 @@ import Swiftz
 
 // MARK: - Custom operators
 
-infix operator ||-> { associativity left precedence 140 }
-infix operator &&-> { associativity left precedence 140 }
-infix operator => { associativity left precedence 140 }
+infix operator |||> { associativity left precedence 140 }
+infix operator |-> { associativity left precedence 140 }
+prefix operator => {}
 
 // MARK: - Partial function container
 
@@ -58,30 +58,13 @@ func orElse<T, U>(a: PartialFunction<T, U>, b: PartialFunction<T, U>) -> Functio
 }
 
 /**
-Returns a new function by chaining two existing functions. First function `a` is evaluated, and its result is then passed to function `b` to be evaluated.
-*/
-func andThen<T, U, V>(a: Function<T, U>, b: Function<U, V>) -> Function<T, V> {
-    return Function.arr({ (x: T) -> V in
-        let rA = a.apply(x)
-        return b.apply(rA)
-    })
-}
-
-/**
 Returns a new partial function by chaining two existing partial functions, and its implementation is as follows:
 * Check if function `left` is defined for a given value.
 * If it is, `left` will be executed and `right` will be ignored.
 * If not, `left` will be executed and `right` will be ignored.
 */
-func ||-><T, U>(a: PartialFunction<T, U>, b: PartialFunction<T, U>) -> Function<T, U> {
+func |||> <T, U>(a: PartialFunction<T, U>, b: PartialFunction<T, U>) -> Function<T, U> {
     return orElse(a, b)
-}
-
-/**
-Returns a new function by chaining two existing functions. First function `left` is evaluated, and its result is then passed to function `right` to be evaluated.
-*/
-func &&-><T, U, V>(a: Function<T, U>, b: Function<U, V>) -> Function<T, V> {
-    return andThen(a, b)
 }
 
 // MARK: - Partial function builder
@@ -89,8 +72,15 @@ func &&-><T, U, V>(a: Function<T, U>, b: Function<U, V>) -> Function<T, V> {
 /**
 Defines a function whose execution is restricted to a certain set of values defined by the left function. i.e. to define a partial function to multiply all even values by two:
 
-Function.arr({ $0 % 2 == 0 }) => Function.arr({ $0 * 2 })
+Function.arr({ $0 % 2 == 0 }) |-> Function.arr({ $0 * 2 })
 */
-func =><T, U>(isDefinedAt: Function<T, Bool>, function: Function<T, U>) -> PartialFunction<T, U> {
+func |-><T, U>(isDefinedAt: Function<T, Bool>, function: Function<T, U>) -> PartialFunction<T, U> {
     return PartialFunction<T, U>(function: function, isDefinedAt: isDefinedAt)
+}
+
+/**
+Syntatic sugar, equivalent to Function.arr(T -> U)
+*/
+prefix func =><T, U>(f: T -> U) -> Function<T, U> {
+    return Function.arr(f)
 }
