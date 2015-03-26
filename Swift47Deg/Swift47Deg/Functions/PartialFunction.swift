@@ -89,21 +89,3 @@ Key shortcut: ⌥+S (Unicode 0x222B).
 public prefix func ∫ <T, U>(f: T -> U) -> Function<T, U> {
     return Function(f)
 }
-
-public extension List {
-    public func reduce<B>(f : (B, A) -> B) -> B? {
-        
-        if let head = self.head() as? B{
-            if let tail = self.tail() as Swiftz.List<A>?{
-                switch tail.match() {
-                case .Nil:
-                    return head
-                case let .Cons(x, xs):
-                    return xs.reduce(f, initial: f(head,x))
-                }
-            }
-            return head
-        }
-        return nil
-    }
-}
