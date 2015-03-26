@@ -17,15 +17,15 @@
 import Foundation
 
 /// HashableAny | A type that can contain a certain value of the following supported types: Int, String, Float.
-struct HashableAny: Hashable, IntegerLiteralConvertible, FloatLiteralConvertible, StringLiteralConvertible, Printable, DebugPrintable {
-    typealias UnicodeScalarLiteralType = StringLiteralType
-    typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
+public struct HashableAny: Hashable, IntegerLiteralConvertible, FloatLiteralConvertible, StringLiteralConvertible, Printable, DebugPrintable {
+    public typealias UnicodeScalarLiteralType = StringLiteralType
+    public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
     
-    let intValue : Int?
-    let stringValue : String?
-    let floatValue: Double?
+    public let intValue : Int?
+    public let stringValue : String?
+    public let floatValue: Double?
     
-    var currentValue : AnyObject {
+    public var currentValue : AnyObject {
         switch (intValue, stringValue, floatValue) {
         case let (.Some(_integer), _, _): return _integer
         case let (_, .Some(_string), _): return _string
@@ -34,63 +34,63 @@ struct HashableAny: Hashable, IntegerLiteralConvertible, FloatLiteralConvertible
         }
     }
     
-    var hashValue : Int {
+    public var hashValue : Int {
         return currentValue.hashValue
     }
     
-    init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
+    public init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
         self.stringValue = "\(value)"
         self.intValue = nil
         self.floatValue = nil
     }
     
-    init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
+    public init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
         self.stringValue = value
         self.intValue = nil
         self.floatValue = nil
     }
     
-    init(stringLiteral value: StringLiteralType) {
+    public init(stringLiteral value: StringLiteralType) {
         self.stringValue = value
         self.intValue = nil
         self.floatValue = nil
     }
     
-    init(integerLiteral value: IntegerLiteralType) {
+    public init(integerLiteral value: IntegerLiteralType) {
         self.intValue = value
         self.stringValue = nil
         self.floatValue = nil
     }
     
-    init(floatLiteral value: FloatLiteralType) {
+    public init(floatLiteral value: FloatLiteralType) {
         self.floatValue = value
         self.intValue = nil
         self.stringValue = nil
     }
     
-    init(intValue: Int) {
+    public init(intValue: Int) {
         self.intValue = intValue
         self.stringValue = nil
         self.floatValue = nil
     }
     
-    init(floatValue: Double) {
+    public init(floatValue: Double) {
         self.intValue = nil
         self.stringValue = nil
         self.floatValue = floatValue
     }
     
-    init(stringValue: String) {
+    public init(stringValue: String) {
         self.intValue = nil
         self.stringValue = stringValue
         self.floatValue = nil
     }
     
-    var debugDescription : String {
+    public var debugDescription : String {
         return currentValue.description
     }
     
-    var description : String {
+    public var description : String {
         return currentValue.description
     }
 }

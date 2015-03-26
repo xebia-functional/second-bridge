@@ -27,6 +27,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		595F7AF11AC44B490023AC95 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 59F0C70F1AA8B8150070C03F /* Swiftz-iOS.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 84A88D971A70C280003D53CF;
+			remoteInfo = Swiftz;
+		};
 		59F0C7141AA8B8150070C03F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 59F0C70F1AA8B8150070C03F /* Swiftz-iOS.xcodeproj */;
@@ -242,6 +249,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				595F7AF21AC44B490023AC95 /* PBXTargetDependency */,
 			);
 			name = Swift47Deg;
 			productName = Swift47Deg;
@@ -374,6 +382,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		595F7AF21AC44B490023AC95 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Swiftz;
+			targetProxy = 595F7AF11AC44B490023AC95 /* PBXContainerItemProxy */;
+		};
 		59F0C7191AA8B8540070C03F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Swiftz;

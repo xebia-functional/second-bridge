@@ -19,10 +19,10 @@ import Foundation
 // MARK: - Map declaration and protocol implementations
 
 /// Map | An immutable iterable collection containing pairs of keys and values. Each key is of type HashableAny to allow to have keys with different types (currently supported types are Int, Float, and String). Each value is of a type T. If you need to store values of different types, make an instance of Map<Any>.
-struct Map<T> {
+public struct Map<T> {
     private var internalDict : Dictionary<Key, Value>
     
-    subscript(key: Key) -> Value? {
+    public subscript(key: Key) -> Value? {
         get {
             return internalDict[key]
         }
@@ -31,16 +31,16 @@ struct Map<T> {
         }
     }
     
-    var size : Int {
+    public var size : Int {
         return self.internalDict.count
     }
 }
 
 extension Map : DictionaryLiteralConvertible {
-    typealias Key = HashableAny
-    typealias Value = T
+    public typealias Key = HashableAny
+    public typealias Value = T
     
-    init(dictionaryLiteral elements: (Key, Value)...) {
+    public init(dictionaryLiteral elements: (Key, Value)...) {
         var tempDict = Dictionary<Key, Value>()
         for element in elements {
             tempDict[element.0] = element.1
@@ -50,9 +50,9 @@ extension Map : DictionaryLiteralConvertible {
 }
 
 extension Map : SequenceType {
-    typealias Generator = GeneratorOf<(Key, Value)>
+    public typealias Generator = GeneratorOf<(Key, Value)>
     
-    func generate() -> Generator {
+    public func generate() -> Generator {
         var index : Int = 0
         
         return Generator {
@@ -68,7 +68,7 @@ extension Map : SequenceType {
 
 extension Map : Traversable {
     typealias ItemType = (Key, Value)
-    func foreach(f: ((Key, T)) -> ()) {
+    public func foreach(f: ((Key, T)) -> ()) {
         for (key, value) in self.internalDict {
             f((key, value))
         }
@@ -77,14 +77,14 @@ extension Map : Traversable {
     /**
     Build a new Map instance with the elements contained in the `elements` array.
     */
-    func build(elements: [ItemType]) -> Map {
+    public func build(elements: [ItemType]) -> Map {
         return Map(elements)
     }
     
     /**
     Build a new Map instance with the elements contained in the provided Traversable instance. If the items contained belong to another Map with the same type (key, value), it simply adds it, and if it finds only values of the same type it fills the keys with the available indices. 
     */
-    func buildFromTraversable<U where U : Traversable>(traversable: U) -> Map {
+    public func buildFromTraversable<U where U : Traversable>(traversable: U) -> Map {
         var result : Map = Map()
         var index = 0
         traversable.foreach { (item) -> () in
@@ -102,14 +102,14 @@ extension Map : Traversable {
 // MARK: Higher-order functions
 
 extension Map {
-    init(_ arrayOfGenerators: [Generator.Element]) {
+    public init(_ arrayOfGenerators: [Generator.Element]) {
         self = Map() + arrayOfGenerators
     }
     
     /**
     Returns a new map containing all the keys from the current map that satisfy the `includeElement` closure. Only takes into account values, not keys.
     */
-    func filter(includeElement: (Value) -> Bool) -> Map {
+    public func filter(includeElement: (Value) -> Bool) -> Map {
         return self.filter { (item) -> Bool in
             includeElement(item.1)
         }
@@ -118,7 +118,7 @@ extension Map {
     /**
     Returns a new map containing all the keys/value pairs from the current one that satisfy the `includeElement` closure. Takes into account both values AND keys.
     */
-    func filter(includeElement: ((Key, Value)) -> Bool) -> Map {
+    public func filter(includeElement: ((Key, Value)) -> Bool) -> Map {
         return Map(travFilter(self, { (item) -> Bool in
             return includeElement(item)
         }))
@@ -127,7 +127,7 @@ extension Map {
     /**
     Returns a new map containing all the keys from the current one that satisfy the `includeElement` closure.
     */
-    func filterKeys(includeElement: (Key) -> Bool) -> Map {
+    public func filterKeys(includeElement: (Key) -> Bool) -> Map {
         return self.filter({ (item: (key: Key, value: Value)) -> Bool in
             includeElement(item.key)
         })
@@ -136,7 +136,7 @@ extension Map {
     /**
     Returns a new map obtained by removing all key/value pairs for which the `removeElement` closure returns true.
     */
-    func filterNot(removeElement: ((Key, Value)) -> Bool) -> Map {
+    public func filterNot(removeElement: ((Key, Value)) -> Bool) -> Map {
         let itemsToExclude = self.filter(removeElement)
         return self -- itemsToExclude.keys
     }
@@ -144,14 +144,14 @@ extension Map {
     /**
     Returns a new map containing the results of mapping `transform` over its elements.
     */
-    func map<U>(transform: (Value) -> U) -> Map<U> {
+    public func map<U>(transform: (Value) -> U) -> Map<U> {
         return Map<U>(travMap(self, { return ($0.0, transform($0.1)) }))
     }
     
     /**
     Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element's value of the current map.
     */
-    func reduceByValue<U>(initialValue: U, combine: (U, Value) -> U) -> U {
+    public func reduceByValue<U>(initialValue: U, combine: (U, Value) -> U) -> U {
         return self.reduce(initialValue, combine: { (currentTotal, currentElement) -> U in
             return combine(currentTotal, currentElement.1)
         })
@@ -160,7 +160,7 @@ extension Map {
     /**
     Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element (taking also into account the key) of the current map.
     */
-    func reduce<U>(initialValue: U, combine: (U, (Key, Value)) -> U) -> U {
+    public func reduce<U>(initialValue: U, combine: (U, (Key, Value)) -> U) -> U {
          return travReduce(self, initialValue, combine)
     }
     
@@ -169,7 +169,7 @@ extension Map {
     
     :param: predicate The predicate to check the map items against
     */
-    func find(predicate: ((Key, Value) -> Bool)) -> (Key, Value)? {
+    public func find(predicate: ((Key, Value) -> Bool)) -> (Key, Value)? {
         let result = self.filter(predicate)
         if result.size > 0 {
             let key = result.keys[0]
@@ -181,28 +181,28 @@ extension Map {
     /**
     Returns the result of applying `transform` on each element of the map, and then flattening the results into an array.
     */
-    func flatMapValues(transform: (Value) -> [Value]) -> [Value] {
+    public func flatMapValues(transform: (Value) -> [Value]) -> [Value] {
         return travFlatMap(self, { transform($0.1) })
     }
     
     /**
     Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element (taking also into account the key) of the current map. Iteration is done in reverse order to reduce/foldRight.
     */
-    func foldLeft<U>(initialValue: U, combine: (U, (Key, Value)) -> U) -> U {
+    public func foldLeft<U>(initialValue: U, combine: (U, (Key, Value)) -> U) -> U {
         return travFoldLeft(self, initialValue, combine)
     }
     
     /**
     Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element (taking also into account the key) of the current map. Iteration is done in the same order as reduce/foldRight.
     */
-    func foldRight<U>(initialValue: U, combine: (U, (Key, Value)) -> U) -> U {
+    public func foldRight<U>(initialValue: U, combine: (U, (Key, Value)) -> U) -> U {
         return travFoldRight(self, initialValue, combine)
     }
     
     /**
     Returns an array containing the results of mapping the partial function `f` over a set of this map's elements that match the condition defined in `f`'s `isDefinedAt`.
     */
-    func collect<U>(f: PartialFunction<ItemType, (HashableAny, U)>) -> Map<U> {
+    public func collect<U>(f: PartialFunction<ItemType, (HashableAny, U)>) -> Map<U> {
         return Map<U>(travCollect(self, f))
     }
 }
@@ -213,21 +213,21 @@ extension Map {
     /**
     :returns: An array containing all the keys from the current map. Note: might return different results for different runs, as the underlying collection type is unordered.
     */
-    var keys : [Key] {
+    public var keys : [Key] {
         return Array(internalDict.keys)
     }
     
     /**
     :returns: True if the map doesn't contain any element.
     */
-    func isEmpty() -> Bool {
+    public func isEmpty() -> Bool {
         return internalDict.keys.isEmpty
     }
     
     /**
     :returns: An array containing the different values from the current map. Note: might return different results for different runs, as the underlying collection type is unordered.
     */
-    func values() -> [Value] {
+    public func values() -> [Value] {
         return Array(internalDict.values)
     }
     
@@ -238,7 +238,7 @@ extension Map {
     
     :returns: True if the map contains an element binded to the key.
     */
-    func contains(key: Key) -> Bool {
+    public func contains(key: Key) -> Bool {
         return internalDict[key] != nil
     }
     
@@ -247,7 +247,7 @@ extension Map {
     
     :param: p Predicate to check against the elements of this map
     */
-    func exists(p: ((Key, Value)) -> Bool) -> Bool {
+    public func exists(p: ((Key, Value)) -> Bool) -> Bool {
         return self.filter(p).size > 0
     }
     
@@ -255,7 +255,7 @@ extension Map {
     /**
     Counts the number of elements in the map which satisfy a predicate.
     */
-    func count(p: ((Key, Value)) -> Bool) -> Int {
+    public func count(p: ((Key, Value)) -> Bool) -> Int {
         return self.filter(p).size
     }
 }
@@ -270,7 +270,7 @@ extension Map {
     
     :returns: A new map containing the elements from the selection
     */
-    func drop(n: Int) -> Map {
+    public func drop(n: Int) -> Map {
         let keys = self.keys
         let keysToExclude = keys.filter({ Swift.find(keys, $0) < n })
         return self -- keysToExclude
@@ -283,7 +283,7 @@ extension Map {
     
     :returns: A new map containing the elements from the selection
     */
-    func dropRight(n: Int) -> Map {
+    public func dropRight(n: Int) -> Map {
         let keys = self.keys
         let keysToExclude = keys.filter({ Swift.find(keys, $0) >= self.size - n })
         return self -- keysToExclude
@@ -309,7 +309,7 @@ extension Map {
     
     :returns: The longest suffix of this map whose first element does not satisfy the predicate p.
     */
-    func dropWhile(p: (Key, Value) -> Bool) -> Map {
+    public func dropWhile(p: (Key, Value) -> Bool) -> Map {
         if let firstIndex = findFirstIndexToNotSatisfyPredicate(p) {
             return self.drop(firstIndex)
         }
@@ -319,7 +319,7 @@ extension Map {
     /**
     :returns: Returns the first element of this map (if there are any). Note: might return different results for different runs, as the underlying collection type is unordered.
     */
-    func head() -> (Key, Value)? {
+    public func head() -> (Key, Value)? {
         if let headKey = self.internalDict.keys.first {
             return (headKey, self[headKey]!)
         }
@@ -329,14 +329,14 @@ extension Map {
     /**
     :returns: Returns all elements except the last (equivalent to Scala's init()). Note: might return different results for different runs, as the underlying collection type is unordered.
     */
-    func initSegment() -> Map {
+    public func initSegment() -> Map {
         return self.dropRight(1)
     }
     
     /**
     :returns: Returns the last element as an optional value, or nil if any. Note: might return different results for different runs, as the underlying collection type is unordered.
     */
-    func last() -> (Key, Value)? {
+    public func last() -> (Key, Value)? {
         if let lastKey = self.keys.last {
             return (lastKey, self[lastKey]!)
         }
@@ -348,7 +348,7 @@ extension Map {
     
     :param: key The key to remove
     */
-    func remove(key: HashableAny) -> (Map, Value?) {
+    public func remove(key: HashableAny) -> (Map, Value?) {
         let map = self
         let value = self[key]
         return (map - key, value)
@@ -359,7 +359,7 @@ extension Map {
     
     :param: key The key to remove
     */
-    mutating func remove(key: HashableAny) -> Value? {
+    public mutating func remove(key: HashableAny) -> Value? {
         let value = self[key]
         self = self - key
         return value
@@ -368,28 +368,28 @@ extension Map {
     /** 
     :returns: A map containing all the elements of the current one except the last.
     */
-    func tail() -> Map {
+    public func tail() -> Map {
         return self.dropRight(1)
     }
     
     /**
     :returns: A map containing the first n elements.
     */
-    func take(n: Int) -> Map {
+    public func take(n: Int) -> Map {
         return self.dropRight(self.size - n)
     }
     
     /**
     :returns: A map containing the last n elements.
     */
-    func takeRight(n: Int) -> Map {
+    public func takeRight(n: Int) -> Map {
         return self.drop(self.size - n)
     }
     
     /**
     :returns: A map containing the longest prefix of elements that satisfy a predicate.
     */
-    func takeWhile(p: (Key, Value) -> Bool) -> Map {
+    public func takeWhile(p: (Key, Value) -> Bool) -> Map {
         if let firstIndex = findFirstIndexToNotSatisfyPredicate(p) {
             return self.dropRight(firstIndex)
         }
@@ -399,7 +399,7 @@ extension Map {
     /**
     :returns: An array of tuples containing each key and value for every element in the map.
     */
-    func toArray() -> [(Key, Value)] {
+    public func toArray() -> [(Key, Value)] {
         return travToArray(self)
     }
 }
@@ -422,7 +422,7 @@ extension Map {
     /**
     Applies a binary numeric operation to each value contained in the map, if it's castable to a number. If a value contains a String representation of a number, its content will be converted to a Double value suitable for the multiplication. Any other value will be ignored.
     */
-    func applyNumericOperation(initialValue: Double, f: (Double, Double) -> Double) -> Double {
+    public func applyNumericOperation(initialValue: Double, f: (Double, Double) -> Double) -> Double {
         return self.reduce(initialValue, combine: { (currentTotal: Double, currentItem: (Key, Value)) -> Double in
             if let number = self.convertValueToNumber(currentItem.1) {
                 return f(currentTotal, number)
@@ -434,28 +434,28 @@ extension Map {
     /**
     :returns: The product of the multiplication of each value contained in the map, if it's castable to a number. If a value contains a String representation of a number, its content will be converted to a Double value suitable for the multiplication. Any other value will be ignored.
     */
-    func product() -> Double {
+    public func product() -> Double {
         return self.applyNumericOperation(1, *)
     }
     
     /**
     :returns: The product of the sum of each value contained in the map, if it's castable to a number. If a value contains a String representation of a number, its content will be converted to a Double value suitable for the multiplication. Any other value will be ignored.
     */
-    func sum() -> Double {
+    public func sum() -> Double {
         return self.applyNumericOperation(0, +)
     }
     
     /**
     :returns: Returns the maximum value of the results of applying the function `f` to each element of the map as an optional value, or nil if the map is empty. The result type of `f` is expected to return a type conforming to the Comparable protocol.
     */
-    func maxBy<U: Comparable>(f: (Value) -> U) -> (Key, Value)? {
+    public func maxBy<U: Comparable>(f: (Value) -> U) -> (Key, Value)? {
         return comparisonBy(f, compareFunction: { $1 > $0 })
     }
     
     /**
     :returns: Returns the minimum value of the results of applying the function `f` to each element of the map as an optional value, or nil if the map is empty. The result type of `f` is expected to return a type conforming to the Comparable protocol.
     */
-    func minBy<U: Comparable>(f: (Value) -> U) -> (Key, Value)? {
+    public func minBy<U: Comparable>(f: (Value) -> U) -> (Key, Value)? {
         return comparisonBy(f, compareFunction: { $1 < $0 })
     }
     
@@ -484,7 +484,7 @@ extension Map {
     
     :returns: A string containing all the different values contained in the map. If the map contains String values, they'll be concatenated as such. If not, addString relies on String interpolation to perform the concatenation.
     */
-    func addString(separator: String?) -> String {
+    public func addString(separator: String?) -> String {
         let separatorToUse = (separator == nil) ? "" : separator!
         let result = self.reduceByValue("", combine: { (result: String, currentValue: T) -> String in
             switch currentValue {
