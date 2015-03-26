@@ -21,7 +21,7 @@ import Swiftz
 
 infix operator |||> { associativity left precedence 140 }
 infix operator |-> { associativity left precedence 140 }
-prefix operator => {}
+prefix operator ∫ {}
 
 // MARK: - Partial function container
 
@@ -72,15 +72,20 @@ func |||> <T, U>(a: PartialFunction<T, U>, b: PartialFunction<T, U>) -> Function
 /**
 Defines a function whose execution is restricted to a certain set of values defined by the left function. i.e. to define a partial function to multiply all even values by two:
 
-Function.arr({ $0 % 2 == 0 }) |-> Function.arr({ $0 * 2 })
+Function({ $0 % 2 == 0 }) |-> Function({ $0 * 2 })
 */
 func |-><T, U>(isDefinedAt: Function<T, Bool>, function: Function<T, U>) -> PartialFunction<T, U> {
     return PartialFunction<T, U>(function: function, isDefinedAt: isDefinedAt)
 }
 
+func |-><T, U>(isDefinedAt: T -> Bool, function: T -> U) -> PartialFunction<T, U> {
+    return PartialFunction<T, U>(function: Function(function), isDefinedAt: Function(isDefinedAt))
+}
+
 /**
-Syntatic sugar, equivalent to Function.arr(T -> U)
+Syntatic sugar, equivalent to Function.arr(T -> U).
+Key shortcut: ⌥+S (Unicode 0x222B).
 */
-prefix func =><T, U>(f: T -> U) -> Function<T, U> {
-    return Function.arr(f)
+prefix func ∫ <T, U>(f: T -> U) -> Function<T, U> {
+    return Function(f)
 }

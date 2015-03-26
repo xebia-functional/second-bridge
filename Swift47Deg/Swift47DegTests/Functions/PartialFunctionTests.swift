@@ -31,9 +31,9 @@ class PartialFunctionTests: XCTestCase {
     }
     
     func testPartialFunctions() {
-        let doubleEvens = =>{ $0 % 2 == 0 } |-> =>{ $0 * 2 }
-        let tripleOdds = =>{ $0 % 2 != 0 } |-> =>({ $0 * 3 })
-        let addFive = =>(+5)
+        let doubleEvens = { $0 % 2 == 0 } |-> { $0 * 2 }
+        let tripleOdds = { $0 % 2 != 0 } |-> { $0 * 3 }
+        let addFive = ∫(+5)
         
         let opOrElseOp = doubleEvens |||> tripleOdds
         let opOrElseAndThenOp = doubleEvens |||> tripleOdds >>> addFive
@@ -44,8 +44,8 @@ class PartialFunctionTests: XCTestCase {
         XCTAssertEqual(opOrElseAndThenOp.apply(3), 14, "Partial functions should be attachable with orElse and andThen conditionals")
         XCTAssertEqual(opOrElseAndThenOp.apply(4), 13, "Partial functions should be attachable with orElse and andThen conditionals")
         
-        let printEven = =>({ (value : Int) -> Bool in value % 2 == 0}) |-> =>({ (Int) -> String in return "Even"})
-        let printOdd = =>({ (value : Int) -> Bool in value % 2 != 0}) |-> =>({ (Int) -> String in return "Odd"})
+        let printEven = { (value : Int) -> Bool in value % 2 == 0} |-> { (Int) -> String in return "Even"}
+        let printOdd = { (value : Int) -> Bool in value % 2 != 0} |-> { (Int) -> String in return "Odd"}
         
         let complexOp = doubleEvens |||> tripleOdds >>> (printEven |||> printOdd)
         XCTAssertEqual(complexOp.apply(3), "Odd", "Partial functions should be attachable with orElse and andThen conditionals")
@@ -55,7 +55,7 @@ class PartialFunctionTests: XCTestCase {
     func testCollect() {
         let map : Map<Double> = ["a" : -1, "b" : 0, "c" : 1, "d" : 2, "e" : 3, "f" : 4]
         // Sometimes type inference won't work while creating arrows with complex types using the => operator, so we need to be explicit:
-        let squareRoot = =>({ $0.1 >= 0 }) |-> Function<(HashableAny, Double), (HashableAny, Double)>.arr({ ($0.0, sqrt(Double($0.1))) })
+        let squareRoot = ∫({ $0.1 >= 0 }) |-> Function<(HashableAny, Double), (HashableAny, Double)>.arr({ ($0.0, sqrt(Double($0.1))) })
         let collectResult = map.collect(squareRoot)
         
         XCTAssertNil(collectResult["a"], "Collect function should obbey to its partial function's restrictions")
