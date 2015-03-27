@@ -25,8 +25,6 @@
 		59D811C31AA8A4FC005F7761 /* Swift47Deg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A183A1221AA85FA500C535A6 /* Swift47Deg.framework */; };
 		59F0C71A1AA8B8590070C03F /* Swiftz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F0C7151AA8B8150070C03F /* Swiftz.framework */; };
 		59F0C71C1AA8B86B0070C03F /* Swiftz.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59F0C7151AA8B8150070C03F /* Swiftz.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		A12A11541AC31ADE00FE8A80 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12A11521AC31ADE00FE8A80 /* List.swift */; };
-		A12A11551AC31ADE00FE8A80 /* Range.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12A11531AC31ADE00FE8A80 /* Range.swift */; };
 		A12A11581AC31B0A00FE8A80 /* ListTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12A11571AC31B0A00FE8A80 /* ListTest.swift */; };
 		A12A115B1AC31B2200FE8A80 /* RangeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12A115A1AC31B2200FE8A80 /* RangeTests.swift */; };
 		A12A115C1AC31B4A00FE8A80 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12A11521AC31ADE00FE8A80 /* List.swift */; };
@@ -409,8 +407,6 @@
 				59D811BA1AA87D98005F7761 /* Operators.swift in Sources */,
 				5981E3C91AB6DFE600F052A0 /* Traversable.swift in Sources */,
 				59C9BCA91AC2DD440043C96E /* PartialFunction.swift in Sources */,
-				A12A11541AC31ADE00FE8A80 /* List.swift in Sources */,
-				A12A11551AC31ADE00FE8A80 /* Range.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
