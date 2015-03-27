@@ -100,3 +100,12 @@ extension List {
 
 }
 
+// MARK: - Operators
+
+// MARK: - Equality
+
+/// Compare two Lists
+func == <A,B>(left: List<A> ,right: List<B>) -> Bool{
+    return (left.length() == 0 && right.length() == 0)
+}
+
