@@ -26,7 +26,7 @@ prefix operator ∫ {}
 // MARK: - Partial function container
 
 /// Defines a function whose execution is restricted to a certain set of values defined by `isDefinedAt`.
-struct PartialFunction<T, U> {
+public struct PartialFunction<T, U> {
     let function : Function<T, U>
     let isDefinedAt: Function<T, Bool>
     
@@ -48,7 +48,7 @@ Returns a new partial function by chaining two existing partial functions, and i
 * If it is, `a` will be executed and `b` will be ignored.
 * If not, `b` will be executed and `a` will be ignored.
 */
-func orElse<T, U>(a: PartialFunction<T, U>, b: PartialFunction<T, U>) -> Function<T, U> {
+public func orElse<T, U>(a: PartialFunction<T, U>, b: PartialFunction<T, U>) -> Function<T, U> {
     return Function.arr({ (x: T) -> U in
         if a.isDefinedAt.apply(x) {
             return a.function.apply(x)
@@ -63,7 +63,7 @@ Returns a new partial function by chaining two existing partial functions, and i
 * If it is, `left` will be executed and `right` will be ignored.
 * If not, `left` will be executed and `right` will be ignored.
 */
-func |||> <T, U>(a: PartialFunction<T, U>, b: PartialFunction<T, U>) -> Function<T, U> {
+public func |||> <T, U>(a: PartialFunction<T, U>, b: PartialFunction<T, U>) -> Function<T, U> {
     return orElse(a, b)
 }
 
@@ -74,11 +74,11 @@ Defines a function whose execution is restricted to a certain set of values defi
 
 Function({ $0 % 2 == 0 }) |-> Function({ $0 * 2 })
 */
-func |-><T, U>(isDefinedAt: Function<T, Bool>, function: Function<T, U>) -> PartialFunction<T, U> {
+public func |-><T, U>(isDefinedAt: Function<T, Bool>, function: Function<T, U>) -> PartialFunction<T, U> {
     return PartialFunction<T, U>(function: function, isDefinedAt: isDefinedAt)
 }
 
-func |-><T, U>(isDefinedAt: T -> Bool, function: T -> U) -> PartialFunction<T, U> {
+public func |-><T, U>(isDefinedAt: T -> Bool, function: T -> U) -> PartialFunction<T, U> {
     return PartialFunction<T, U>(function: Function(function), isDefinedAt: Function(isDefinedAt))
 }
 
@@ -86,6 +86,6 @@ func |-><T, U>(isDefinedAt: T -> Bool, function: T -> U) -> PartialFunction<T, U
 Syntatic sugar, equivalent to Function.arr(T -> U).
 Key shortcut: ⌥+S (Unicode 0x222B).
 */
-prefix func ∫ <T, U>(f: T -> U) -> Function<T, U> {
+public prefix func ∫ <T, U>(f: T -> U) -> Function<T, U> {
     return Function(f)
 }

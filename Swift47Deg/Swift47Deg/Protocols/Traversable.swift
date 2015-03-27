@@ -19,7 +19,7 @@ import Foundation
 /**
 Datatypes conforming to this protocol should expose certain functions that allow to traverse through them, and also being built from other Traversable types (although the latter has some limitations due to Swift type constraints restrictions). All Traversable instances have access to the following methods: `travReduce`, `travMap`, `travFilter`, `travFlatMap`, `travReverse`, `travFoldRight`, `travFoldLeft`, and `travToArray`.
 */
-protocol Traversable {
+public protocol Traversable {
     typealias ItemType
     
     /** 
@@ -44,7 +44,7 @@ protocol Traversable {
 /**
 Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element of the current traversable.
 */
-func travReduce<S: Traversable, U>(source: S, initialValue: U, combine: (U, S.ItemType) -> U) -> U {
+public func travReduce<S: Traversable, U>(source: S, initialValue: U, combine: (U, S.ItemType) -> U) -> U {
     var result = initialValue
     source.foreach { (item: S.ItemType) -> () in
         result = combine(result, item)
@@ -56,7 +56,7 @@ func travReduce<S: Traversable, U>(source: S, initialValue: U, combine: (U, S.It
 /**
 Returns an array containing the results of mapping `transform` over its elements.
 */
-func travMap<S: Traversable, U>(source: S, transform: (S.ItemType) -> U) -> [U] {
+public func travMap<S: Traversable, U>(source: S, transform: (S.ItemType) -> U) -> [U] {
     return travReduce(source, Array<U>()) { (total, item) -> [U] in
         total + [transform(item)]
     }
@@ -65,7 +65,7 @@ func travMap<S: Traversable, U>(source: S, transform: (S.ItemType) -> U) -> [U] 
 /**
 Returns an array containing all the values from the current traversable that satisfy the `includeElement` closure.
 */
-func travFilter<S: Traversable>(source: S, includeElement: (S.ItemType) -> Bool) -> [S.ItemType] {
+public func travFilter<S: Traversable>(source: S, includeElement: (S.ItemType) -> Bool) -> [S.ItemType] {
     return travReduce(source, Array<S.ItemType>()) { (filtered, item) -> [S.ItemType] in
         includeElement(item) ? filtered + [item] : filtered
     }
@@ -74,7 +74,7 @@ func travFilter<S: Traversable>(source: S, includeElement: (S.ItemType) -> Bool)
 /**
 Returns the result of applying `transform` on each element of the traversable, and then flattening the results into an array.
 */
-func travFlatMap<S: Traversable, U>(source: S, transform: (S.ItemType) -> [U]) -> [U] {
+public func travFlatMap<S: Traversable, U>(source: S, transform: (S.ItemType) -> [U]) -> [U] {
     return travReduce(source, Array<U>()) { (total, item) -> [U] in
         total + transform(item)
     }
@@ -83,7 +83,7 @@ func travFlatMap<S: Traversable, U>(source: S, transform: (S.ItemType) -> [U]) -
 /**
 Returns a traversable with elements in inverse order. Note: it won't produce a correct result when applied to non-ordered traversables.
 */
-func travReverse<S: Traversable>(source: S) -> [S.ItemType] {
+public func travReverse<S: Traversable>(source: S) -> [S.ItemType] {
     return travReduce(source, Array<S.ItemType>(), { (total, item) -> [S.ItemType] in
         [item] + total
     })
@@ -92,14 +92,14 @@ func travReverse<S: Traversable>(source: S) -> [S.ItemType] {
 /**
 Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element of the current traversable from left to right. Equivalent to `travReduce`.
 */
-func travFoldRight<S: Traversable, U>(source: S, initialValue: U, combine: (U, S.ItemType) -> U) -> U {
+public func travFoldRight<S: Traversable, U>(source: S, initialValue: U, combine: (U, S.ItemType) -> U) -> U {
     return travReduce(source, initialValue, combine)
 }
 
 /**
 Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element of the current traversable from right to left. A reversal equivalent to `travReduce`.
 */
-func travFoldLeft<S: Traversable, U>(source: S, initialValue: U, combine: (U, S.ItemType) -> U) -> U {
+public func travFoldLeft<S: Traversable, U>(source: S, initialValue: U, combine: (U, S.ItemType) -> U) -> U {
     let array = travToArray(source)
     var index = array.count - 1
     var result = initialValue
@@ -113,7 +113,7 @@ func travFoldLeft<S: Traversable, U>(source: S, initialValue: U, combine: (U, S.
 /**
 Returns an array containing the elements of this Traversable.
 */
-func travToArray<S: Traversable>(source: S) -> [S.ItemType] {
+public func travToArray<S: Traversable>(source: S) -> [S.ItemType] {
     return travReduce(source, Array<S.ItemType>(), { (total, item) -> [S.ItemType] in
         total + [item]
     })
@@ -122,7 +122,7 @@ func travToArray<S: Traversable>(source: S) -> [S.ItemType] {
 /**
 Returns an array containing the results of mapping the partial function `f` over a set of the elements of this Traversable that match the condition defined in `f`'s `isDefinedAt`.
 */
-func travCollect<S, U where S: Traversable>(source: S, f: PartialFunction<S.ItemType, U>) -> [U] {
+public func travCollect<S, U where S: Traversable>(source: S, f: PartialFunction<S.ItemType, U>) -> [U] {
     return travReduce(source, Array<U>(), { (total : [U], currentItem : S.ItemType) -> [U] in
         if f.isDefinedAt.apply(currentItem) == true {
             return total + [f.function.apply(currentItem)]

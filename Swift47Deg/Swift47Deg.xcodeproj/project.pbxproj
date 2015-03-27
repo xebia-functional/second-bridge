@@ -12,6 +12,9 @@
 		596D70421AADB80400CE9962 /* MapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596D70401AADB80400CE9962 /* MapTests.swift */; };
 		5981E3C91AB6DFE600F052A0 /* Traversable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5981E3C81AB6DFE600F052A0 /* Traversable.swift */; };
 		5981E3CA1AB6DFE600F052A0 /* Traversable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5981E3C81AB6DFE600F052A0 /* Traversable.swift */; };
+		59BBB2391AC4656B00D2F7C1 /* Swiftz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F0C7151AA8B8150070C03F /* Swiftz.framework */; };
+		59BBB24D1AC466BD00D2F7C1 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BBB24B1AC466BD00D2F7C1 /* List.swift */; };
+		59BBB24E1AC466BD00D2F7C1 /* Range.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BBB24C1AC466BD00D2F7C1 /* Range.swift */; };
 		59C9BCA91AC2DD440043C96E /* PartialFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C9BCA81AC2DD440043C96E /* PartialFunction.swift */; };
 		59C9BCAA1AC2DD440043C96E /* PartialFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C9BCA81AC2DD440043C96E /* PartialFunction.swift */; };
 		59C9BCAE1AC2DD500043C96E /* PartialFunctionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C9BCAD1AC2DD500043C96E /* PartialFunctionTests.swift */; };
@@ -33,6 +36,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		595F7AF11AC44B490023AC95 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 59F0C70F1AA8B8150070C03F /* Swiftz-iOS.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 84A88D971A70C280003D53CF;
+			remoteInfo = Swiftz;
+		};
 		59F0C7141AA8B8150070C03F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 59F0C70F1AA8B8150070C03F /* Swiftz-iOS.xcodeproj */;
@@ -80,6 +90,8 @@
 		596D703C1AADB79B00CE9962 /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		596D70401AADB80400CE9962 /* MapTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapTests.swift; sourceTree = "<group>"; };
 		5981E3C81AB6DFE600F052A0 /* Traversable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Traversable.swift; sourceTree = "<group>"; };
+		59BBB24B1AC466BD00D2F7C1 /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
+		59BBB24C1AC466BD00D2F7C1 /* Range.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Range.swift; sourceTree = "<group>"; };
 		59C9BCA81AC2DD440043C96E /* PartialFunction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartialFunction.swift; sourceTree = "<group>"; };
 		59C9BCAD1AC2DD500043C96E /* PartialFunctionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartialFunctionTests.swift; sourceTree = "<group>"; };
 		59D811B61AA87B7C005F7761 /* HashableAny.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashableAny.swift; sourceTree = "<group>"; };
@@ -102,6 +114,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59BBB2391AC4656B00D2F7C1 /* Swiftz.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -123,6 +136,15 @@
 				5981E3C81AB6DFE600F052A0 /* Traversable.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		59BBB24A1AC466BD00D2F7C1 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				59BBB24B1AC466BD00D2F7C1 /* List.swift */,
+				59BBB24C1AC466BD00D2F7C1 /* Range.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		59C9BCA71AC2DD440043C96E /* Functions */ = {
@@ -207,9 +229,10 @@
 		A183A1241AA85FA500C535A6 /* Swift47Deg */ = {
 			isa = PBXGroup;
 			children = (
+				59BBB24A1AC466BD00D2F7C1 /* Extension */,
+				59D811B91AA87D98005F7761 /* Operators.swift */,
 				A12A11511AC31ADE00FE8A80 /* Extension */,
 				59C9BCA71AC2DD440043C96E /* Functions */,
-				59D811B91AA87D98005F7761 /* Operators.swift */,
 				59D811B21AA87B3B005F7761 /* Data */,
 				5981E3C61AB6DFD200F052A0 /* Protocols */,
 				A183A1271AA85FA500C535A6 /* Swift47Deg.h */,
@@ -272,6 +295,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				595F7AF21AC44B490023AC95 /* PBXTargetDependency */,
 			);
 			name = Swift47Deg;
 			productName = Swift47Deg;
@@ -379,7 +403,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				59D811B71AA87B7C005F7761 /* HashableAny.swift in Sources */,
+				59BBB24D1AC466BD00D2F7C1 /* List.swift in Sources */,
 				596D703D1AADB79B00CE9962 /* Map.swift in Sources */,
+				59BBB24E1AC466BD00D2F7C1 /* Range.swift in Sources */,
 				59D811BA1AA87D98005F7761 /* Operators.swift in Sources */,
 				5981E3C91AB6DFE600F052A0 /* Traversable.swift in Sources */,
 				59C9BCA91AC2DD440043C96E /* PartialFunction.swift in Sources */,
@@ -410,6 +436,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		595F7AF21AC44B490023AC95 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Swiftz;
+			targetProxy = 595F7AF11AC44B490023AC95 /* PBXContainerItemProxy */;
+		};
 		59F0C7191AA8B8540070C03F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Swiftz;
