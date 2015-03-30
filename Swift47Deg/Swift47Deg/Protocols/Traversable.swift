@@ -15,6 +15,7 @@
 */
 
 import Foundation
+import Swiftz
 
 /**
 Datatypes conforming to this protocol should expose certain functions that allow to traverse through them, and also being built from other Traversable types (although the latter has some limitations due to Swift type constraints restrictions). All Traversable instances have access to the following methods: `travReduce`, `travMap`, `travFilter`, `travFlatMap`, `travReverse`, `travFoldRight`, `travFoldLeft`, and `travToArray`.
@@ -30,7 +31,7 @@ public protocol Traversable {
     /**
     Build a new instance of the same Traversable type with the elements contained in the `elements` array (i.e.: returned from the trav*** functions).
     */
-    func build(elements: [ItemType]) -> Self
+    class func build(elements: [ItemType]) -> Self
     
     /**
     Build a new instance of the same Traversable type with the elements contained in the provided Traversable instance. Users calling this function are responsible of transforming the data of each item to a valid ItemType suitable for the current Traversable class.
@@ -65,14 +66,23 @@ public func travMap<S: Traversable, U>(source: S, transform: (S.ItemType) -> U) 
 /**
 Returns an array containing all the values from the current traversable that satisfy the `includeElement` closure.
 */
-public func travFilter<S: Traversable>(source: S, includeElement: (S.ItemType) -> Bool) -> [S.ItemType] {
-    return travReduce(source, Array<S.ItemType>()) { (filtered, item) -> [S.ItemType] in
+public func travFilter<S: Traversable>(source: S, includeElement: (S.ItemType) -> Bool) -> S {
+    return S.build(travReduce(source, Array<S.ItemType>()) { (filtered, item) -> [S.ItemType] in
         includeElement(item) ? filtered + [item] : filtered
-    }
+    })
 }
 
 /**
-Returns the result of applying `transform` on each element of the traversable, and then flattening the results into an array.
+Returns an array containing all the values from the current traversable except those that satisfy the `excludeElement` closure.
+*/
+public func travFilterNot<S: Traversable>(source: S, excludeElement: (S.ItemType) -> Bool) -> S {
+    return S.build(travReduce(source, Array<S.ItemType>()) { (filtered, item) -> [S.ItemType] in
+        !excludeElement(item) ? filtered + [item] : filtered
+    })
+}
+
+/**
+Returns the result of applying `transform` on each element of the traversable, and then flattening the results into an array. You can create a new Traversable from the results of the flatMap application by calling function Traversable.build and passing its results to it.
 */
 public func travFlatMap<S: Traversable, U>(source: S, transform: (S.ItemType) -> [U]) -> [U] {
     return travReduce(source, Array<U>()) { (total, item) -> [U] in
@@ -117,6 +127,186 @@ public func travToArray<S: Traversable>(source: S) -> [S.ItemType] {
     return travReduce(source, Array<S.ItemType>(), { (total, item) -> [S.ItemType] in
         total + [item]
     })
+}
+
+/**
+Returns a list containing the elements of this Traversable.
+*/
+public func travToList<S: Traversable>(source: S) -> List<S.ItemType> {
+    return travReduce(source, List<S.ItemType>(), { (list : List<S.ItemType>, item : S.ItemType) -> List<S.ItemType> in
+        let l : List<S.ItemType> = [item]
+        return list.append(l)
+    })
+}
+
+/**
+Returns true if this Traversable doesn't contain any elements.
+*/
+public func travIsEmpty<S: Traversable>(source: S) -> Bool {
+    var result = true
+    source.foreach { (item) -> () in
+        result = false
+    }
+    return result
+}
+
+/**
+Returns the number of elements contained in this Traversable.
+*/
+public func travSize<S: Traversable>(source: S) -> Int {
+    return travReduce(source, 0) { (total, item) -> Int in
+        return total + 1
+    }
+}
+
+/**
+Returns true if this Traversable contains elements.
+*/
+public func travNonEmpty<S: Traversable>(source: S) -> Bool {
+    return !travIsEmpty(source)
+}
+
+/**
+Returns the first element of this Traversable that satisfy the given predicate `p`.
+*/
+public func travFind<S: Traversable>(source: S, p: (S.ItemType) -> Bool) -> S.ItemType? {
+    return travReduce(source, nil) { (result, item) -> S.ItemType? in
+        if result == nil && p(item) {
+            return item
+        }
+        return result
+    }
+}
+
+/**
+Selects all elements except the first n ones. Note: might return different results for different runs, if the underlying collection type is unordered.
+
+:param: source Traversable containing the elements to be selected
+:param: n Number of elements to be excluded from the selection
+
+:returns: A new Traversable of the same type as `source` containing the elements from the selection
+*/
+public func travDrop<S: Traversable>(source: S, n: Int) -> S {
+    if travNonEmpty(source) {
+        return S.build(travFoldLeft(source, (travSize(source), Array<S.ItemType>()), { (result: (index: Int, array: [S.ItemType]), currentItem) -> (Int, [S.ItemType]) in
+            if result.index > n {
+                var resultArray = result.array
+                resultArray = resultArray + [currentItem]
+                return (result.index - 1, resultArray)
+            }
+            return result
+        }).1)
+    }
+    return source
+}
+
+/**
+Selects all elements except the last n ones. Note: might return different results for different runs, as the underlying collection type is unordered.
+
+:param: source Traversable containing the elements to be selected
+:param: n Number of elements to be excluded from the selection
+
+:returns: A new Traversable of the same type as `source` containing the elements from the selection
+*/
+public func travDropRight<S: Traversable>(source: S, n: Int) -> S {
+    if travNonEmpty(source) {
+        let size = travSize(source)
+        return S.build(travFoldRight(source, (0, Array<S.ItemType>()), { (result: (index: Int, array: [S.ItemType]), currentItem) -> (Int, [S.ItemType]) in
+            if result.index < size - n {
+                var resultArray = result.array
+                resultArray = resultArray + [currentItem]
+                return (result.index + 1, resultArray)
+            }
+            return result
+        }).1)
+    }
+    return source
+}
+
+private func travFindIndexOfFirstItemToNotSatisfyPredicate<S: Traversable>(source: S, p: (S.ItemType) -> Bool) -> Int? {
+    let result = travReduce(source, (0, false)) { (result: (count: Int, didFindItem: Bool), item) -> (Int, Bool) in
+        if result.didFindItem {
+            return result
+        } else {
+            if !p(item) {
+                return (result.count, true)
+            }
+            return (result.count + 1, false)
+        }
+    }
+    
+    if result.1 {
+        return result.0
+    }
+    return nil
+}
+
+/**
+Drops longest prefix of elements that satisfy a predicate. Note: might return different results for different runs if the underlying collection type is unordered.
+
+:param: source Traversable containing the elements to be selected.
+:param: p Predicate to match the elements to.
+
+:returns: The longest prefix of this Traversable whose first element does not satisfy the predicate p.
+*/
+public func travDropWhile<S: Traversable>(source: S, p: (S.ItemType) -> Bool) -> S {
+    if let firstIndex = travFindIndexOfFirstItemToNotSatisfyPredicate(source, p) {
+        return travDrop(source, firstIndex)
+    }
+    return source
+}
+
+/**
+Takes longest prefix of elements that satisfy a predicate. Note: might return different results for different runs if the underlying collection type is unordered.
+
+:param: source Traversable containing the elements to be selected.
+:param: p Predicate to match the elements to.
+
+:returns: The longest prefix of elements that satisfy the predicate p.
+*/
+public func travTakeWhile<S: Traversable>(source: S, p: (S.ItemType) -> Bool) -> S {
+    if let firstIndex = travFindIndexOfFirstItemToNotSatisfyPredicate(source, p) {
+        return travTake(source, firstIndex)
+    }
+    return source
+}
+
+/**
+:returns: A Traversable of the same type containing the first n elements. Note: might return different results for different runs if the underlying collection type is unordered.
+*/
+public func travTake<S: Traversable>(source: S, n: Int) -> S {
+    return travDropRight(source, travSize(source) - n)
+}
+
+/**
+:returns: A Traversable containing the last n elements. Note: might return different results for different runs if the underlying collection type is unordered.
+*/
+public func travTakeRight<S: Traversable>(source: S, n: Int) -> S {
+    return travDrop(source, travSize(source) - n)
+}
+
+/**
+:returns: The first element of the Traversable or a nil if it's empty. Note: might return different results for different runs if the underlying collection type is unordered.
+*/
+public func travHead<S: Traversable>(source: S) -> S.ItemType? {
+    if travNonEmpty(source) {
+        return travReduce(travTake(source, 1), nil, { (item: S.ItemType?, currentItem) -> S.ItemType? in currentItem })
+    }
+    return nil
+}
+
+/**
+:returns: Returns all elements except the last (equivalent to Scala's init()). Note: might return different results for different runs, if the underlying collection type is unordered.
+*/
+public func travTail<S: Traversable>(source: S) -> S {
+    return travDrop(source, 1)
+}
+
+/**
+:returns: All the elements of this Traversable except the last one. Note: might return different results for different runs if the underlying collection type is unordered.
+*/
+public func travInit<S: Traversable>(source: S) -> S {
+    return travDropRight(source, 1)
 }
 
 /**

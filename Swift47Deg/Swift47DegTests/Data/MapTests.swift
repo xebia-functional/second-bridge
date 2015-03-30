@@ -297,21 +297,4 @@ class MapTests : XCTestCase {
             XCTFail("Maps should support any type by using the Any protocol")
         }
     }
-    
-    func testMapTraversability() {
-        let aMap : Map<Int> = ["a" : 1, "c" : 3, "d" : 4, "e" : 5, "f" : 6,  "b" : 2]
-        
-        var count = 0
-        aMap.foreach { (item) -> () in
-            count++; return ()
-        }
-        XCTAssertEqual(count, aMap.size, "Maps should be traversable and have a foreach function")        
-        
-        let traversalityTestMap = aMap.buildFromTraversable(aMap)
-        XCTAssertTrue(traversalityTestMap == aMap, "Maps should be traversable and be able to be built from other Traversables")
-        
-        var mapFromArrayTrav = Map<Int>()
-        mapFromArrayTrav = mapFromArrayTrav.build([("a", 1), ("b", 2), ("c", 3)])
-        XCTAssertEqual(mapFromArrayTrav.size, 3, "Maps should be traversable and built from an array of valid tuples")
-    }
 }
