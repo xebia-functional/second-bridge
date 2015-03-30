@@ -8,6 +8,7 @@
 
 import Foundation
 import XCTest
+import Swiftz
 
 class TraversableTests: XCTestCase {
     
@@ -104,5 +105,48 @@ class TraversableTests: XCTestCase {
         let filterNotResult = travFilterNot(aMap, { (item) -> Bool in item.0 == "a" })
         XCTAssertTrue(filterNotResult.size == aMap.size - 1, "Traversables should be filtered with inverted conditions")
         XCTAssertTrue(filterNotResult["a"] == nil, "Traversables should be filtered with inverted conditions")
+        
+        let splitAtResult = travSplitAt(aMap, 2)
+        XCTAssertTrue(splitAtResult.0.size == 2, "Traversables should be splittable")
+        XCTAssertTrue(splitAtResult.1.size == 4, "Traversables should be splittable")
+        
+        let partitionResult = travPartition(aMap, { (item) -> Bool in item.0 == "a" })
+        XCTAssertTrue(partitionResult.0.size == 1, "Traversables should be partitionable")
+        XCTAssertTrue(partitionResult.1.size == 5, "Traversables should be partitionable")
+        
+        let spanResult = travSpan(aMap, { (item) -> Bool in item.0 != aMap.keys[2] })
+        XCTAssertTrue(spanResult.0.size == 2, "Traversables should be spanable")
+        XCTAssertTrue(spanResult.1.size == 4, "Traversables should be spanable")
+        
+        let groupByResult = travGroupBy(aMap, ∫{(item: (HashableAny, Int)) -> HashableAny in
+            if item.1 % 2 == 0 {
+                return "Evens"
+            } else {
+                return "Odds"
+            }
+        })
+        XCTAssertTrue(groupByResult["Odds"]!.size == 3, "Traversable should be groupable by using functions")
+        XCTAssertTrue(groupByResult["Evens"]!.size == 3, "Traversable should be groupable by using functions")
+        XCTAssertNil(groupByResult["Odds"]!["b"], "Traversable should be groupable by using functions")
+        XCTAssertNotNil(groupByResult["Evens"]!["b"], "Traversable should be groupable by using functions")
+        
+        let firstCase = ∫{ (item: (HashableAny, Int)) -> Bool in item.1 < 2 } |-> ∫{ (item: (HashableAny, Int)) -> HashableAny in "Less than 2" }
+        let secondCase = ∫{ (item: (HashableAny, Int)) -> Bool in item.1 >= 2} |-> ∫{ (item: (HashableAny, Int)) -> HashableAny in "More or same than 2"}
+        let thirdCase = ∫{ (item: (HashableAny, Int)) -> Bool in item.1 >= 5 } |-> ∫{ (item: (HashableAny, Int)) -> HashableAny in "More or same than 5"}
+        let fourthCase = ∫{ (item: (HashableAny, Int)) -> Bool in (item.1 >= 2 && item.1 < 5)} |-> ∫{ (item: (HashableAny, Int)) -> HashableAny in "More or same than 2 but less than 5"}
+        
+        let complexGroupByResult = travGroupBy(aMap, (firstCase |||> secondCase))
+        XCTAssertTrue(complexGroupByResult["Less than 2"]!.size == 1, "Traversable should be groupable by using partial functions-based expressions")
+        XCTAssertTrue(complexGroupByResult["More or same than 2"]!.size == 5, "Traversable should be groupable by using partial functions-based expressions")
+        XCTAssertNil(complexGroupByResult["Less than 2"]!["b"], "Traversable should be groupable by using partial functions-based expressions")
+        XCTAssertNotNil(complexGroupByResult["More or same than 2"]!["b"], "Traversable should be groupable by using partial functions-based expressions")
+        
+        let moreComplexGroupByResult = travGroupBy(aMap, match(firstCase, fourthCase, thirdCase))
+        XCTAssertTrue(moreComplexGroupByResult["Less than 2"]!.size == 1, "Traversable should be groupable by using partial pattern matching")
+        XCTAssertTrue(moreComplexGroupByResult["More or same than 2 but less than 5"]!.size == 3, "Traversable should be groupable by using partial pattern matching")
+        XCTAssertTrue(moreComplexGroupByResult["More or same than 5"]!.size == 2, "Traversable should be groupable by using partial pattern matching")
+        XCTAssertNil(moreComplexGroupByResult["Less than 2"]!["b"], "Traversable should be groupable by using partial pattern matching")
+        XCTAssertNotNil(moreComplexGroupByResult["More or same than 2 but less than 5"]!["b"], "Traversable should be groupable by using partial pattern matching")
+        XCTAssertNotNil(moreComplexGroupByResult["More or same than 5"]!["f"], "Traversable should be groupable by using partial pattern matching")
     }
 }

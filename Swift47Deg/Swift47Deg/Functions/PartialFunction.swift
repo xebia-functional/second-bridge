@@ -44,9 +44,13 @@ public struct PartialFunction<T, U> {
 
 /**
 Returns a new partial function by chaining two existing partial functions, and its implementation is as follows:
+
 * Check if function `a` is defined for a given value.
+
 * If it is, `a` will be executed and `b` will be ignored.
+
 * If not, `b` will be executed and `a` will be ignored.
+
 */
 public func orElse<T, U>(a: PartialFunction<T, U>, b: PartialFunction<T, U>) -> Function<T, U> {
     return Function.arr({ (x: T) -> U in
@@ -57,10 +61,34 @@ public func orElse<T, U>(a: PartialFunction<T, U>, b: PartialFunction<T, U>) -> 
     })
 }
 
+
+/**
+Returns the first of the given list of Partial Functions to be satisfied by the given value `x`. If it doesn't satisfy any of them,
+it will return the last of the given list which is implicitly considered as a default function.
+
+Users of `match` are responsible of making sure that the last function supplied is executable for all given values.
+*/
+public func match<T, U>(listOfPartialFunctions: PartialFunction<T, U>...) -> Function<T, U> {
+    return Function.arr({ (x: T) -> U in
+        let functions = listOfPartialFunctions.filter({ (item: PartialFunction<T, U>) -> Bool in
+            return item.isDefinedAt.apply(x)
+        })
+        if let functionToApply = functions.first {
+            return functionToApply.function.apply(x)
+        } else {
+            // If none of the functions received is satisfied, the last one is considered an implicit default case:
+            return listOfPartialFunctions.last!.function.apply(x)
+        }
+    })
+}
+
 /**
 Returns a new partial function by chaining two existing partial functions, and its implementation is as follows:
+
 * Check if function `left` is defined for a given value.
+
 * If it is, `left` will be executed and `right` will be ignored.
+
 * If not, `left` will be executed and `right` will be ignored.
 */
 public func |||> <T, U>(a: PartialFunction<T, U>, b: PartialFunction<T, U>) -> Function<T, U> {
@@ -78,6 +106,11 @@ public func |-><T, U>(isDefinedAt: Function<T, Bool>, function: Function<T, U>) 
     return PartialFunction<T, U>(function: function, isDefinedAt: isDefinedAt)
 }
 
+/**
+Defines a function whose execution is restricted to a certain set of values defined by the left function. i.e. to define a partial function to multiply all even values by two:
+
+{ $0 % 2 == 0 } |-> { $0 * 2 }
+*/
 public func |-><T, U>(isDefinedAt: T -> Bool, function: T -> U) -> PartialFunction<T, U> {
     return PartialFunction<T, U>(function: Function(function), isDefinedAt: Function(isDefinedAt))
 }

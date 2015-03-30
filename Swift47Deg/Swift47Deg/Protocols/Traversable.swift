@@ -310,6 +310,27 @@ public func travInit<S: Traversable>(source: S) -> S {
 }
 
 /**
+:returns: Returns a tuple containing the results of splitting the Traversable at the given position (equivalent to: (take n, drop n)). Note: might return different results for different runs if the underlying collection type is unordered.
+*/
+public func travSplitAt<S: Traversable>(source: S, n: Int) -> (S, S) {
+    return (travTake(source, n), travDrop(source, n))
+}
+
+/**
+:returns: Returns a tuple containing the results of splitting the Traversable according to a predicate. The first traversable in the tuple contains those elements which satisfy the predicate, while the second contains those which don't. Equivalent to (travFilter, travFilterNot).
+*/
+public func travPartition<S: Traversable>(source: S, p: (S.ItemType) -> Bool) -> (S, S) {
+    return (travFilter(source, p), travFilterNot(source, p))
+}
+
+/**
+:returns: Returns a tuple containing the results of splitting the Traversable according to a predicate. The first traversable in the tuple contains the first elements that satisfy the predicate `p`, while the second contains all elements after those. Equivalent to (travTakeWhile, travDropWhile). Note: might return different results for different runs if the underlying collection type is unordered.
+*/
+public func travSpan<S: Traversable>(source: S, p: (S.ItemType) -> Bool) -> (S, S) {
+    return (travTakeWhile(source, p), travDropWhile(source, p))
+}
+
+/**
 Returns an array containing the results of mapping the partial function `f` over a set of the elements of this Traversable that match the condition defined in `f`'s `isDefinedAt`.
 */
 public func travCollect<S, U where S: Traversable>(source: S, f: PartialFunction<S.ItemType, U>) -> [U] {
@@ -319,4 +340,22 @@ public func travCollect<S, U where S: Traversable>(source: S, f: PartialFunction
         }
         return total
     })
+}
+
+/**
+Partitions this Traversable into a map of Traversables according to some discriminator function defined by the function `f`.
+*/
+public func travGroupBy<S: Traversable>(source: S, f: Function<S.ItemType, HashableAny>) -> Map<S> {
+    return travReduce(source, Map<S>()) { (currentMap: Map<S>, currentItem: S.ItemType) -> Map<S> in
+        let key = f.apply(currentItem)
+        var nextMap = currentMap
+        if let travForThisKey = currentMap[key] {
+            var array = travToArray(travForThisKey)
+            array = array + [currentItem]
+            nextMap[key] = S.build(array)
+        } else {
+            nextMap[key] = S.build([currentItem])
+        }
+        return nextMap
+    }
 }
