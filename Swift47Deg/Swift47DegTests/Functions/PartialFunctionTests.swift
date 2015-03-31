@@ -62,4 +62,16 @@ class PartialFunctionTests: XCTestCase {
         XCTAssertEqual(collectResult["b"]!, 0, "Collect function should execute its function to all allowed members of the Traversable")
         XCTAssertEqual(collectResult["f"]! * collectResult["f"]!, map["f"]!, "Collect function should execute its function to all allowed members of the Traversable")
     }
+    
+    func testPatternMatching() {
+        let matchTest = match({(item: Int) -> Bool in item == 0 } |-> {(Int) -> String in return "Zero"},
+                              {(item: Int) -> Bool in item == 1 } |-> {(Int) -> String in return "One"},
+                              {(item: Int) -> Bool in item == 2 } |-> {(Int) -> String in return "Two"},
+                              {(item: Int) -> Bool in item > 2 } |-> {(Int) -> String in return "Moar!"})
+        
+        XCTAssertEqual(matchTest.apply(0), "Zero", "Pattern matching should match values from the given partial functions")
+        XCTAssertEqual(matchTest.apply(1), "One", "Pattern matching should match values from the given partial functions")
+        XCTAssertEqual(matchTest.apply(2), "Two", "Pattern matching should match values from the given partial functions")
+        XCTAssertEqual(matchTest.apply(47), "Moar!", "Pattern matching should match values from the given partial functions")
+    }
 }

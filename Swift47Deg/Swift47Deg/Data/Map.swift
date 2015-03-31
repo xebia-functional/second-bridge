@@ -77,14 +77,14 @@ extension Map : Traversable {
     /**
     Build a new Map instance with the elements contained in the `elements` array.
     */
-    public func build(elements: [ItemType]) -> Map {
+    public static func build(elements: [ItemType]) -> Map {
         return Map(elements)
     }
     
     /**
-    Build a new Map instance with the elements contained in the provided Traversable instance. If the items contained belong to another Map with the same type (key, value), it simply adds it, and if it finds only values of the same type it fills the keys with the available indices. 
+    Build a new Map instance with the elements contained in the provided Traversable instance. If the items contained belong to another Map with the same type (key, value), it simply adds it, and if it finds only values of the same type it fills the keys with the available indices.
     */
-    public func buildFromTraversable<U where U : Traversable>(traversable: U) -> Map {
+    public static func buildFromTraversable<U where U : Traversable>(traversable: U) -> Map {
         var result : Map = Map()
         var index = 0
         traversable.foreach { (item) -> () in
@@ -119,9 +119,9 @@ extension Map {
     Returns a new map containing all the keys/value pairs from the current one that satisfy the `includeElement` closure. Takes into account both values AND keys.
     */
     public func filter(includeElement: ((Key, Value)) -> Bool) -> Map {
-        return Map(travFilter(self, { (item) -> Bool in
+        return travFilter(self, { (item) -> Bool in
             return includeElement(item)
-        }))
+        })
     }
     
     /**
@@ -271,9 +271,7 @@ extension Map {
     :returns: A new map containing the elements from the selection
     */
     public func drop(n: Int) -> Map {
-        let keys = self.keys
-        let keysToExclude = keys.filter({ Swift.find(keys, $0) < n })
-        return self -- keysToExclude
+        return travDrop(self, n)
     }
     
     /**
@@ -284,53 +282,32 @@ extension Map {
     :returns: A new map containing the elements from the selection
     */
     public func dropRight(n: Int) -> Map {
-        let keys = self.keys
-        let keysToExclude = keys.filter({ Swift.find(keys, $0) >= self.size - n })
-        return self -- keysToExclude
-    }
-    
-    private func findFirstIndexToNotSatisfyPredicate(p: (Key, Value) -> Bool) -> Int? {
-        var count = 0
-        for key in self.keys {
-            if let value = self[key] {
-                if !p(key, value) {
-                    return count
-                }
-            }
-            count++
-        }
-        return nil
+        return travDropRight(self, n)
     }
     
     /**
     Drops longest prefix of elements that satisfy a predicate. Note: might return different results for different runs, as the underlying collection type is unordered.
     
-    :param: n Number of elements to be excluded from the selection
+    :param: p Predicate to match the elements to
     
     :returns: The longest suffix of this map whose first element does not satisfy the predicate p.
     */
     public func dropWhile(p: (Key, Value) -> Bool) -> Map {
-        if let firstIndex = findFirstIndexToNotSatisfyPredicate(p) {
-            return self.drop(firstIndex)
-        }
-        return self
+        return travDropWhile(self, p)
     }
     
     /**
     :returns: Returns the first element of this map (if there are any). Note: might return different results for different runs, as the underlying collection type is unordered.
     */
     public func head() -> (Key, Value)? {
-        if let headKey = self.internalDict.keys.first {
-            return (headKey, self[headKey]!)
-        }
-        return nil
+        return travHead(self)
     }
     
     /**
     :returns: Returns all elements except the last (equivalent to Scala's init()). Note: might return different results for different runs, as the underlying collection type is unordered.
     */
     public func initSegment() -> Map {
-        return self.dropRight(1)
+        return travInit(self)
     }
     
     /**
@@ -369,31 +346,28 @@ extension Map {
     :returns: A map containing all the elements of the current one except the last.
     */
     public func tail() -> Map {
-        return self.dropRight(1)
+        return travTail(self)
     }
     
     /**
     :returns: A map containing the first n elements.
     */
     public func take(n: Int) -> Map {
-        return self.dropRight(self.size - n)
+        return travTake(self, n)
     }
     
     /**
     :returns: A map containing the last n elements.
     */
     public func takeRight(n: Int) -> Map {
-        return self.drop(self.size - n)
+        return travTakeRight(self, n)
     }
     
     /**
     :returns: A map containing the longest prefix of elements that satisfy a predicate.
     */
     public func takeWhile(p: (Key, Value) -> Bool) -> Map {
-        if let firstIndex = findFirstIndexToNotSatisfyPredicate(p) {
-            return self.dropRight(firstIndex)
-        }
-        return self
+        return travTakeWhile(self, p)
     }
     
     /**
