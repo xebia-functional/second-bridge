@@ -64,7 +64,7 @@ public func travMap<S: Traversable, U>(source: S, transform: (S.ItemType) -> U) 
 }
 
 /**
-Returns an array containing all the values from the current traversable that satisfy the `includeElement` closure.
+Returns a Traversable containing all the values from the current traversable that satisfy the `includeElement` closure.
 */
 public func travFilter<S: Traversable>(source: S, includeElement: (S.ItemType) -> Bool) -> S {
     return S.build(travReduce(source, Array<S.ItemType>()) { (filtered, item) -> [S.ItemType] in
@@ -343,7 +343,16 @@ public func travCollect<S, U where S: Traversable>(source: S, f: PartialFunction
 }
 
 /**
-Partitions this Traversable into a map of Traversables according to some discriminator function defined by the function `f`.
+Partitions this Traversable into a map of Traversables according to some discriminator function defined by the function `f`. `f` should return a HashableAny for groupBy be able to build the map.
+
+It's possible to use complex computations made of partial functions (using |||> `orElse` and >>> `andThen` operators), and pattern matching with the use of `match`, in the place of `f`. i.e., being `pfA`, `pfB`, `pfC` and `pfD` several partial functions that take a certain value and return a HashableAny, it's possible to group a traversable the following ways:
+
+* travGroupBy(source, pfa |||> pfb)
+
+* travGroupBy(source, (pfa |||> pfb) >>> pfc)
+
+* travGroupBy(source, match(pfa, pfb, pfc, pfd))
+
 */
 public func travGroupBy<S: Traversable>(source: S, f: Function<S.ItemType, HashableAny>) -> Map<S> {
     return travReduce(source, Map<S>()) { (currentMap: Map<S>, currentItem: S.ItemType) -> Map<S> in
@@ -358,4 +367,25 @@ public func travGroupBy<S: Traversable>(source: S, f: Function<S.ItemType, Hasha
         }
         return nextMap
     }
+}
+
+/**
+Returns the number of elements of this Traversable satisfy the given predicate.
+*/
+public func travCount<S: Traversable>(source: S, p: (S.ItemType) -> Bool) -> Int {
+    return travSize(travFilter(source, p))
+}
+
+/**
+Returns true if all the elements of this Traversable satisfy the given predicate.
+*/
+public func travForAll<S: Traversable>(source: S, p: (S.ItemType) -> Bool) -> Bool {
+    return travCount(source, p) == travSize(source)
+}
+
+/**
+Returns true if at least one of its elements of this Traversable satisfy the given predicate.
+*/
+public func travExists<S: Traversable>(source: S, p: (S.ItemType) -> Bool) -> Bool {
+     return travCount(source, p) > 0
 }

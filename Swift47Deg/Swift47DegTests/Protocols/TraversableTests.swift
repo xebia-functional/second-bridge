@@ -135,7 +135,7 @@ class TraversableTests: XCTestCase {
         let thirdCase = ∫{ (item: (HashableAny, Int)) -> Bool in item.1 >= 5 } |-> ∫{ (item: (HashableAny, Int)) -> HashableAny in "More or same than 5"}
         let fourthCase = ∫{ (item: (HashableAny, Int)) -> Bool in (item.1 >= 2 && item.1 < 5)} |-> ∫{ (item: (HashableAny, Int)) -> HashableAny in "More or same than 2 but less than 5"}
         
-        let complexGroupByResult = travGroupBy(aMap, (firstCase |||> secondCase))
+        let complexGroupByResult = travGroupBy(aMap, firstCase |||> secondCase)
         XCTAssertTrue(complexGroupByResult["Less than 2"]!.size == 1, "Traversable should be groupable by using partial functions-based expressions")
         XCTAssertTrue(complexGroupByResult["More or same than 2"]!.size == 5, "Traversable should be groupable by using partial functions-based expressions")
         XCTAssertNil(complexGroupByResult["Less than 2"]!["b"], "Traversable should be groupable by using partial functions-based expressions")
@@ -148,5 +148,18 @@ class TraversableTests: XCTestCase {
         XCTAssertNil(moreComplexGroupByResult["Less than 2"]!["b"], "Traversable should be groupable by using partial pattern matching")
         XCTAssertNotNil(moreComplexGroupByResult["More or same than 2 but less than 5"]!["b"], "Traversable should be groupable by using partial pattern matching")
         XCTAssertNotNil(moreComplexGroupByResult["More or same than 5"]!["f"], "Traversable should be groupable by using partial pattern matching")
+        
+        let forAllResult = travForAll(aMap, { (item) -> Bool in item.1 > 0 })
+        let forAllFalseResult = travForAll(aMap, { (item) -> Bool in item.1 > 3 })
+        XCTAssertTrue(forAllResult, "Traversables should be certain if all their elements satisfy a given predicate")
+        XCTAssertFalse(forAllFalseResult, "Traversables should be certain if all their elements satisfy a given predicate")
+        
+        let existsResult = travExists(aMap, { (item) -> Bool in item.1 == 5 })
+        let existsFalseResult = travExists(aMap, { (item) -> Bool in item.1 < 0 })
+        XCTAssertTrue(existsResult, "Traversables should be certain if one of their elements satisfy a given predicate")
+        XCTAssertFalse(existsFalseResult, "Traversables should be certain if one of their elements satisfy a given predicate")
+        
+        let countResult = travCount(aMap, { (item) -> Bool in item.1 >= 4 })
+        XCTAssertTrue(countResult == 3, "Traversables should be able to count the elements which satisfy a given predicate")
     }
 }
