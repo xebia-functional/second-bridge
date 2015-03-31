@@ -13,6 +13,9 @@
 		596D78641AC5831B003CE17F /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BBB24B1AC466BD00D2F7C1 /* List.swift */; };
 		596D78651AC5831B003CE17F /* Range.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BBB24C1AC466BD00D2F7C1 /* Range.swift */; };
 		597143131AC9369700C1217C /* TraversableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597143121AC9369700C1217C /* TraversableTests.swift */; };
+		597686161ACAA87B00756A9F /* StackT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597686151ACAA87B00756A9F /* StackT.swift */; };
+		597686171ACAA87B00756A9F /* StackT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597686151ACAA87B00756A9F /* StackT.swift */; };
+		597686191ACAB3DE00756A9F /* StackTTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597686181ACAB3DE00756A9F /* StackTTests.swift */; };
 		5981E3C91AB6DFE600F052A0 /* Traversable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5981E3C81AB6DFE600F052A0 /* Traversable.swift */; };
 		5981E3CA1AB6DFE600F052A0 /* Traversable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5981E3C81AB6DFE600F052A0 /* Traversable.swift */; };
 		59BBB2391AC4656B00D2F7C1 /* Swiftz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F0C7151AA8B8150070C03F /* Swiftz.framework */; };
@@ -87,6 +90,8 @@
 		596D703C1AADB79B00CE9962 /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		596D70401AADB80400CE9962 /* MapTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapTests.swift; sourceTree = "<group>"; };
 		597143121AC9369700C1217C /* TraversableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TraversableTests.swift; sourceTree = "<group>"; };
+		597686151ACAA87B00756A9F /* StackT.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackT.swift; sourceTree = "<group>"; };
+		597686181ACAB3DE00756A9F /* StackTTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackTTests.swift; sourceTree = "<group>"; };
 		5981E3C81AB6DFE600F052A0 /* Traversable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Traversable.swift; sourceTree = "<group>"; };
 		59BBB24B1AC466BD00D2F7C1 /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		59BBB24C1AC466BD00D2F7C1 /* Range.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Range.swift; sourceTree = "<group>"; };
@@ -171,6 +176,7 @@
 			children = (
 				59D811B61AA87B7C005F7761 /* HashableAny.swift */,
 				596D703C1AADB79B00CE9962 /* Map.swift */,
+				597686151ACAA87B00756A9F /* StackT.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -180,6 +186,7 @@
 			children = (
 				A12A11571AC31B0A00FE8A80 /* ListTest.swift */,
 				596D70401AADB80400CE9962 /* MapTests.swift */,
+				597686181ACAB3DE00756A9F /* StackTTests.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -398,6 +405,7 @@
 				59D811B71AA87B7C005F7761 /* HashableAny.swift in Sources */,
 				59BBB24D1AC466BD00D2F7C1 /* List.swift in Sources */,
 				596D703D1AADB79B00CE9962 /* Map.swift in Sources */,
+				597686161ACAA87B00756A9F /* StackT.swift in Sources */,
 				59BBB24E1AC466BD00D2F7C1 /* Range.swift in Sources */,
 				5981E3C91AB6DFE600F052A0 /* Traversable.swift in Sources */,
 				59C9BCA91AC2DD440043C96E /* PartialFunction.swift in Sources */,
@@ -411,6 +419,8 @@
 				596D78641AC5831B003CE17F /* List.swift in Sources */,
 				596D78651AC5831B003CE17F /* Range.swift in Sources */,
 				59D811B81AA87B7C005F7761 /* HashableAny.swift in Sources */,
+				597686191ACAB3DE00756A9F /* StackTTests.swift in Sources */,
+				597686171ACAA87B00756A9F /* StackT.swift in Sources */,
 				59C9BCAA1AC2DD440043C96E /* PartialFunction.swift in Sources */,
 				59C9BCAE1AC2DD500043C96E /* PartialFunctionTests.swift in Sources */,
 				596D70421AADB80400CE9962 /* MapTests.swift in Sources */,

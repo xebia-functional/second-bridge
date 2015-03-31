@@ -31,7 +31,7 @@ class TraversableTests: XCTestCase {
         }
         XCTAssertEqual(count, aMap.size, "Maps should be traversable and have a foreach function")
         
-        let traversalityTestMap = aMap.buildFromTraversable(aMap)
+        let traversalityTestMap = Map<Int>.buildFromTraversable(aMap)
         XCTAssertTrue(traversalityTestMap == aMap, "Maps should be traversable and be able to be built from other Traversables")
         
         var mapFromArrayTrav = Map<Int>()

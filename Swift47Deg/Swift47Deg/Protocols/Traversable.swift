@@ -36,7 +36,7 @@ public protocol Traversable {
     /**
     Build a new instance of the same Traversable type with the elements contained in the provided Traversable instance. Users calling this function are responsible of transforming the data of each item to a valid ItemType suitable for the current Traversable class.
     */
-    func buildFromTraversable<U where U : Traversable>(traversable: U) -> Self
+    class func buildFromTraversable<U where U : Traversable>(traversable: U) -> Self
 }
 
 // MARK: - Global functions

@@ -84,7 +84,7 @@ extension Map : Traversable {
     /**
     Build a new Map instance with the elements contained in the provided Traversable instance. If the items contained belong to another Map with the same type (key, value), it simply adds it, and if it finds only values of the same type it fills the keys with the available indices.
     */
-    public func buildFromTraversable<U where U : Traversable>(traversable: U) -> Map {
+    public static func buildFromTraversable<U where U : Traversable>(traversable: U) -> Map {
         var result : Map = Map()
         var index = 0
         traversable.foreach { (item) -> () in
