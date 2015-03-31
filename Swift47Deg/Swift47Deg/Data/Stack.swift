@@ -19,11 +19,11 @@ import Foundation
 // MARK: - Stack declaration and protocol implementations
 
 /// Stack | An immutable iterable LIFO containing elements of type T.
-public struct StackT<T> {
+public struct Stack<T> {
     private var internalArray : Array<T>
 }
 
-extension StackT : ArrayLiteralConvertible {
+extension Stack : ArrayLiteralConvertible {
     public init(arrayLiteral elements: T...) {
         internalArray = elements
     }
@@ -33,7 +33,7 @@ extension StackT : ArrayLiteralConvertible {
     }
 }
 
-extension StackT : SequenceType {
+extension Stack : SequenceType {
     public typealias Generator = GeneratorOf<T>
     
     public func generate() -> Generator {
@@ -50,20 +50,20 @@ extension StackT : SequenceType {
 
 // MARK: - Basic operations
 
-extension StackT {
+extension Stack {
     /**
     Returns a new stack with the current contents and the provided item on top.
     */
-    public func push(item: T) -> StackT<T> {
+    public func push(item: T) -> Stack<T> {
         var result = internalArray
         result.append(item)
-        return StackT<T>(result)
+        return Stack<T>(result)
     }
     
     /**
     Returns a tuple containing the top item in the current stack, and a new stack with that item popped out.
     */
-    public func pop() -> (item: T?, stack: StackT<T>) {
+    public func pop() -> (item: T?, stack: Stack<T>) {
         if internalArray.count > 0 {
             return (self.top()!, travTake(self, self.size() - 1))
         }
@@ -85,7 +85,7 @@ extension StackT {
     }
 }
 
-extension StackT : Traversable {
+extension Stack : Traversable {
     typealias ItemType = T
     public func foreach(f: (T) -> ()) {
         for item in self.internalArray {
@@ -94,18 +94,18 @@ extension StackT : Traversable {
     }
     
     /**
-    Build a new StackT instance with the elements contained in the `elements` array.
+    Build a new Stack instance with the elements contained in the `elements` array.
     */
-    public static func build(elements: [ItemType]) -> StackT<T> {
-        return StackT<T>(elements)
+    public static func build(elements: [ItemType]) -> Stack<T> {
+        return Stack<T>(elements)
     }
     
     /**
-    Build a new StackT instance with the elements contained in the provided Traversable instance. The provided traversable is expected to contain
-    items with the same type as the StackT struct. Items of different types will be discarded.
+    Build a new Stack instance with the elements contained in the provided Traversable instance. The provided traversable is expected to contain
+    items with the same type as the Stack struct. Items of different types will be discarded.
     */
-    public static func buildFromTraversable<U where U : Traversable>(traversable: U) -> StackT {
-        return travReduce(traversable, StackT()) { (result, item) -> StackT in
+    public static func buildFromTraversable<U where U : Traversable>(traversable: U) -> Stack {
+        return travReduce(traversable, Stack()) { (result, item) -> Stack in
             switch item {
             case let sameTypeItem as T: result.push(sameTypeItem)
             default: break
@@ -115,7 +115,7 @@ extension StackT : Traversable {
     }
 }
 
-extension StackT: Printable, DebugPrintable {
+extension Stack: Printable, DebugPrintable {
     public var description : String {
         get {
             if self.size() > 0 {
