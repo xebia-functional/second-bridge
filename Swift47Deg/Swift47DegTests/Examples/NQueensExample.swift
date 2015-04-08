@@ -55,6 +55,12 @@ func isSafe(queen: Pos, queens: Stack<Pos>) -> Bool {
 }
 
 func placeQueens(k: Int, n: Int) -> Solutions {
+    // This algorithm for the N-Queens problem resolution is based on Martin Odersky's solution
+    // ("Programming in Scala", Chapter 23 - For Expressions Revisited). Its for comprehension
+    // is just translated to a flatmap/filter/map chain.
+    // Beware that Swift doesn't warrant recursion optimization, so its performance can be
+    // problematic with high values of n (> 10).
+    
     switch k {
     case 0: return Stack<Stack<Pos>>().push(Stack<Pos>())
     default:
@@ -87,6 +93,7 @@ class NQueensExample: XCTestCase {
     func testPerformance() {
         self.measureBlock() {
             let solution8 = nQueensSolutions(8)
+            XCTAssertTrue(solution8.size() == 92, "Only valid solutions should be allowed")
         }
     }
     
