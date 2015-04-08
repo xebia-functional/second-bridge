@@ -13,9 +13,12 @@
 		596D78641AC5831B003CE17F /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BBB24B1AC466BD00D2F7C1 /* List.swift */; };
 		596D78651AC5831B003CE17F /* Range.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BBB24C1AC466BD00D2F7C1 /* Range.swift */; };
 		597143131AC9369700C1217C /* TraversableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597143121AC9369700C1217C /* TraversableTests.swift */; };
+		5973D3081AD2A46200EBDE0B /* TravArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5973D3071AD2A46200EBDE0B /* TravArray.swift */; };
+		5973D3091AD2A46200EBDE0B /* TravArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5973D3071AD2A46200EBDE0B /* TravArray.swift */; };
 		597686161ACAA87B00756A9F /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597686151ACAA87B00756A9F /* Stack.swift */; };
 		597686171ACAA87B00756A9F /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597686151ACAA87B00756A9F /* Stack.swift */; };
 		597686191ACAB3DE00756A9F /* StackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597686181ACAB3DE00756A9F /* StackTests.swift */; };
+		597686211ACAE0BA00756A9F /* NQueensExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597686201ACAE0BA00756A9F /* NQueensExample.swift */; };
 		5981E3C91AB6DFE600F052A0 /* Traversable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5981E3C81AB6DFE600F052A0 /* Traversable.swift */; };
 		5981E3CA1AB6DFE600F052A0 /* Traversable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5981E3C81AB6DFE600F052A0 /* Traversable.swift */; };
 		59BBB2391AC4656B00D2F7C1 /* Swiftz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F0C7151AA8B8150070C03F /* Swiftz.framework */; };
@@ -90,8 +93,10 @@
 		596D703C1AADB79B00CE9962 /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		596D70401AADB80400CE9962 /* MapTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapTests.swift; sourceTree = "<group>"; };
 		597143121AC9369700C1217C /* TraversableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TraversableTests.swift; sourceTree = "<group>"; };
+		5973D3071AD2A46200EBDE0B /* TravArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravArray.swift; sourceTree = "<group>"; };
 		597686151ACAA87B00756A9F /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		597686181ACAB3DE00756A9F /* StackTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackTests.swift; sourceTree = "<group>"; };
+		597686201ACAE0BA00756A9F /* NQueensExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NQueensExample.swift; sourceTree = "<group>"; };
 		5981E3C81AB6DFE600F052A0 /* Traversable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Traversable.swift; sourceTree = "<group>"; };
 		59BBB24B1AC466BD00D2F7C1 /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		59BBB24C1AC466BD00D2F7C1 /* Range.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Range.swift; sourceTree = "<group>"; };
@@ -138,6 +143,14 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
+		5976861E1ACAE0A600756A9F /* Examples */ = {
+			isa = PBXGroup;
+			children = (
+				597686201ACAE0BA00756A9F /* NQueensExample.swift */,
+			);
+			path = Examples;
+			sourceTree = "<group>";
+		};
 		5981E3C61AB6DFD200F052A0 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -177,6 +190,7 @@
 				59D811B61AA87B7C005F7761 /* HashableAny.swift */,
 				596D703C1AADB79B00CE9962 /* Map.swift */,
 				597686151ACAA87B00756A9F /* Stack.swift */,
+				5973D3071AD2A46200EBDE0B /* TravArray.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -255,6 +269,7 @@
 				A12A11591AC31B2200FE8A80 /* Extension */,
 				59C9BCAC1AC2DD500043C96E /* Functions */,
 				59D811C01AA89842005F7761 /* Data */,
+				5976861E1ACAE0A600756A9F /* Examples */,
 				A183A1341AA85FA500C535A6 /* Swift47DegTests.swift */,
 				A183A1321AA85FA500C535A6 /* Supporting Files */,
 			);
@@ -405,6 +420,7 @@
 				59D811B71AA87B7C005F7761 /* HashableAny.swift in Sources */,
 				59BBB24D1AC466BD00D2F7C1 /* List.swift in Sources */,
 				596D703D1AADB79B00CE9962 /* Map.swift in Sources */,
+				5973D3081AD2A46200EBDE0B /* TravArray.swift in Sources */,
 				597686161ACAA87B00756A9F /* Stack.swift in Sources */,
 				59BBB24E1AC466BD00D2F7C1 /* Range.swift in Sources */,
 				5981E3C91AB6DFE600F052A0 /* Traversable.swift in Sources */,
@@ -418,6 +434,7 @@
 			files = (
 				596D78641AC5831B003CE17F /* List.swift in Sources */,
 				596D78651AC5831B003CE17F /* Range.swift in Sources */,
+				5973D3091AD2A46200EBDE0B /* TravArray.swift in Sources */,
 				59D811B81AA87B7C005F7761 /* HashableAny.swift in Sources */,
 				597686191ACAB3DE00756A9F /* StackTests.swift in Sources */,
 				597686171ACAA87B00756A9F /* Stack.swift in Sources */,
@@ -427,6 +444,7 @@
 				A183A1351AA85FA500C535A6 /* Swift47DegTests.swift in Sources */,
 				A12A11581AC31B0A00FE8A80 /* ListTest.swift in Sources */,
 				596D703E1AADB79B00CE9962 /* Map.swift in Sources */,
+				597686211ACAE0BA00756A9F /* NQueensExample.swift in Sources */,
 				5981E3CA1AB6DFE600F052A0 /* Traversable.swift in Sources */,
 				A12A115B1AC31B2200FE8A80 /* RangeTests.swift in Sources */,
 				597143131AC9369700C1217C /* TraversableTests.swift in Sources */,
