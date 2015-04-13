@@ -106,3 +106,7 @@ extension TravArray : Traversable {
         }
     }
 }
+
+extension TravArray : Iterable {
+    
+}
