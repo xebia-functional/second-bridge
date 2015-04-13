@@ -55,6 +55,9 @@ class IterableTests: XCTestCase {
         XCTAssertTrue(zipResultFiller1.last!.0 == 6, "ZipForAll should fill the gaps of the smaller Iterable with the provided default value while keeping the bigger Iterable's values")
         XCTAssertTrue(zipWithIndexResult.last!.1 == 2, "ZipWithIndex should mix items of an Iterable with their corresponding indices")
         XCTAssertTrue(zipWithIndexResult.count == 3, "ZipWithIndex should mix items of an Iterable with their corresponding indices")
+        
+        XCTAssertTrue(sameElements(array, array), "Iterables should know if they have the same elements in the same order.")
+        XCTAssertFalse(sameElements(array, TravArray<Int>([0, 1, 2, 3, 4, 6, 5])), "Iterables should know if they have the same elements in the same order.")
+        XCTAssertFalse(sameElements(array, TravArray<Int>([0, 1, 2, 3, 4, 5])), "Iterables should know if they have the same elements in the same order.")
     }
-
 }
