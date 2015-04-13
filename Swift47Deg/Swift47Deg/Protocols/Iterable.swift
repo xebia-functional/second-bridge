@@ -31,7 +31,6 @@ public func sliding<S: Iterable>(source: S, n: Int, windowSize: Int) -> [S] {
     return travReduce(source, (index: 0, buffer: S.build(Array<S.ItemType>()), result: Array<S>())) { (data: (index: Int, buffer: S, result: [S]), currentItem: S.ItemType) -> (index: Int, buffer: S, result: [S]) in
         let nextIndex = data.index + 1
         
-        // First, we accumulate in the buffer each value
         var nextBuffer : S
         if travSize(data.buffer) == n {
             nextBuffer = S.build(travToArray(travDrop(data.buffer, 1)) + [currentItem])
@@ -40,7 +39,6 @@ public func sliding<S: Iterable>(source: S, n: Int, windowSize: Int) -> [S] {
         }
         
         if (data.index - n + 1) % windowSize == 0 && travSize(nextBuffer) == n {
-            // We have to return the buffer as a new result:
             var nextResult = data.result
             nextResult += [nextBuffer]
             return (nextIndex, nextBuffer, nextResult)
@@ -50,7 +48,6 @@ public func sliding<S: Iterable>(source: S, n: Int, windowSize: Int) -> [S] {
             nextResult += [travTakeRight(nextBuffer, restCount)]
             return (nextIndex, nextBuffer, nextResult)
         } else {
-            // We keep our results as they are now
             return (nextIndex, nextBuffer, data.result)
         }
     }.result
