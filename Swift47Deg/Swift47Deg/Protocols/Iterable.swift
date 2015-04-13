@@ -66,3 +66,34 @@ Returns an array of Iterables of size `n`, comprising all the elements of the pr
 public func grouped<S: Iterable>(source: S, n: Int) -> [S] {
     return sliding(source, n, n)
 }
+
+
+public func zip<S: Iterable, T: Iterable where S.Generator.Element == S.ItemType, T.Generator.Element == T.ItemType>(sourceA: S, sourceB: T) -> [(S.ItemType, T.ItemType)] {
+    return zipAll(sourceA, sourceB, nil, nil)
+}
+
+public func zipWithIndex<S: Iterable where S.Generator.Element == S.ItemType>(source: S) -> [(S.ItemType, Int)] {
+    return zipAll(source, TravArray<Int>([Int](0...travSize(source) - 1)), nil, nil)
+}
+
+public func zipAll<S: Iterable, T: Iterable where S.Generator.Element == S.ItemType, T.Generator.Element == T.ItemType>(sourceA: S, sourceB: T, defaultItemA: S.ItemType?, defaultItemB: T.ItemType?) -> [(S.ItemType, T.ItemType)] {
+    let sizeA = travSize(sourceA)
+    let sizeB = travSize(sourceB)
+    let smallerSize = sizeA < sizeB ? sizeA : sizeB
+    let largerSize = sizeA > sizeB ? sizeA : sizeB
+    let loopCount = (defaultItemA != nil && defaultItemB != nil) ? largerSize : smallerSize
+
+    var genA = enumerate(sourceA).generate()
+    var genB = enumerate(sourceB).generate()
+    var resultArray = Array<(S.ItemType, T.ItemType)>()
+    
+    for _ in 0...loopCount - 1 {
+        switch (genA.next(), genB.next(), defaultItemA, defaultItemB) {
+        case let (.Some(itemA), .Some(itemB), _, _): resultArray.append((itemA.element, itemB.element))
+        case let (.Some(itemA), _, .Some(dItemA), .Some(dItemB)): resultArray.append((itemA.element, dItemB))
+        case let (_, .Some(itemB), .Some(dItemA), .Some(dItemB)): resultArray.append((dItemA, itemB.element))
+        default: break;
+        }
+    }
+    return resultArray
+}

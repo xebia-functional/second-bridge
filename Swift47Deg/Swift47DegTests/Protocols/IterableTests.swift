@@ -41,7 +41,20 @@ class IterableTests: XCTestCase {
         XCTAssertTrue(travSize(slideResult1[1]) == 3, "Sliding should always return groups of elements of size n (except for the last group)")
         XCTAssertTrue(travSize(slideResult2[0]) == 3, "Sliding should always return groups of elements of size n (except for the last group)")
         XCTAssertTrue(travSize(slideResult5[0]) == 3, "Sliding should always return groups of elements of size n (except for the last group)")
-        XCTAssertTrue(travHead(travDrop(slideResult1.last!, 2)) == 6, "Sliding should create an array with groups of n elements separated by window-size distance")        
+        XCTAssertTrue(travHead(travDrop(slideResult1.last!, 2)) == 6, "Sliding should create an array with groups of n elements separated by window-size distance")
+        
+        let arrayOfLetters : TravArray<String> = ["a", "b", "c"]
+        let zipResult = zip(array, arrayOfLetters)
+        let zipResultFiller1 = zipAll(array, arrayOfLetters, 0, "foo")
+        let zipResultFiller2 = zipAll(arrayOfLetters, array, "foo", 0)
+        let zipWithIndexResult = zipWithIndex(arrayOfLetters)
+        
+        XCTAssertTrue(zipResult.count == 3, "Regular zip should return an array with the same size as the smaller Iterable")
+        XCTAssertTrue(zipResultFiller1.count == 7, "ZipForAll should return an array with the same size as the bigger Iterable")
+        XCTAssertTrue(zipResultFiller1.last!.1 == "foo", "ZipForAll should fill the gaps of the smaller Iterable with the provided default value")
+        XCTAssertTrue(zipResultFiller1.last!.0 == 6, "ZipForAll should fill the gaps of the smaller Iterable with the provided default value while keeping the bigger Iterable's values")
+        XCTAssertTrue(zipWithIndexResult.last!.1 == 2, "ZipWithIndex should mix items of an Iterable with their corresponding indices")
+        XCTAssertTrue(zipWithIndexResult.count == 3, "ZipWithIndex should mix items of an Iterable with their corresponding indices")
     }
 
 }
