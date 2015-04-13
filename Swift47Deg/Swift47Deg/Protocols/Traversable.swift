@@ -297,7 +297,7 @@ public func travHead<S: Traversable>(source: S) -> S.ItemType? {
 }
 
 /**
-:returns: Returns the last element of the traversable. Note: might return different results for different runs, if the underlying collection type is unordered.
+:returns: Returns a new Traversable containing all the elements of the provided one except for the first element. Note: might return different results for different runs, if the underlying collection type is unordered.
 */
 public func travTail<S: Traversable>(source: S) -> S {
     return travDrop(source, 1)
