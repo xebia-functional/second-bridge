@@ -115,6 +115,10 @@ extension Stack : Traversable {
     }
 }
 
+extension Stack : Iterable {
+    
+}
+
 extension Stack: Printable, DebugPrintable {
     public var description : String {
         get {

@@ -19,6 +19,9 @@
 		597686171ACAA87B00756A9F /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597686151ACAA87B00756A9F /* Stack.swift */; };
 		597686191ACAB3DE00756A9F /* StackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597686181ACAB3DE00756A9F /* StackTests.swift */; };
 		597686211ACAE0BA00756A9F /* NQueensExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597686201ACAE0BA00756A9F /* NQueensExample.swift */; };
+		59800BFB1AD6BD200044D0ED /* Iterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59800BFA1AD6BD200044D0ED /* Iterable.swift */; };
+		59800BFC1AD6BD200044D0ED /* Iterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59800BFA1AD6BD200044D0ED /* Iterable.swift */; };
+		59800BFF1AD6C1020044D0ED /* IterableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59800BFE1AD6C1020044D0ED /* IterableTests.swift */; };
 		5981E3C91AB6DFE600F052A0 /* Traversable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5981E3C81AB6DFE600F052A0 /* Traversable.swift */; };
 		5981E3CA1AB6DFE600F052A0 /* Traversable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5981E3C81AB6DFE600F052A0 /* Traversable.swift */; };
 		59BBB2391AC4656B00D2F7C1 /* Swiftz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F0C7151AA8B8150070C03F /* Swiftz.framework */; };
@@ -97,6 +100,8 @@
 		597686151ACAA87B00756A9F /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		597686181ACAB3DE00756A9F /* StackTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackTests.swift; sourceTree = "<group>"; };
 		597686201ACAE0BA00756A9F /* NQueensExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NQueensExample.swift; sourceTree = "<group>"; };
+		59800BFA1AD6BD200044D0ED /* Iterable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Iterable.swift; sourceTree = "<group>"; };
+		59800BFE1AD6C1020044D0ED /* IterableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IterableTests.swift; sourceTree = "<group>"; };
 		5981E3C81AB6DFE600F052A0 /* Traversable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Traversable.swift; sourceTree = "<group>"; };
 		59BBB24B1AC466BD00D2F7C1 /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		59BBB24C1AC466BD00D2F7C1 /* Range.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Range.swift; sourceTree = "<group>"; };
@@ -139,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				597143121AC9369700C1217C /* TraversableTests.swift */,
+				59800BFE1AD6C1020044D0ED /* IterableTests.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -155,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				5981E3C81AB6DFE600F052A0 /* Traversable.swift */,
+				59800BFA1AD6BD200044D0ED /* Iterable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -424,6 +431,7 @@
 				597686161ACAA87B00756A9F /* Stack.swift in Sources */,
 				59BBB24E1AC466BD00D2F7C1 /* Range.swift in Sources */,
 				5981E3C91AB6DFE600F052A0 /* Traversable.swift in Sources */,
+				59800BFB1AD6BD200044D0ED /* Iterable.swift in Sources */,
 				59C9BCA91AC2DD440043C96E /* PartialFunction.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -433,6 +441,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				596D78641AC5831B003CE17F /* List.swift in Sources */,
+				59800BFF1AD6C1020044D0ED /* IterableTests.swift in Sources */,
 				596D78651AC5831B003CE17F /* Range.swift in Sources */,
 				5973D3091AD2A46200EBDE0B /* TravArray.swift in Sources */,
 				59D811B81AA87B7C005F7761 /* HashableAny.swift in Sources */,
@@ -446,6 +455,7 @@
 				596D703E1AADB79B00CE9962 /* Map.swift in Sources */,
 				597686211ACAE0BA00756A9F /* NQueensExample.swift in Sources */,
 				5981E3CA1AB6DFE600F052A0 /* Traversable.swift in Sources */,
+				59800BFC1AD6BD200044D0ED /* Iterable.swift in Sources */,
 				A12A115B1AC31B2200FE8A80 /* RangeTests.swift in Sources */,
 				597143131AC9369700C1217C /* TraversableTests.swift in Sources */,
 			);
