@@ -34,6 +34,9 @@
 		59F0C71C1AA8B86B0070C03F /* Swiftz.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59F0C7151AA8B8150070C03F /* Swiftz.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A12A11581AC31B0A00FE8A80 /* ListTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12A11571AC31B0A00FE8A80 /* ListTest.swift */; };
 		A12A115B1AC31B2200FE8A80 /* RangeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12A115A1AC31B2200FE8A80 /* RangeTests.swift */; };
+		A182FB001ADBC319005636C1 /* TravList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A182FAFF1ADBC319005636C1 /* TravList.swift */; };
+		A182FB041ADBFC1B005636C1 /* TravListTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A182FB031ADBFC1B005636C1 /* TravListTest.swift */; };
+		A182FB061ADC08C7005636C1 /* TravList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A182FAFF1ADBC319005636C1 /* TravList.swift */; };
 		A183A1281AA85FA500C535A6 /* Swift47Deg.h in Headers */ = {isa = PBXBuildFile; fileRef = A183A1271AA85FA500C535A6 /* Swift47Deg.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A183A1351AA85FA500C535A6 /* Swift47DegTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A183A1341AA85FA500C535A6 /* Swift47DegTests.swift */; };
 /* End PBXBuildFile section */
@@ -106,6 +109,8 @@
 		59F0C70F1AA8B8150070C03F /* Swiftz-iOS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Swiftz-iOS.xcodeproj"; path = "../External/Swiftz/Swiftz-iOS.xcodeproj"; sourceTree = "<group>"; };
 		A12A11571AC31B0A00FE8A80 /* ListTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTest.swift; sourceTree = "<group>"; };
 		A12A115A1AC31B2200FE8A80 /* RangeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeTests.swift; sourceTree = "<group>"; };
+		A182FAFF1ADBC319005636C1 /* TravList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravList.swift; sourceTree = "<group>"; };
+		A182FB031ADBFC1B005636C1 /* TravListTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravListTest.swift; sourceTree = "<group>"; };
 		A183A1221AA85FA500C535A6 /* Swift47Deg.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Swift47Deg.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A183A1261AA85FA500C535A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A183A1271AA85FA500C535A6 /* Swift47Deg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Swift47Deg.h; sourceTree = "<group>"; };
@@ -191,6 +196,7 @@
 				596D703C1AADB79B00CE9962 /* Map.swift */,
 				597686151ACAA87B00756A9F /* Stack.swift */,
 				5973D3071AD2A46200EBDE0B /* TravArray.swift */,
+				A182FAFF1ADBC319005636C1 /* TravList.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -201,6 +207,7 @@
 				A12A11571AC31B0A00FE8A80 /* ListTest.swift */,
 				596D70401AADB80400CE9962 /* MapTests.swift */,
 				597686181ACAB3DE00756A9F /* StackTests.swift */,
+				A182FB031ADBFC1B005636C1 /* TravListTest.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -424,6 +431,7 @@
 				597686161ACAA87B00756A9F /* Stack.swift in Sources */,
 				59BBB24E1AC466BD00D2F7C1 /* Range.swift in Sources */,
 				5981E3C91AB6DFE600F052A0 /* Traversable.swift in Sources */,
+				A182FB001ADBC319005636C1 /* TravList.swift in Sources */,
 				59C9BCA91AC2DD440043C96E /* PartialFunction.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -432,6 +440,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A182FB061ADC08C7005636C1 /* TravList.swift in Sources */,
 				596D78641AC5831B003CE17F /* List.swift in Sources */,
 				596D78651AC5831B003CE17F /* Range.swift in Sources */,
 				5973D3091AD2A46200EBDE0B /* TravArray.swift in Sources */,
@@ -440,6 +449,7 @@
 				597686171ACAA87B00756A9F /* Stack.swift in Sources */,
 				59C9BCAA1AC2DD440043C96E /* PartialFunction.swift in Sources */,
 				59C9BCAE1AC2DD500043C96E /* PartialFunctionTests.swift in Sources */,
+				A182FB041ADBFC1B005636C1 /* TravListTest.swift in Sources */,
 				596D70421AADB80400CE9962 /* MapTests.swift in Sources */,
 				A183A1351AA85FA500C535A6 /* Swift47DegTests.swift in Sources */,
 				A12A11581AC31B0A00FE8A80 /* ListTest.swift in Sources */,
@@ -483,6 +493,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
@@ -529,6 +540,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
@@ -561,6 +573,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -580,6 +593,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -597,6 +611,7 @@
 		A183A13C1AA85FA500C535A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -616,6 +631,7 @@
 		A183A13D1AA85FA500C535A6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
