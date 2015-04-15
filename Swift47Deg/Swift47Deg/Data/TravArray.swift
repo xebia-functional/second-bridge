@@ -45,7 +45,9 @@ extension TravArray : SequenceType {
         
         return Generator {
             if index < self.internalArray.count {
-                return self.internalArray[index]
+                let result = self.internalArray[index]
+                index++
+                return result
             }
             return nil
         }
@@ -105,4 +107,8 @@ extension TravArray : Traversable {
             return result
         }
     }
+}
+
+extension TravArray : Iterable {
+    
 }

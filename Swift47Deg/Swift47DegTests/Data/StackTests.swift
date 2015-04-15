@@ -17,7 +17,7 @@
 import Foundation
 import XCTest
 
-class StackTTests: XCTestCase {
+class StackTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
@@ -29,7 +29,7 @@ class StackTTests: XCTestCase {
         super.tearDown()
     }
     
-    func testStackT() {
+    func testStack() {
         var stack = Stack<Int>()
         stack = stack.push(1)
         stack = stack.push(2)

@@ -99,6 +99,10 @@ extension Map : Traversable {
     }
 }
 
+extension Map : Iterable {
+
+}
+
 // MARK: Higher-order functions
 
 extension Map {

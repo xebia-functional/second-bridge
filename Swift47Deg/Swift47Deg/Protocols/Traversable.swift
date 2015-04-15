@@ -188,7 +188,7 @@ Selects all elements except the first n ones. Note: might return different resul
 */
 public func travDrop<S: Traversable>(source: S, n: Int) -> S {
     if travNonEmpty(source) {
-        return S.build(travFoldLeft(source, (travSize(source), Array<S.ItemType>()), { (result: (index: Int, array: [S.ItemType]), currentItem) -> (Int, [S.ItemType]) in
+        let result = S.build(travFoldLeft(source, (travSize(source), Array<S.ItemType>()), { (result: (index: Int, array: [S.ItemType]), currentItem) -> (Int, [S.ItemType]) in
             if result.index > n {
                 var resultArray = result.array
                 resultArray = resultArray + [currentItem]
@@ -196,6 +196,7 @@ public func travDrop<S: Traversable>(source: S, n: Int) -> S {
             }
             return result
         }).1)
+        return S.build(travReverse(result))
     }
     return source
 }
@@ -296,7 +297,7 @@ public func travHead<S: Traversable>(source: S) -> S.ItemType? {
 }
 
 /**
-:returns: Returns all elements except the last (equivalent to Scala's init()). Note: might return different results for different runs, if the underlying collection type is unordered.
+:returns: Returns a new Traversable containing all the elements of the provided one except for the first element. Note: might return different results for different runs, if the underlying collection type is unordered.
 */
 public func travTail<S: Traversable>(source: S) -> S {
     return travDrop(source, 1)
