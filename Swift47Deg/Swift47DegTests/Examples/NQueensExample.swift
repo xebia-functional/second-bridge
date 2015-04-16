@@ -34,7 +34,7 @@ func ==(lhs: Solution, rhs: Solution) -> Bool {
     var result = true
     lhs.foreach({ (lPos : Pos) in
         if result {
-            let contains = travFilter(rhs, { (item: Pos) -> Bool in
+            let contains = filterT(rhs, { (item: Pos) -> Bool in
                 item == lPos
             })
             result = contains.size() > 0
@@ -49,7 +49,7 @@ func isAttacking(posA: Pos, posB: Pos) -> Bool {
 }
 
 func isSafe(queen: Pos, queens: Stack<Pos>) -> Bool {
-    return travForAll(queens, { (currentQueen) -> Bool in
+    return forAllT(queens, { (currentQueen) -> Bool in
         !isAttacking(queen, currentQueen)
     })
 }
@@ -64,8 +64,8 @@ func placeQueens(k: Int, n: Int) -> Solutions {
     switch k {
     case 0: return Stack<Stack<Pos>>().push(Stack<Pos>())
     default:
-        return Stack(travFlatMap(placeQueens(k - 1, n), { (queens: Solution) -> [Solution] in
-            return travMap(travFilter(TravArray([Int](1...n)), { (column: Int) -> Bool in
+        return Stack(flatMapT(placeQueens(k - 1, n), { (queens: Solution) -> [Solution] in
+            return mapT(filterT(TravArray([Int](1...n)), { (column: Int) -> Bool in
                 isSafe((k, column), queens)
             }), { (column: Int) -> Solution in
                 return queens.push((k, column))
@@ -109,7 +109,7 @@ class NQueensExample: XCTestCase {
     }
     
     func testSolution() {
-        let solution4 = travToArray(nQueensSolutions(4))
+        let solution4 = toArrayT(nQueensSolutions(4))
         XCTAssertTrue(solution4.count == 2, "Only valid solutions should be allowed")
         
         let validSolution1 = Solution([(1, 2), (2, 4), (3, 1), (4, 3)])

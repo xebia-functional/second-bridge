@@ -65,7 +65,7 @@ extension Stack {
     */
     public func pop() -> (item: T?, stack: Stack<T>) {
         if internalArray.count > 0 {
-            return (self.top()!, travTake(self, self.size() - 1))
+            return (self.top()!, takeT(self, self.size() - 1))
         }
         return (nil, self)
     }
@@ -105,7 +105,7 @@ extension Stack : Traversable {
     items with the same type as the Stack struct. Items of different types will be discarded.
     */
     public static func buildFromTraversable<U where U : Traversable>(traversable: U) -> Stack {
-        return travReduce(traversable, Stack()) { (result, item) -> Stack in
+        return reduceT(traversable, Stack()) { (result, item) -> Stack in
             switch item {
             case let sameTypeItem as T: result.push(sameTypeItem)
             default: break
@@ -123,7 +123,7 @@ extension Stack: Printable, DebugPrintable {
     public var description : String {
         get {
             if self.size() > 0 {
-                return "bottom ->" + travReduce(self, "") { (text, item) -> String in
+                return "bottom ->" + reduceT(self, "") { (text, item) -> String in
                     var nextText = text
                     nextText += "[\(item)]"
                     return nextText

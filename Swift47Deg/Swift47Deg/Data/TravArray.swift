@@ -99,7 +99,7 @@ extension TravArray : Traversable {
     items with the same type as the Stack struct. Items of different types will be discarded.
     */
     public static func buildFromTraversable<U where U : Traversable>(traversable: U) -> TravArray {
-        return travReduce(traversable, TravArray()) { (result, item) -> TravArray in
+        return reduceT(traversable, TravArray()) { (result, item) -> TravArray in
             switch item {
             case let sameTypeItem as T: result.append(sameTypeItem)
             default: break

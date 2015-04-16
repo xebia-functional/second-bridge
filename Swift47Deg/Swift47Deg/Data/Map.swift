@@ -123,7 +123,7 @@ extension Map {
     Returns a new map containing all the keys/value pairs from the current one that satisfy the `includeElement` closure. Takes into account both values AND keys.
     */
     public func filter(includeElement: ((Key, Value)) -> Bool) -> Map {
-        return travFilter(self, { (item) -> Bool in
+        return filterT(self, { (item) -> Bool in
             return includeElement(item)
         })
     }
@@ -149,7 +149,7 @@ extension Map {
     Returns a new map containing the results of mapping `transform` over its elements.
     */
     public func map<U>(transform: (Value) -> U) -> Map<U> {
-        return Map<U>(travMap(self, { return ($0.0, transform($0.1)) }))
+        return Map<U>(mapT(self, { return ($0.0, transform($0.1)) }))
     }
     
     /**
@@ -165,7 +165,7 @@ extension Map {
     Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element (taking also into account the key) of the current map.
     */
     public func reduce<U>(initialValue: U, combine: (U, (Key, Value)) -> U) -> U {
-         return travReduce(self, initialValue, combine)
+         return reduceT(self, initialValue, combine)
     }
     
     /**
@@ -186,28 +186,28 @@ extension Map {
     Returns the result of applying `transform` on each element of the map, and then flattening the results into an array.
     */
     public func flatMapValues(transform: (Value) -> [Value]) -> [Value] {
-        return travFlatMap(self, { transform($0.1) })
+        return flatMapT(self, { transform($0.1) })
     }
     
     /**
     Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element (taking also into account the key) of the current map. Iteration is done in reverse order to reduce/foldRight.
     */
     public func foldLeft<U>(initialValue: U, combine: (U, (Key, Value)) -> U) -> U {
-        return travFoldLeft(self, initialValue, combine)
+        return foldLeftT(self, initialValue, combine)
     }
     
     /**
     Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element (taking also into account the key) of the current map. Iteration is done in the same order as reduce/foldRight.
     */
     public func foldRight<U>(initialValue: U, combine: (U, (Key, Value)) -> U) -> U {
-        return travFoldRight(self, initialValue, combine)
+        return foldRightT(self, initialValue, combine)
     }
     
     /**
     Returns an array containing the results of mapping the partial function `f` over a set of this map's elements that match the condition defined in `f`'s `isDefinedAt`.
     */
     public func collect<U>(f: PartialFunction<ItemType, (HashableAny, U)>) -> Map<U> {
-        return Map<U>(travCollect(self, f))
+        return Map<U>(collectT(self, f))
     }
 }
 
@@ -275,7 +275,7 @@ extension Map {
     :returns: A new map containing the elements from the selection
     */
     public func drop(n: Int) -> Map {
-        return travDrop(self, n)
+        return dropT(self, n)
     }
     
     /**
@@ -286,7 +286,7 @@ extension Map {
     :returns: A new map containing the elements from the selection
     */
     public func dropRight(n: Int) -> Map {
-        return travDropRight(self, n)
+        return dropRightT(self, n)
     }
     
     /**
@@ -297,21 +297,21 @@ extension Map {
     :returns: The longest suffix of this map whose first element does not satisfy the predicate p.
     */
     public func dropWhile(p: (Key, Value) -> Bool) -> Map {
-        return travDropWhile(self, p)
+        return dropWhileT(self, p)
     }
     
     /**
     :returns: Returns the first element of this map (if there are any). Note: might return different results for different runs, as the underlying collection type is unordered.
     */
     public func head() -> (Key, Value)? {
-        return travHead(self)
+        return headT(self)
     }
     
     /**
     :returns: Returns all elements except the last (equivalent to Scala's init()). Note: might return different results for different runs, as the underlying collection type is unordered.
     */
     public func initSegment() -> Map {
-        return travInit(self)
+        return initT(self)
     }
     
     /**
@@ -350,35 +350,35 @@ extension Map {
     :returns: A map containing all the elements of the current one except the last.
     */
     public func tail() -> Map {
-        return travTail(self)
+        return tailT(self)
     }
     
     /**
     :returns: A map containing the first n elements.
     */
     public func take(n: Int) -> Map {
-        return travTake(self, n)
+        return takeT(self, n)
     }
     
     /**
     :returns: A map containing the last n elements.
     */
     public func takeRight(n: Int) -> Map {
-        return travTakeRight(self, n)
+        return takeRightT(self, n)
     }
     
     /**
     :returns: A map containing the longest prefix of elements that satisfy a predicate.
     */
     public func takeWhile(p: (Key, Value) -> Bool) -> Map {
-        return travTakeWhile(self, p)
+        return takeWhileT(self, p)
     }
     
     /**
     :returns: An array of tuples containing each key and value for every element in the map.
     */
     public func toArray() -> [(Key, Value)] {
-        return travToArray(self)
+        return toArrayT(self)
     }
 }
 

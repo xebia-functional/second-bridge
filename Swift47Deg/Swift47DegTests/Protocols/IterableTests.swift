@@ -45,11 +45,11 @@ class IterableTests: XCTestCase {
         XCTAssertTrue(slideResult1.count == 5, "Sliding should create an array with groups of n elements separated by window-size distance")
         XCTAssertTrue(slideResult2.count == 3, "Sliding should create an array with groups of n elements separated by window-size distance")
         XCTAssertTrue(slideResult5.count == 2, "Sliding should create an array with groups of n elements separated by window-size distance")
-        XCTAssertTrue(travSize(slideResult1[0]) == 3, "Sliding should always return groups of elements of size n (except for the last group)")
-        XCTAssertTrue(travSize(slideResult1[1]) == 3, "Sliding should always return groups of elements of size n (except for the last group)")
-        XCTAssertTrue(travSize(slideResult2[0]) == 3, "Sliding should always return groups of elements of size n (except for the last group)")
-        XCTAssertTrue(travSize(slideResult5[0]) == 3, "Sliding should always return groups of elements of size n (except for the last group)")
-        XCTAssertTrue(travHead(travDrop(slideResult1.last!, 2)) == 6, "Sliding should create an array with groups of n elements separated by window-size distance")
+        XCTAssertTrue(sizeT(slideResult1[0]) == 3, "Sliding should always return groups of elements of size n (except for the last group)")
+        XCTAssertTrue(sizeT(slideResult1[1]) == 3, "Sliding should always return groups of elements of size n (except for the last group)")
+        XCTAssertTrue(sizeT(slideResult2[0]) == 3, "Sliding should always return groups of elements of size n (except for the last group)")
+        XCTAssertTrue(sizeT(slideResult5[0]) == 3, "Sliding should always return groups of elements of size n (except for the last group)")
+        XCTAssertTrue(headT(dropT(slideResult1.last!, 2)) == 6, "Sliding should create an array with groups of n elements separated by window-size distance")
         
         let arrayOfLetters : TravArray<String> = ["a", "b", "c"]
         let zipResult = zip(array, arrayOfLetters)

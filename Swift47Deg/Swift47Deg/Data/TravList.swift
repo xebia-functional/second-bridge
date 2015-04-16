@@ -37,7 +37,7 @@ public func ==<T>(lhs: TravList<T> , rhs: TravList<T> ) -> Bool {
 extension TravList {
     
     public func tail() -> TravList {
-       return travTail(self)
+       return tailT(self)
     }
         
     //Funcion reduce with only a parameter,  parameter initial is not necessary
@@ -171,7 +171,7 @@ extension TravList : Traversable {
     items with the same type as the Stack struct. Items of different types will be discarded.
     */
     public static func buildFromTraversable<U where U : Traversable>(traversable: U) -> TravList {
-        return travReduce(traversable, TravList()) { (result, item) -> TravList in
+        return reduceT(traversable, TravList()) { (result, item) -> TravList in
             switch item {
             case let sameTypeItem as T: result.append(sameTypeItem)
             default: break
