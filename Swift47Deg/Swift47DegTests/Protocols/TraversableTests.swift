@@ -195,5 +195,20 @@ class TraversableTests: XCTestCase {
         XCTAssertTrue(sizeT(sliceResult13) == 2, "Traversable should be sliceable")
         XCTAssertEqual(headT(sliceResult13)!, 2, "Traversable should be sliceable")
         XCTAssertEqual(lastT(sliceResult13)!, 3, "Traversable should be sliceable")
+        
+        let reverseArray = TravArray([3, 2, 1])
+        let sortedResult = sortWithT(reverseArray, { $1 > $0 })
+        XCTAssertTrue(sizeT(sortedResult) == sizeT(reverseArray), "Traversable should be sortable by predicate")
+        XCTAssertEqual(headT(sortedResult)!, lastT(reverseArray)!, "Traversable should be sortable by predicate")
+        
+        let unionResult = unionT(array, reverseArray)
+        XCTAssertTrue(sizeT(unionResult) == sizeT(reverseArray) + sizeT(array), "Traversable should be unitable")
+        XCTAssertTrue(unionResult[sizeT(array) - 1] == unionResult[sizeT(array)], "Traversable should be unitable")
+        
+        let mapA : Map<Int> = ["a" : 1, "b" : 2]
+        let mapB : Map<Int> = ["c" : 2, "b" : 4]
+        let unionResultMap = unionT(mapA, mapB)
+        XCTAssertTrue(sizeT(unionResultMap) == sizeT(mapA) + sizeT(mapB) - 1, "Traversables based on keys should be unitable, but no key should be repeated")
+        XCTAssertTrue(unionResultMap["b"]! == 4, "Traversables based on keys should be unitable, but no key should be repeated")
     }
 }

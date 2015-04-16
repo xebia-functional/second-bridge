@@ -459,3 +459,24 @@ Returns true if at least one of its elements of this Traversable satisfy the giv
 public func existsT<S: Traversable>(source: S, p: (S.ItemType) -> Bool) -> Bool {
      return countT(source, p) > 0
 }
+
+/**
+Returns a new Traversable containing all the elements from the provided one, but sorted by a predicate `p`.
+
+:param: source Traversable to be sorted
+:param: p Closure returning if the first element should be ordered before the second.
+*/
+public func sortWithT<S: Traversable>(source: S, p: (S.ItemType, S.ItemType) -> Bool) -> S {
+    var array = toArrayT(source)
+    array.sort(p)
+    return S.build(array)
+}
+
+/**
+Returns a new Traversable containing all the elements from the two provided Traversables. Note: if the Traversable type has restrictions on append operations (i.e.: Maps can't contain two elements with the same key), elements from `b` will prevail over `a`'s.
+*/
+public func unionT<S: Traversable>(a: S, b: S) -> S {
+    var tempA = toArrayT(a)
+    let resultArray = tempA + toArrayT(b)
+    return S.build(resultArray)
+}
