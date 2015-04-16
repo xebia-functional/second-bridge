@@ -64,6 +64,15 @@ public func mapT<S: Traversable, U>(source: S, transform: (S.ItemType) -> U) -> 
 }
 
 /**
+Returns a traversable containing the results of mapping `transform` over its elements. The resulting elements are guaranteed to be the same type as the items of the provided traversable.
+*/
+public func mapConserveT<S: Traversable>(source: S, transform: (S.ItemType) -> S.ItemType) -> S {
+    return S.build(reduceT(source, Array<S.ItemType>()) { (total, item) -> [S.ItemType] in
+        total + [transform(item)]
+    })
+}
+
+/**
 Returns a Traversable containing all the values from the current traversable that satisfy the `includeElement` closure.
 */
 public func filterT<S: Traversable>(source: S, includeElement: (S.ItemType) -> Bool) -> S {
@@ -137,6 +146,33 @@ public func toListT<S: Traversable>(source: S) -> List<S.ItemType> {
         let l : List<S.ItemType> = [item]
         return list.append(l)
     })
+}
+
+/**
+Returns a string representation of all the elements within the Traversable, without any separation between them.
+*/
+public func mkStringT<S: Traversable>(source: S) -> String {
+    return mkStringT(source, "", "", "")
+}
+
+/**
+Returns a string representation of all the elements within the Traversable, separated by the provided separator.
+*/
+public func mkStringT<S: Traversable>(source: S, separator: String) -> String {
+    return mkStringT(source, "", separator, "")
+}
+
+/**
+Returns a string representation of all the elements within the Traversable, separated by the provided separator and enclosed by the `start` and `end` strings.
+*/
+public func mkStringT<S: Traversable>(source: S, start: String, separator: String, end: String) -> String {
+    let reduceString = reduceT(source, start, { (result: String, item: S.ItemType) -> String in
+        return result + "\(item)" + separator
+    })
+    switch (start, separator, end) {
+    case ("", "", ""): return reduceString
+    default: return reduceString.substringToIndex(reduceString.endIndex.predecessor()) + end
+    }    
 }
 
 /**
@@ -308,6 +344,39 @@ public func tailT<S: Traversable>(source: S) -> S {
 */
 public func initT<S: Traversable>(source: S) -> S {
     return dropRightT(source, 1)
+}
+
+/**
+:returns: The last element of the Traversable or a nil if it's empty. Note: might return different results for different runs if the underlying collection type is unordered.
+*/
+public func lastT<S: Traversable>(source: S) -> S.ItemType? {
+    return headT(takeRightT(source, 1))
+}
+
+/**
+Returns a Traversable made of the elements from `source` which satisfy the invariant:
+
+from <= indexOf(x) < until
+
+Note: might return different results for different runs, unless the underlying collection type is ordered. If `endIndex` is out of range within the Traversable, sliceT will throw an exception.
+*/
+public func sliceT<S: Traversable>(source: S, from startIndex: Int, until endIndex: Int) -> S {
+    let size = sizeT(source)
+    switch size {
+    case 0: return source
+    case _ where endIndex > size: assertionFailure("SliceT: end index out of range")
+    default: return S.build(reduceT(source, (0, TravArray<S.ItemType>())) {
+        (result: (index: Int, buffer: TravArray<S.ItemType>), currentItem: S.ItemType) -> (Int, TravArray<S.ItemType>) in
+        
+        let nextIndex = result.index + 1
+        
+        switch result.index {
+        case _ where result.index >= startIndex && result.index < endIndex : return (nextIndex, result.buffer.append(currentItem))
+        default: return (nextIndex, result.1)
+        }
+        
+        }.1.toArray())
+    }
 }
 
 /**

@@ -110,6 +110,10 @@ class TraversableTests: XCTestCase {
         XCTAssertTrue(initResult.size == aMap.size - 1, "Traversables should know where their init segment is")
         XCTAssertTrue(initResult[aMap.keys[5]] == nil, "Traversables should know where their init segment is")
         
+        let lastResult = lastT(aMap)
+        XCTAssertTrue(lastResult != nil, "Traversables should know their last element")
+        XCTAssertTrue(lastResult!.0 == aMap.keys[5], "Traversables should know their last element")
+        
         let filterNotResult = filterNotT(aMap, { (item) -> Bool in item.0 == "a" })
         XCTAssertTrue(filterNotResult.size == aMap.size - 1, "Traversables should be filtered with inverted conditions")
         XCTAssertTrue(filterNotResult["a"] == nil, "Traversables should be filtered with inverted conditions")
@@ -169,5 +173,27 @@ class TraversableTests: XCTestCase {
         
         let countResult = countT(aMap, { (item) -> Bool in item.1 >= 4 })
         XCTAssertTrue(countResult == 3, "Traversables should be able to count the elements which satisfy a given predicate")
+        
+        let array = TravArray<Int>([1, 2, 3])
+        let mappedConserveArray = mapConserveT(array, {$0 * 2})
+        XCTAssertEqual(sizeT(mappedConserveArray), sizeT(array), "Map-conserved traversable should be the same size as their origin")
+        XCTAssertEqual(array[0]! * 2, mappedConserveArray[0]!, "Map-conserved traversable should apply the transformation provided to all their elements")
+        
+        let stringResult1 = mkStringT(array)
+        let stringResult2 = mkStringT(array, " ")
+        let stringResult3 = mkStringT(array, "<", ",", ">")
+        XCTAssertEqual(stringResult1, "123", "Traversable should be able to be represented as Strings")
+        XCTAssertEqual(stringResult2, "1 2 3", "Traversable should be able to be represented as Strings")
+        XCTAssertEqual(stringResult3, "<1,2,3>", "Traversable should be able to be represented as Strings")
+        
+        let sliceResult1 = sliceT(array, from: 0, until: 1)
+        let sliceResult3 = sliceT(array, from: 0, until: 3)
+        let sliceResult13 = sliceT(array, from: 1, until: 3)
+        XCTAssertTrue(sizeT(sliceResult1) == 1, "Traversable should be sliceable")
+        XCTAssertEqual(headT(sliceResult1)!, 1, "Traversable should be sliceable")
+        XCTAssertTrue(sizeT(sliceResult3) == 3, "Traversable should be sliceable")
+        XCTAssertTrue(sizeT(sliceResult13) == 2, "Traversable should be sliceable")
+        XCTAssertEqual(headT(sliceResult13)!, 2, "Traversable should be sliceable")
+        XCTAssertEqual(lastT(sliceResult13)!, 3, "Traversable should be sliceable")
     }
 }

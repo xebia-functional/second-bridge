@@ -112,3 +112,10 @@ extension TravArray : Traversable {
 extension TravArray : Iterable {
     
 }
+
+extension TravArray {
+    func toArray() -> Array<T> {
+        var internalArray = self.internalArray
+        return internalArray
+    }
+}
