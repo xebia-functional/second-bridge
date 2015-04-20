@@ -13,8 +13,8 @@
 		596D78641AC5831B003CE17F /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BBB24B1AC466BD00D2F7C1 /* List.swift */; };
 		596D78651AC5831B003CE17F /* Range.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BBB24C1AC466BD00D2F7C1 /* Range.swift */; };
 		597143131AC9369700C1217C /* TraversableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597143121AC9369700C1217C /* TraversableTests.swift */; };
-		5973D3081AD2A46200EBDE0B /* TravArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5973D3071AD2A46200EBDE0B /* TravArray.swift */; };
-		5973D3091AD2A46200EBDE0B /* TravArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5973D3071AD2A46200EBDE0B /* TravArray.swift */; };
+		5973D3081AD2A46200EBDE0B /* ArrayT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5973D3071AD2A46200EBDE0B /* ArrayT.swift */; };
+		5973D3091AD2A46200EBDE0B /* ArrayT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5973D3071AD2A46200EBDE0B /* ArrayT.swift */; };
 		597686161ACAA87B00756A9F /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597686151ACAA87B00756A9F /* Stack.swift */; };
 		597686171ACAA87B00756A9F /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597686151ACAA87B00756A9F /* Stack.swift */; };
 		597686191ACAB3DE00756A9F /* StackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597686181ACAB3DE00756A9F /* StackTests.swift */; };
@@ -99,7 +99,7 @@
 		596D703C1AADB79B00CE9962 /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		596D70401AADB80400CE9962 /* MapTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapTests.swift; sourceTree = "<group>"; };
 		597143121AC9369700C1217C /* TraversableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TraversableTests.swift; sourceTree = "<group>"; };
-		5973D3071AD2A46200EBDE0B /* TravArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravArray.swift; sourceTree = "<group>"; };
+		5973D3071AD2A46200EBDE0B /* ArrayT.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayT.swift; sourceTree = "<group>"; };
 		597686151ACAA87B00756A9F /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		597686181ACAB3DE00756A9F /* StackTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackTests.swift; sourceTree = "<group>"; };
 		597686201ACAE0BA00756A9F /* NQueensExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NQueensExample.swift; sourceTree = "<group>"; };
@@ -202,7 +202,7 @@
 				59D811B61AA87B7C005F7761 /* HashableAny.swift */,
 				596D703C1AADB79B00CE9962 /* Map.swift */,
 				597686151ACAA87B00756A9F /* Stack.swift */,
-				5973D3071AD2A46200EBDE0B /* TravArray.swift */,
+				5973D3071AD2A46200EBDE0B /* ArrayT.swift */,
 				A182FAFF1ADBC319005636C1 /* TravList.swift */,
 			);
 			path = Data;
@@ -436,7 +436,7 @@
 				59D811B71AA87B7C005F7761 /* HashableAny.swift in Sources */,
 				59BBB24D1AC466BD00D2F7C1 /* List.swift in Sources */,
 				596D703D1AADB79B00CE9962 /* Map.swift in Sources */,
-				5973D3081AD2A46200EBDE0B /* TravArray.swift in Sources */,
+				5973D3081AD2A46200EBDE0B /* ArrayT.swift in Sources */,
 				597686161ACAA87B00756A9F /* Stack.swift in Sources */,
 				59BBB24E1AC466BD00D2F7C1 /* Range.swift in Sources */,
 				5981E3C91AB6DFE600F052A0 /* Traversable.swift in Sources */,
@@ -454,7 +454,7 @@
 				59BDBCED1ADFB2C400FFA363 /* TravListTest.swift in Sources */,
 				596D78641AC5831B003CE17F /* List.swift in Sources */,
 				596D78651AC5831B003CE17F /* Range.swift in Sources */,
-				5973D3091AD2A46200EBDE0B /* TravArray.swift in Sources */,
+				5973D3091AD2A46200EBDE0B /* ArrayT.swift in Sources */,
 				59D811B81AA87B7C005F7761 /* HashableAny.swift in Sources */,
 				597686191ACAB3DE00756A9F /* StackTests.swift in Sources */,
 				597686171ACAA87B00756A9F /* Stack.swift in Sources */,
