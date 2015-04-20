@@ -234,7 +234,7 @@ extension Stack {
     }
     
     /**
-    Returns a string representation of all the elements within the TravArray, separated by the provided separator and enclosed by the `start` and `end` strings.
+    Returns a string representation of all the elements within the Stack, separated by the provided separator and enclosed by the `start` and `end` strings.
     */
     public func mkString(start: String, separator: String, end: String) -> String {
         return mkStringT(self, start, separator, end)
