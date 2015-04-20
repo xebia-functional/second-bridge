@@ -141,8 +141,8 @@ public func toArrayT<S: Traversable>(source: S) -> [S.ItemType] {
 /**
 Returns a list containing the elements of this Traversable.
 */
-public func toListT<S: Traversable>(source: S) -> TravList<S.ItemType> {
-    return reduceT(source, TravList<S.ItemType>(), { (list : TravList<S.ItemType>, item : S.ItemType) -> TravList<S.ItemType> in
+public func toListT<S: Traversable>(source: S) -> ListT<S.ItemType> {
+    return reduceT(source, ListT<S.ItemType>(), { (list : ListT<S.ItemType>, item : S.ItemType) -> ListT<S.ItemType> in
         return list.append(item)
     })
 }

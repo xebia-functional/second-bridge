@@ -190,7 +190,7 @@ extension ArrayT {
     /**
     Returns a list containing the elements of this ArrayT.
     */
-    public func toList() -> TravList<T> {
+    public func toList() -> ListT<T> {
         return toListT(self)
     }
     
