@@ -65,7 +65,7 @@ func placeQueens(k: Int, n: Int) -> Solutions {
     case 0: return Stack<Stack<Pos>>().push(Stack<Pos>())
     default:
         return Stack(flatMapT(placeQueens(k - 1, n), { (queens: Solution) -> [Solution] in
-            return mapT(filterT(TravArray([Int](1...n)), { (column: Int) -> Bool in
+            return mapT(filterT(ArrayT([Int](1...n)), { (column: Int) -> Bool in
                 isSafe((k, column), queens)
             }), { (column: Int) -> Solution in
                 return queens.push((k, column))

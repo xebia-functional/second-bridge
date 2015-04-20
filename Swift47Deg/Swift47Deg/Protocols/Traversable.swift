@@ -364,8 +364,8 @@ public func sliceT<S: Traversable>(source: S, from startIndex: Int, until endInd
     switch size {
     case 0: return source
     case _ where endIndex > size: assertionFailure("SliceT: end index out of range")
-    default: return S.build(reduceT(source, (0, TravArray<S.ItemType>())) {
-        (result: (index: Int, buffer: TravArray<S.ItemType>), currentItem: S.ItemType) -> (Int, TravArray<S.ItemType>) in
+    default: return S.build(reduceT(source, (0, ArrayT<S.ItemType>())) {
+        (result: (index: Int, buffer: ArrayT<S.ItemType>), currentItem: S.ItemType) -> (Int, ArrayT<S.ItemType>) in
         
         let nextIndex = result.index + 1
         

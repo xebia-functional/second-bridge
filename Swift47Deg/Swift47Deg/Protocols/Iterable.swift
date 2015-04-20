@@ -78,7 +78,7 @@ public func zip<S: Iterable, T: Iterable where S.Generator.Element == S.ItemType
 Returns an array of tuples, each containing an element from the provided Iterable and its index. Note: might return different results for different runs if the underlying collection type is unordered.
 */
 public func zipWithIndex<S: Iterable where S.Generator.Element == S.ItemType>(source: S) -> [(S.ItemType, Int)] {
-    return zipAll(source, TravArray<Int>([Int](0...sizeT(source) - 1)), nil, nil)
+    return zipAll(source, ArrayT<Int>([Int](0...sizeT(source) - 1)), nil, nil)
 }
 
 /**

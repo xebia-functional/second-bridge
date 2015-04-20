@@ -30,7 +30,7 @@ class IterableTests: XCTestCase {
     }
 
     func testUtils() {
-        let array : TravArray<Int> = [0, 1, 2, 3, 4, 5, 6]
+        let array : ArrayT<Int> = [0, 1, 2, 3, 4, 5, 6]
         let groupedResult = grouped(array, 3)
         XCTAssertTrue(groupedResult[0].size() == 3, "Grouped should create an array with groups of n elements")
         XCTAssertTrue(groupedResult.count == 3, "Grouped should create an array with groups of n elements")
@@ -51,7 +51,7 @@ class IterableTests: XCTestCase {
         XCTAssertTrue(sizeT(slideResult5[0]) == 3, "Sliding should always return groups of elements of size n (except for the last group)")
         XCTAssertTrue(headT(dropT(slideResult1.last!, 2)) == 6, "Sliding should create an array with groups of n elements separated by window-size distance")
         
-        let arrayOfLetters : TravArray<String> = ["a", "b", "c"]
+        let arrayOfLetters : ArrayT<String> = ["a", "b", "c"]
         let zipResult = zip(array, arrayOfLetters)
         let zipResultFiller1 = zipAll(array, arrayOfLetters, 0, "foo")
         let zipResultFiller2 = zipAll(arrayOfLetters, array, "foo", 0)
@@ -65,7 +65,7 @@ class IterableTests: XCTestCase {
         XCTAssertTrue(zipWithIndexResult.count == 3, "ZipWithIndex should mix items of an Iterable with their corresponding indices")
         
         XCTAssertTrue(sameElements(array, array), "Iterables should know if they have the same elements in the same order.")
-        XCTAssertFalse(sameElements(array, TravArray<Int>([0, 1, 2, 3, 4, 6, 5])), "Iterables should know if they have the same elements in the same order.")
-        XCTAssertFalse(sameElements(array, TravArray<Int>([0, 1, 2, 3, 4, 5])), "Iterables should know if they have the same elements in the same order.")
+        XCTAssertFalse(sameElements(array, ArrayT<Int>([0, 1, 2, 3, 4, 6, 5])), "Iterables should know if they have the same elements in the same order.")
+        XCTAssertFalse(sameElements(array, ArrayT<Int>([0, 1, 2, 3, 4, 5])), "Iterables should know if they have the same elements in the same order.")
     }
 }

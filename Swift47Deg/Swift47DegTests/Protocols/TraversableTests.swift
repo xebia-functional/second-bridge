@@ -174,7 +174,7 @@ class TraversableTests: XCTestCase {
         let countResult = countT(aMap, { (item) -> Bool in item.1 >= 4 })
         XCTAssertTrue(countResult == 3, "Traversables should be able to count the elements which satisfy a given predicate")
         
-        let array = TravArray<Int>([1, 2, 3])
+        let array = ArrayT<Int>([1, 2, 3])
         let mappedConserveArray = mapConserveT(array, {$0 * 2})
         XCTAssertEqual(sizeT(mappedConserveArray), sizeT(array), "Map-conserved traversable should be the same size as their origin")
         XCTAssertEqual(array[0]! * 2, mappedConserveArray[0]!, "Map-conserved traversable should apply the transformation provided to all their elements")
@@ -196,7 +196,7 @@ class TraversableTests: XCTestCase {
         XCTAssertEqual(headT(sliceResult13)!, 2, "Traversable should be sliceable")
         XCTAssertEqual(lastT(sliceResult13)!, 3, "Traversable should be sliceable")
         
-        let reverseArray = TravArray([3, 2, 1])
+        let reverseArray = ArrayT([3, 2, 1])
         let sortedResult = sortWithT(reverseArray, { $1 > $0 })
         XCTAssertTrue(sizeT(sortedResult) == sizeT(reverseArray), "Traversable should be sortable by predicate")
         XCTAssertEqual(headT(sortedResult)!, lastT(reverseArray)!, "Traversable should be sortable by predicate")
