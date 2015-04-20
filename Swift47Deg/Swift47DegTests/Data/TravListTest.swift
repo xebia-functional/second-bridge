@@ -53,10 +53,10 @@ class TravListTests: XCTestCase {
         let b: TravList<Int> = [2, 3]
 
         //Head
-        XCTAssert({travHead(a) == 1}(), "Should be 1 head")
+        XCTAssert({headT(a) == 1}(), "Should be 1 head")
 
         //Tail
-        XCTAssertEqual(travTail(a), b, "Equatable")
+        XCTAssertEqual(tailT(a), b, "Equatable")
 
     }
 
