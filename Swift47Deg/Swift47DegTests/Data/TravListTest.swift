@@ -48,14 +48,18 @@ class TravListTests: XCTestCase {
         
         
     }
-    
-    func testPrintable(){
-        
-        var list : TravList<Int> = [1,2,3,4]
-        XCTAssertEqual(list.description(), "[1, 2, 3, 4]", "")
-        
-        
-        
+
+    func testAccessed() {
+
+        let a: TravList<Int> = [1, 2, 3]
+        let b: TravList<Int> = [2, 3]
+
+        //Head
+        XCTAssert({travHead(a) == 1}(), "Should be 1 head")
+
+        //Tail
+        XCTAssertEqual(travTail(a), b, "Equatable")
+
     }
 
 

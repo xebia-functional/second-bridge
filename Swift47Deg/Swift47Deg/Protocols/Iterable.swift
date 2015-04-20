@@ -26,26 +26,26 @@ Returns an array of Iterables, being the result of grouping chunks of size `n` w
 public func sliding<S: Iterable>(source: S, n: Int, windowSize: Int) -> [S] {
     let itemsToAdd = n - windowSize
     let accumulatedItems = n - itemsToAdd
-    let totalSize = travSize(source)
+    let totalSize = sizeT(source)
     
-    return travReduce(source, (index: 0, buffer: S.build(Array<S.ItemType>()), result: Array<S>())) { (data: (index: Int, buffer: S, result: [S]), currentItem: S.ItemType) -> (index: Int, buffer: S, result: [S]) in
+    return reduceT(source, (index: 0, buffer: S.build(Array<S.ItemType>()), result: Array<S>())) { (data: (index: Int, buffer: S, result: [S]), currentItem: S.ItemType) -> (index: Int, buffer: S, result: [S]) in
         let nextIndex = data.index + 1
         
         var nextBuffer : S
-        if travSize(data.buffer) == n {
-            nextBuffer = S.build(travToArray(travDrop(data.buffer, 1)) + [currentItem])
+        if sizeT(data.buffer) == n {
+            nextBuffer = S.build(toArrayT(dropT(data.buffer, 1)) + [currentItem])
         } else {
-            nextBuffer = S.build(travToArray(data.buffer) + [currentItem])
+            nextBuffer = S.build(toArrayT(data.buffer) + [currentItem])
         }
         
-        if (data.index - n + 1) % windowSize == 0 && travSize(nextBuffer) == n {
+        if (data.index - n + 1) % windowSize == 0 && sizeT(nextBuffer) == n {
             var nextResult = data.result
             nextResult += [nextBuffer]
             return (nextIndex, nextBuffer, nextResult)
         } else if nextIndex == totalSize {
             let restCount = totalSize % windowSize
             var nextResult = data.result
-            nextResult += [travTakeRight(nextBuffer, restCount)]
+            nextResult += [takeRightT(nextBuffer, restCount)]
             return (nextIndex, nextBuffer, nextResult)
         } else {
             return (nextIndex, nextBuffer, data.result)
@@ -78,15 +78,15 @@ public func zip<S: Iterable, T: Iterable where S.Generator.Element == S.ItemType
 Returns an array of tuples, each containing an element from the provided Iterable and its index. Note: might return different results for different runs if the underlying collection type is unordered.
 */
 public func zipWithIndex<S: Iterable where S.Generator.Element == S.ItemType>(source: S) -> [(S.ItemType, Int)] {
-    return zipAll(source, TravArray<Int>([Int](0...travSize(source) - 1)), nil, nil)
+    return zipAll(source, ArrayT<Int>([Int](0...sizeT(source) - 1)), nil, nil)
 }
 
 /**
 Returns an array of tuples, each containing the corresponding elements from the provided Iterables. If the two sources aren't the same size, zipAll will fill the gaps by using the provided default items (if any).
 */
 public func zipAll<S: Iterable, T: Iterable where S.Generator.Element == S.ItemType, T.Generator.Element == T.ItemType>(sourceA: S, sourceB: T, defaultItemA: S.ItemType?, defaultItemB: T.ItemType?) -> [(S.ItemType, T.ItemType)] {
-    let sizeA = travSize(sourceA)
-    let sizeB = travSize(sourceB)
+    let sizeA = sizeT(sourceA)
+    let sizeB = sizeT(sourceB)
     let smallerSize = sizeA < sizeB ? sizeA : sizeB
     let largerSize = sizeA > sizeB ? sizeA : sizeB
     let loopCount = (defaultItemA != nil && defaultItemB != nil) ? largerSize : smallerSize
@@ -110,8 +110,8 @@ public func zipAll<S: Iterable, T: Iterable where S.Generator.Element == S.ItemT
 Returns true if the two Iterables contain the same elements in the same order. Note: might return different results for different runs if the underlying collection types are unordered.
 */
 public func sameElements<S: Iterable where S.Generator.Element == S.ItemType, S.ItemType : Equatable>(sourceA: S, sourceB: S) -> Bool {
-    let sizeA = travSize(sourceA)
-    let sizeB = travSize(sourceB)
+    let sizeA = sizeT(sourceA)
+    let sizeB = sizeT(sourceB)
     if sizeA != sizeB {
         return false
     }
