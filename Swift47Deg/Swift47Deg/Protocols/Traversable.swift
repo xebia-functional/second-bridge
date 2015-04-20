@@ -55,7 +55,7 @@ public func reduceT<S: Traversable, U>(source: S, initialValue: U, combine: (U, 
 }
 
 /**
-Returns an array containing the results of mapping `transform` over its elements.
+Returns an array containing the results of mapping `transform` over the elements of the provided Traversable.
 */
 public func mapT<S: Traversable, U>(source: S, transform: (S.ItemType) -> U) -> [U] {
     return reduceT(source, Array<U>()) { (total, item) -> [U] in
@@ -102,21 +102,21 @@ public func flatMapT<S: Traversable, U>(source: S, transform: (S.ItemType) -> [U
 /**
 Returns a traversable with elements in inverse order. Note: it won't produce a correct result when applied to non-ordered traversables.
 */
-public func reverseT<S: Traversable>(source: S) -> [S.ItemType] {
-    return reduceT(source, Array<S.ItemType>(), { (total, item) -> [S.ItemType] in
+public func reverseT<S: Traversable>(source: S) -> S {
+    return S.build(reduceT(source, Array<S.ItemType>(), { (total, item) -> [S.ItemType] in
         [item] + total
-    })
+    }))
 }
 
 /**
-Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element of the current traversable from left to right. Equivalent to `travReduce`.
+Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element of the current traversable from left to right. Equivalent to `reduceT`.
 */
 public func foldRightT<S: Traversable, U>(source: S, initialValue: U, combine: (U, S.ItemType) -> U) -> U {
     return reduceT(source, initialValue, combine)
 }
 
 /**
-Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element of the current traversable from right to left. A reversal equivalent to `reduceT`.
+Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element of the current traversable from right to left. A reversal equivalent to `reduceT`/`foldLeftT`.
 */
 public func foldLeftT<S: Traversable, U>(source: S, initialValue: U, combine: (U, S.ItemType) -> U) -> U {
     let array = toArrayT(source)
@@ -141,10 +141,9 @@ public func toArrayT<S: Traversable>(source: S) -> [S.ItemType] {
 /**
 Returns a list containing the elements of this Traversable.
 */
-public func toListT<S: Traversable>(source: S) -> List<S.ItemType> {
-    return reduceT(source, List<S.ItemType>(), { (list : List<S.ItemType>, item : S.ItemType) -> List<S.ItemType> in
-        let l : List<S.ItemType> = [item]
-        return list.append(l)
+public func toListT<S: Traversable>(source: S) -> TravList<S.ItemType> {
+    return reduceT(source, TravList<S.ItemType>(), { (list : TravList<S.ItemType>, item : S.ItemType) -> TravList<S.ItemType> in
+        return list.append(item)
     })
 }
 
@@ -203,7 +202,7 @@ public func nonEmptyT<S: Traversable>(source: S) -> Bool {
 }
 
 /**
-Returns the first element of this Traversable that satisfy the given predicate `p`.
+Returns the first element of this Traversable that satisfy the given predicate `p`, if any.
 */
 public func findT<S: Traversable>(source: S, p: (S.ItemType) -> Bool) -> S.ItemType? {
     return reduceT(source, nil) { (result, item) -> S.ItemType? in
@@ -232,7 +231,7 @@ public func dropT<S: Traversable>(source: S, n: Int) -> S {
             }
             return result
         }).1)
-        return S.build(reverseT(result))
+        return reverseT(result)
     }
     return source
 }
@@ -279,7 +278,7 @@ private func findIndexOfFirstItemToNotSatisfyPredicate<S: Traversable>(source: S
 }
 
 /**
-Drops longest prefix of elements that satisfy a predicate. Note: might return different results for different runs if the underlying collection type is unordered.
+Drops the longest prefix of elements that satisfy a predicate. Note: might return different results for different runs if the underlying collection type is unordered.
 
 :param: source Traversable containing the elements to be selected.
 :param: p Predicate to match the elements to.
@@ -294,7 +293,7 @@ public func dropWhileT<S: Traversable>(source: S, p: (S.ItemType) -> Bool) -> S 
 }
 
 /**
-Takes longest prefix of elements that satisfy a predicate. Note: might return different results for different runs if the underlying collection type is unordered.
+Takes the longest prefix of elements that satisfy a predicate. Note: might return different results for different runs if the underlying collection type is unordered.
 
 :param: source Traversable containing the elements to be selected.
 :param: p Predicate to match the elements to.
@@ -387,7 +386,7 @@ public func splitAtT<S: Traversable>(source: S, n: Int) -> (S, S) {
 }
 
 /**
-:returns: Returns a tuple containing the results of splitting the Traversable according to a predicate. The first traversable in the tuple contains those elements which satisfy the predicate, while the second contains those which don't. Equivalent to (filterT, filterNotT).
+:returns: Returns a tuple containing the results of splitting the Traversable according to a predicate. The first traversable in the tuple contains those elements which satisfy the predicate, while the second contains those which don't. Equivalent to (filterT, filterNotT). Note: might return different results for different runs if the underlying collection type is unordered.
 */
 public func partitionT<S: Traversable>(source: S, p: (S.ItemType) -> Bool) -> (S, S) {
     return (filterT(source, p), filterNotT(source, p))
@@ -415,7 +414,7 @@ public func collectT<S, U where S: Traversable>(source: S, f: PartialFunction<S.
 /**
 Partitions this Traversable into a map of Traversables according to some discriminator function defined by the function `f`. `f` should return a HashableAny for groupByT to be able to build the map.
 
-It's possible to use complex computations made of partial functions (using |||> `orElse` and >>> `andThen` operators), and pattern matching with the use of `match`, in the place of `f`. i.e., being `pfA`, `pfB`, `pfC` and `pfD` several partial functions that take a certain value and return a HashableAny, it's possible to group a traversable the following ways:
+It's possible to use complex computations made of partial functions (using |||> `orElse` and >>> `andThen` operators), and pattern matching with the use of `match` in the place of `f`. i.e., being `pfA`, `pfB`, `pfC` and `pfD` several partial functions that take a certain value and return a HashableAny, it's possible to group a traversable the following ways:
 
 * groupByT(source, pfa |||> pfb)
 
@@ -464,7 +463,7 @@ public func existsT<S: Traversable>(source: S, p: (S.ItemType) -> Bool) -> Bool 
 Returns a new Traversable containing all the elements from the provided one, but sorted by a predicate `p`.
 
 :param: source Traversable to be sorted
-:param: p Closure returning if the first element should be ordered before the second.
+:param: p Closure returning true if the first element should be ordered before the second.
 */
 public func sortWithT<S: Traversable>(source: S, p: (S.ItemType, S.ItemType) -> Bool) -> S {
     var array = toArrayT(source)

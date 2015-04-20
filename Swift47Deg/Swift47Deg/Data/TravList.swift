@@ -108,12 +108,11 @@ extension TravList {
     }
     
     /**
-    Returns a new TravArray with the current contents and the provided item on top.
+    Returns a new TravList with the current contents and the provided item on top.
     */
     public func append(item: T) -> TravList<T> {
         var result = internalList
-        result.append([item])
-        return TravList<T>(result)
+        return TravList(result.append([item]))
     }
     
     public func arrayToList( elements: Array<T>) -> TravList<T> {

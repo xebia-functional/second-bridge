@@ -51,8 +51,8 @@ class TraversableTests: XCTestCase {
         let aMap : Map<Int> = ["a" : 1, "c" : 3, "d" : 4, "e" : 5, "f" : 6,  "b" : 2]
         let list = toListT(aMap)
         
-        XCTAssertEqual(Int(list.length()), aMap.size, "Traversable's toList should generate a List with the same number of elements as the source")
-        XCTAssertEqual(list[0].1, aMap[list[0].0]!, "Traversable's toList should store all the elements of the source")
+        XCTAssertEqual(sizeT(list), aMap.size, "Traversable's toList should generate a List with the same number of elements as the source")
+        XCTAssertEqual(list[0]!.1, aMap[list[0]!.0]!, "Traversable's toList should store all the elements of the source")
         
         XCTAssertFalse(isEmptyT(aMap), "Traversable's isEmpty should know if an instance has no elements")
         XCTAssertTrue(nonEmptyT(aMap), "Traversable's nonEmpty should know if an instance has no elements")
