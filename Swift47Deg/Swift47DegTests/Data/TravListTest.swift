@@ -32,32 +32,30 @@ class TravListTests: XCTestCase {
         super.tearDown()
     }
 
-    func testListEqual() {
-
-        let a: TravList<Int> = [1, 2, 3, 4]
-        let b: TravList<Int> = [1, 2, 3, 4]
-
-
-        let c = List("1", "2", "3")
-        let d = List("1", "2", "3")
-        XCTAssert({
-            c == d
-        }(), "Should be identical lists of string")
-
-
+    func testListTravBasicFunctions() {
+        
+        var list : TravList<Int> = []
+        XCTAssertTrue(list.isEmpty(), "List should know if they're empty")
+        XCTAssertTrue(travIsEmpty(list), "List should know if they're empty")
+        
+        var anotherList : TravList<Int> = [1,2,3,4]
+        XCTAssertTrue(anotherList.head() == 1, "Should be 1 head")
+        XCTAssertTrue(travHead(anotherList) == 1, "Should be 1 head")
+        
+        let tailList : TravList<Int> = [2,3,4]
+        XCTAssertTrue(anotherList.tail() == tailList, "")
+        XCTAssertTrue(travTail(anotherList) == tailList, "")
+        
+        
     }
-
-    func testAccessed() {
-
-        let a: TravList<Int> = [1, 2, 3]
-        let b: TravList<Int> = [2, 3]
-
-        //Head
-        XCTAssert({travHead(a) == 1}(), "Should be 1 head")
-
-        //Tail
-        XCTAssertEqual(travTail(a), b, "Equatable")
-
+    
+    func testPrintable(){
+        
+        var list : TravList<Int> = [1,2,3,4]
+        XCTAssertEqual(list.description(), "[1, 2, 3, 4]", "")
+        
+        
+        
     }
 
 

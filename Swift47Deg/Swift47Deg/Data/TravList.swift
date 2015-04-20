@@ -36,9 +36,27 @@ public func ==<T>(lhs: TravList<T> , rhs: TravList<T> ) -> Bool {
 
 extension TravList {
     
+    /**
+    :returns: True if the list doesn't contain any element.
+    */
+    public func isEmpty() -> Bool {
+        return internalList.isEmpty()
+    }
+    
+    public func head() -> Optional<T>{
+        return internalList.head()
+    }
+    
     public func tail() -> TravList {
        return travTail(self)
     }
+    
+    public func description() -> String{
+        return internalList.description
+    }
+    
+    public func addString
+    
         
     //Funcion reduce with only a parameter,  parameter initial is not necessary
     public func reduce<B>(f : (B, T) -> B) -> B? {
