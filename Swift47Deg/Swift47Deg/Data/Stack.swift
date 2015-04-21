@@ -396,7 +396,8 @@ extension Stack {
     }
     
     /**
-    Returns an array containing the elements of this Stack.
+    Returns an array containing the elements of this Stack. Note: the top of the stack points to the last element of the contents array, so in case you want to get
+    an array with the top in the first position, you need to reverse it (i.e: using reverseT(array)).
     */
     public func toArray() -> [T] {
         return toArrayT(self)
