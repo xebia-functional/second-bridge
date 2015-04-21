@@ -335,6 +335,13 @@ extension ArrayT {
     }
     
     /**
+    :returns: Returns a tuple containing the results of splitting the ArrayT according to a predicate. The first traversable in the tuple contains the first elements that satisfy the predicate `p`, while the second contains all elements after those. Equivalent to (takeWhileT, dropWhileT).
+    */
+    public func span(p: (T) -> Bool) -> (ArrayT, ArrayT) {
+        return spanT(self, p)
+    }
+    
+    /**
     :returns: Returns a tuple containing the results of splitting the ArrayT at the given position (equivalent to: (take n, drop n)).
     */
     public func splitAt(n: Int) -> (ArrayT, ArrayT) {
