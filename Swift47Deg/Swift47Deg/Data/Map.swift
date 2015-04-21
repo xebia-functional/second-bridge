@@ -15,6 +15,7 @@
 */
 
 import Foundation
+import Swiftz
 
 // MARK: - Map declaration and protocol implementations
 
@@ -82,7 +83,7 @@ extension Map : Traversable {
     }
     
     /**
-    Build a new Map instance with the elements contained in the provided Traversable instance. If the items contained belong to another Map with the same type (key, value), it simply adds it, and if it finds only values of the same type it fills the keys with the available indices.
+    Build a new Map instance with the elements contained in the provided Map instance. If the items contained belong to another Map with the same type (key, value), it simply adds it, and if it finds only values of the same type it fills the keys with the available indices.
     */
     public static func buildFromTraversable<U where U : Traversable>(traversable: U) -> Map {
         var result : Map = Map()
@@ -195,6 +196,13 @@ extension Map {
     }
     
     /**
+    Returns a Map containing the results of mapping `transform` over its elements. The resulting elements are guaranteed to be the same type as the items of the provided Map.
+    */
+    public func mapConserve(transform: (Key, Value) -> (Key, Value)) -> Map {
+        return mapConserveT(self, transform)
+    }
+    
+    /**
     Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element's value of the current map.
     */
     public func reduceByValue<U>(initialValue: U, combine: (U, Value) -> U) -> U {
@@ -246,6 +254,12 @@ extension Map {
     */
     public func isEmpty() -> Bool {
         return internalDict.keys.isEmpty
+    }
+    /**
+    Returns true if this Map contains elements.
+    */
+    public func nonEmpty() -> Bool {
+        return !self.isEmpty()
     }
     
     /**
@@ -300,6 +314,29 @@ extension Map {
     }
     
     /**
+    Returns true if all the elements of this Map satisfy the given predicate.
+    */
+    public func forAll(p: (Key, Value) -> Bool) -> Bool {
+        return forAllT(self, p)
+    }
+    
+    /**
+    Partitions this Map into a Map of Maps according to some discriminator function defined by the function `f`. `f` should return a HashableAny for groupByT to be able to build the map.
+    
+    It's possible to use complex computations made of partial functions (using |||> `orElse` and >>> `andThen` operators), and pattern matching with the use of `match` in the place of `f`. i.e., being `pfA`, `pfB`, `pfC` and `pfD` several partial functions that take a certain value and return a HashableAny, it's possible to group a Map the following ways:
+    
+    * map.groupBy(pfa |||> pfb)
+    
+    * map.groupBy((pfa |||> pfb) >>> pfc)
+    
+    * map.groupBy(match(pfa, pfb, pfc, pfd))
+    
+    */
+    public func groupBy(f: Function<(Key, Value), HashableAny>) -> Map<Map> {
+        return groupByT(self, f)
+    }
+    
+    /**
     :returns: Returns the first element of this map (if there are any). Note: might return different results for different runs, as the underlying collection type is unordered.
     */
     public func head() -> (Key, Value)? {
@@ -324,6 +361,13 @@ extension Map {
     }
     
     /**
+    :returns: Returns a tuple containing the results of splitting the Map according to a predicate. The first Map in the tuple contains those elements which satisfy the predicate, while the second contains those which don't. Equivalent to (filterT, filterNotT). Note: might return different results for different runs as the underlying collection type is unordered.
+    */
+    public func partition(p: (Key, Value) -> Bool) -> (Map, Map) {
+        return partitionT(self, p)
+    }
+    
+    /**
     Removes the provided key from the current map, and returns a new map without that key/value binding. Also an optional containing the value bound to the key.
     
     :param: key The key to remove
@@ -343,6 +387,17 @@ extension Map {
         let value = self[key]
         self = self - key
         return value
+    }
+    
+    /**
+    Returns a Map made of the elements from this Map which satisfy the invariant:
+    
+    from <= indexOf(x) < until
+    
+    Note: might return different results for different runs, as the underlying collection type is unordered. If `endIndex` is out of range within the Map, sliceT will throw an exception.
+    */
+    public func slice(from startIndex: Int, until endIndex: Int) -> Map {
+        return sliceT(self, from: startIndex, until: endIndex)
     }
     
     /** 
@@ -467,6 +522,12 @@ extension Map {
             return mkStringT(values, separatorToUse)
         }
         return mkStringT(values)
+    }
+    /**
+    Returns a string representation of all the elements within the Map, separated by the provided separator and enclosed by the `start` and `end` strings.
+    */
+    public func mkString(start: String, separator: String, end: String) -> String {
+        return mkStringT(self, start, separator, end)
     }
 }
 

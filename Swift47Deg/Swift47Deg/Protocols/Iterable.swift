@@ -21,6 +21,34 @@ public protocol Iterable : Traversable, SequenceType {
 }
 
 /**
+Returns an array of Iterables of size `n`, comprising all the elements of the provided Iterable. Note: might return different results for different runs if the underlying collection type is unordered.
+*/
+public func grouped<S: Iterable>(source: S, n: Int) -> [S] {
+    return sliding(source, n, n)
+}
+
+/**
+Returns true if the two Iterables contain the same elements in the same order. Note: might return different results for different runs if the underlying collection types are unordered.
+*/
+public func sameElements<S: Iterable where S.Generator.Element == S.ItemType, S.ItemType : Equatable>(sourceA: S, sourceB: S) -> Bool {
+    let sizeA = sizeT(sourceA)
+    let sizeB = sizeT(sourceB)
+    if sizeA != sizeB {
+        return false
+    }
+    var genA = enumerate(sourceA).generate()
+    var genB = enumerate(sourceB).generate()
+    
+    for _ in 0...sizeA - 1 {
+        switch (genA.next(), genB.next()) {
+        case let (.Some(itemA), .Some(itemB)): if itemA.element != itemB.element { return false }
+        default: return false
+        }
+    }
+    return true
+}
+
+/**
 Returns an array of Iterables, being the result of grouping chunks of size `n` while traversing through a sliding window of size `windowSize`. Note: might return different results for different runs if the underlying collection type is unordered.
 */
 public func sliding<S: Iterable>(source: S, n: Int, windowSize: Int) -> [S] {
@@ -61,24 +89,10 @@ public func sliding<S: Iterable>(source: S, n: Int) -> [S] {
 }
 
 /**
-Returns an array of Iterables of size `n`, comprising all the elements of the provided Iterable. Note: might return different results for different runs if the underlying collection type is unordered.
-*/
-public func grouped<S: Iterable>(source: S, n: Int) -> [S] {
-    return sliding(source, n, n)
-}
-
-/**
 Returns an array of tuples, each containing the corresponding elements from the provided Iterables. The size of the resulting array will be the same as the smaller source. Note: might return different results for different runs if the underlying collection types are unordered.
 */
 public func zip<S: Iterable, T: Iterable where S.Generator.Element == S.ItemType, T.Generator.Element == T.ItemType>(sourceA: S, sourceB: T) -> [(S.ItemType, T.ItemType)] {
     return zipAll(sourceA, sourceB, nil, nil)
-}
-
-/**
-Returns an array of tuples, each containing an element from the provided Iterable and its index. Note: might return different results for different runs if the underlying collection type is unordered.
-*/
-public func zipWithIndex<S: Iterable where S.Generator.Element == S.ItemType>(source: S) -> [(S.ItemType, Int)] {
-    return zipAll(source, ArrayT<Int>([Int](0...sizeT(source) - 1)), nil, nil)
 }
 
 /**
@@ -90,7 +104,7 @@ public func zipAll<S: Iterable, T: Iterable where S.Generator.Element == S.ItemT
     let smallerSize = sizeA < sizeB ? sizeA : sizeB
     let largerSize = sizeA > sizeB ? sizeA : sizeB
     let loopCount = (defaultItemA != nil && defaultItemB != nil) ? largerSize : smallerSize
-
+    
     var genA = enumerate(sourceA).generate()
     var genB = enumerate(sourceB).generate()
     var resultArray = Array<(S.ItemType, T.ItemType)>()
@@ -107,22 +121,8 @@ public func zipAll<S: Iterable, T: Iterable where S.Generator.Element == S.ItemT
 }
 
 /**
-Returns true if the two Iterables contain the same elements in the same order. Note: might return different results for different runs if the underlying collection types are unordered.
+Returns an array of tuples, each containing an element from the provided Iterable and its index. Note: might return different results for different runs if the underlying collection type is unordered.
 */
-public func sameElements<S: Iterable where S.Generator.Element == S.ItemType, S.ItemType : Equatable>(sourceA: S, sourceB: S) -> Bool {
-    let sizeA = sizeT(sourceA)
-    let sizeB = sizeT(sourceB)
-    if sizeA != sizeB {
-        return false
-    }
-    var genA = enumerate(sourceA).generate()
-    var genB = enumerate(sourceB).generate()
-    
-    for _ in 0...sizeA - 1 {
-        switch (genA.next(), genB.next()) {
-        case let (.Some(itemA), .Some(itemB)): if itemA.element != itemB.element { return false }
-        default: return false
-        }
-    }
-    return true
+public func zipWithIndex<S: Iterable where S.Generator.Element == S.ItemType>(source: S) -> [(S.ItemType, Int)] {
+    return zipAll(source, ArrayT<Int>([Int](0...sizeT(source) - 1)), nil, nil)
 }
