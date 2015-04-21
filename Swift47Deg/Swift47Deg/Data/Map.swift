@@ -111,6 +111,13 @@ extension Map {
     }
     
     /**
+    Returns an array containing the results of mapping the partial function `f` over a set of this map's elements that match the condition defined in `f`'s `isDefinedAt`.
+    */
+    public func collect<U>(f: PartialFunction<ItemType, (HashableAny, U)>) -> Map<U> {
+        return Map<U>(collectT(self, f))
+    }
+    
+    /**
     Returns a new map containing all the keys from the current map that satisfy the `includeElement` closure. Only takes into account values, not keys.
     */
     public func filter(includeElement: (Value) -> Bool) -> Map {
@@ -143,29 +150,6 @@ extension Map {
     public func filterNot(removeElement: ((Key, Value)) -> Bool) -> Map {
         let itemsToExclude = self.filter(removeElement)
         return self -- itemsToExclude.keys
-    }
-    
-    /**
-    Returns a new map containing the results of mapping `transform` over its elements.
-    */
-    public func map<U>(transform: (Value) -> U) -> Map<U> {
-        return Map<U>(mapT(self, { return ($0.0, transform($0.1)) }))
-    }
-    
-    /**
-    Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element's value of the current map.
-    */
-    public func reduceByValue<U>(initialValue: U, combine: (U, Value) -> U) -> U {
-        return self.reduce(initialValue, combine: { (currentTotal, currentElement) -> U in
-            return combine(currentTotal, currentElement.1)
-        })
-    }
-    
-    /**
-    Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element (taking also into account the key) of the current map.
-    */
-    public func reduce<U>(initialValue: U, combine: (U, (Key, Value)) -> U) -> U {
-         return reduceT(self, initialValue, combine)
     }
     
     /**
@@ -204,37 +188,32 @@ extension Map {
     }
     
     /**
-    Returns an array containing the results of mapping the partial function `f` over a set of this map's elements that match the condition defined in `f`'s `isDefinedAt`.
+    Returns a new map containing the results of mapping `transform` over its elements.
     */
-    public func collect<U>(f: PartialFunction<ItemType, (HashableAny, U)>) -> Map<U> {
-        return Map<U>(collectT(self, f))
+    public func map<U>(transform: (Value) -> U) -> Map<U> {
+        return Map<U>(mapT(self, { return ($0.0, transform($0.1)) }))
+    }
+    
+    /**
+    Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element's value of the current map.
+    */
+    public func reduceByValue<U>(initialValue: U, combine: (U, Value) -> U) -> U {
+        return self.reduce(initialValue, combine: { (currentTotal, currentElement) -> U in
+            return combine(currentTotal, currentElement.1)
+        })
+    }
+    
+    /**
+    Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element (taking also into account the key) of the current map.
+    */
+    public func reduce<U>(initialValue: U, combine: (U, (Key, Value)) -> U) -> U {
+         return reduceT(self, initialValue, combine)
     }
 }
 
 // MARK: Basic functions
 
 extension Map {
-    /**
-    :returns: An array containing all the keys from the current map. Note: might return different results for different runs, as the underlying collection type is unordered.
-    */
-    public var keys : [Key] {
-        return Array(internalDict.keys)
-    }
-    
-    /**
-    :returns: True if the map doesn't contain any element.
-    */
-    public func isEmpty() -> Bool {
-        return internalDict.keys.isEmpty
-    }
-    
-    /**
-    :returns: An array containing the different values from the current map. Note: might return different results for different runs, as the underlying collection type is unordered.
-    */
-    public func values() -> [Value] {
-        return Array(internalDict.values)
-    }
-    
     /**
     Checks if a certain key is binded to a value in the current map.
     
@@ -247,6 +226,13 @@ extension Map {
     }
     
     /**
+    Counts the number of elements in the map which satisfy a predicate.
+    */
+    public func count(p: ((Key, Value)) -> Bool) -> Int {
+        return self.filter(p).size
+    }
+    
+    /**
     Tests whether a predicate holds for some of the elements of this map.
     
     :param: p Predicate to check against the elements of this map
@@ -255,12 +241,25 @@ extension Map {
         return self.filter(p).size > 0
     }
     
+    /**
+    :returns: True if the map doesn't contain any element.
+    */
+    public func isEmpty() -> Bool {
+        return internalDict.keys.isEmpty
+    }
     
     /**
-    Counts the number of elements in the map which satisfy a predicate.
+    :returns: An array containing all the keys from the current map. Note: might return different results for different runs, as the underlying collection type is unordered.
     */
-    public func count(p: ((Key, Value)) -> Bool) -> Int {
-        return self.filter(p).size
+    public var keys : [Key] {
+        return Array(internalDict.keys)
+    }
+    
+    /**
+    :returns: An array containing the different values from the current map. Note: might return different results for different runs, as the underlying collection type is unordered.
+    */
+    public func values() -> [Value] {
+        return Array(internalDict.values)
     }
 }
 
@@ -397,6 +396,21 @@ extension Map {
         }
     }
     
+    private func comparisonBy<U: Comparable>(f: (Value) -> U, compareFunction: (x: U, y: U) -> Bool) -> (Key, Value)? {
+        if !self.isEmpty() {
+            let keys = self.keys
+            if let firstKey = keys.first {
+                return self.reduce((firstKey, self[firstKey]!), combine: { (currentMax: (Key, Value), currentItem: (Key, Value)) -> (Key, Value) in
+                    if compareFunction(x: f(currentMax.1), y: f(currentItem.1)) {
+                        return currentItem
+                    }
+                    return currentMax
+                })
+            }
+        }
+        return nil
+    }
+    
     /**
     Applies a binary numeric operation to each value contained in the map, if it's castable to a number. If a value contains a String representation of a number, its content will be converted to a Double value suitable for the multiplication. Any other value will be ignored.
     */
@@ -407,20 +421,6 @@ extension Map {
             }
             return currentTotal
         })
-    }
-    
-    /**
-    :returns: The product of the multiplication of each value contained in the map, if it's castable to a number. If a value contains a String representation of a number, its content will be converted to a Double value suitable for the multiplication. Any other value will be ignored.
-    */
-    public func product() -> Double {
-        return self.applyNumericOperation(1, *)
-    }
-    
-    /**
-    :returns: The product of the sum of each value contained in the map, if it's castable to a number. If a value contains a String representation of a number, its content will be converted to a Double value suitable for the multiplication. Any other value will be ignored.
-    */
-    public func sum() -> Double {
-        return self.applyNumericOperation(0, +)
     }
     
     /**
@@ -437,19 +437,18 @@ extension Map {
         return comparisonBy(f, compareFunction: { $1 < $0 })
     }
     
-    private func comparisonBy<U: Comparable>(f: (Value) -> U, compareFunction: (x: U, y: U) -> Bool) -> (Key, Value)? {
-        if !self.isEmpty() {
-            let keys = self.keys
-            if let firstKey = keys.first {
-                return self.reduce((firstKey, self[firstKey]!), combine: { (currentMax: (Key, Value), currentItem: (Key, Value)) -> (Key, Value) in
-                    if compareFunction(x: f(currentMax.1), y: f(currentItem.1)) {
-                        return currentItem
-                    }
-                    return currentMax
-                })
-            }
-        }
-        return nil
+    /**
+    :returns: The product of the multiplication of each value contained in the map, if it's castable to a number. If a value contains a String representation of a number, its content will be converted to a Double value suitable for the multiplication. Any other value will be ignored.
+    */
+    public func product() -> Double {
+        return self.applyNumericOperation(1, *)
+    }
+    
+    /**
+    :returns: The product of the sum of each value contained in the map, if it's castable to a number. If a value contains a String representation of a number, its content will be converted to a Double value suitable for the multiplication. Any other value will be ignored.
+    */
+    public func sum() -> Double {
+        return self.applyNumericOperation(0, +)
     }
 }
 
@@ -463,17 +462,11 @@ extension Map {
     :returns: A string containing all the different values contained in the map. If the map contains String values, they'll be concatenated as such. If not, addString relies on String interpolation to perform the concatenation.
     */
     public func addString(separator: String?) -> String {
-        let separatorToUse = (separator == nil) ? "" : separator!
-        let result = self.reduceByValue("", combine: { (result: String, currentValue: T) -> String in
-            switch currentValue {
-            case let stringValue as String: return result + stringValue + separatorToUse
-            default: return result + "\(currentValue)" + separatorToUse
-            }
-        })
-        if separatorToUse == "" {
-            return result
+        let values = ArrayT(self.values())
+        if let separatorToUse = separator {
+            return mkStringT(values, separatorToUse)
         }
-        return result.substringToIndex(result.endIndex.predecessor())
+        return mkStringT(values)
     }
 }
 
