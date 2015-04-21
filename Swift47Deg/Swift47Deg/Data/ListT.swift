@@ -44,6 +44,9 @@ extension ListT {
         return ListT(result.append([item]))
     }
     
+    /*
+    *Returns a new TravList with the array passed as parameter.
+    */
     public func arrayToList( elements: Array<T>) -> ListT<T> {
         var result = internalList
         for element in elements {
@@ -54,7 +57,9 @@ extension ListT {
     }
     
     
-    //Applies a binary operator to a start value and all elements of this sequence, going right to left
+    /*
+    *Folds the elements of this traversable or iterator using the specified associative binary operator.
+    */
     public func fold<B>(f : (B, T) -> B, initial : B) -> B {
         switch internalList.match() {
         case .Nil:
@@ -63,8 +68,9 @@ extension ListT {
             return xs.reduce(f, initial: f(initial,x))
         }
     }
-    
-    //Applies a binary operator to a start value and all elements of this sequence, going left to right
+    /*
+    *Applies a binary operator to all elements of this list and a start value, going right to left.
+    */
     public func foldRight<B>(f : (B, T) -> B, initial : B) -> B {
         let a = internalList.reverse()
         switch a.match() {
@@ -82,7 +88,9 @@ extension ListT {
         return internalList.length()
     }
         
-    //Funcion reduce with only a parameter,  parameter initial is not necessary
+    /*
+    *Reduces the elements of this traversable or iterator using the specified associative binary operator
+    */
     public func reduce<B>(f : (B, T) -> B) -> B? {
         if let head = internalList.head() as? B{
             if let tail = internalList.tail() as Swiftz.List<T>?{
@@ -98,8 +106,10 @@ extension ListT {
         return nil
     }
     
-    //Funcion reduce right with only a parameter,  parameter initial is not necessary
-   public func reduceRight<B>(f : (B, T) -> B) -> B? {
+    /**
+    Applies a binary operator to all elements of this sequence, going right to left. Parameter initial is not necessary
+    */
+    public func reduceRight<B>(f : (B, T) -> B) -> B? {
         let a = internalList.reverse()
         if let head = a.head() as? B{
             if let tail = a.tail() as Swiftz.List<T>?{
@@ -115,7 +125,9 @@ extension ListT {
         return nil
     }
 
-    //Applies a binary operator to reduce the elements of the receiver to a single value.
+    /**
+    Applies a binary operator to all elements of this sequence, going right to left.
+    */
     public func reduceRight<B>(f : (B, T) -> B, initial : B) -> B {
         let a = internalList.reverse()
         switch a.match() {
@@ -173,6 +185,9 @@ extension ListT: Traversable {
         
     }
     
+    /**
+    Traverse all items of the instance, and call the provided function on each one.
+    */
     public func foreach(f: (T) -> ()) {
         for item in self.internalList {
             f(item)
