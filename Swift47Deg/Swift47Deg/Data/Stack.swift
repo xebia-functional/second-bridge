@@ -215,7 +215,7 @@ extension Stack {
     /**
     Returns a list containing the elements of this Stack.
     */
-    public func toList() -> TravList<T> {
+    public func toList() -> ListT<T> {
         return toListT(self)
     }
     

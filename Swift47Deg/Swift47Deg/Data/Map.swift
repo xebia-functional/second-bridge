@@ -229,7 +229,7 @@ extension Map {
     }
     
     /**
-    :returns: An array containing the different values from the current map. Note: might return different results for different runs, as the underlying collection type is unordered.
+    :returns: An array containing the different values from the current map. Note: might retˇurn different results for different runs, as the underlying collection type is unordered.
     */
     public func values() -> [Value] {
         return Array(internalDict.values)
