@@ -251,6 +251,20 @@ extension ArrayT {
     }
     
     /**
+    Returns an array containing the results of mapping `transform` over the elements of the current ArrayT.
+    */
+    public func map<U>(transform: (T) -> U) -> [U] {
+        return mapT(self, transform)
+    }
+    
+    /**
+    Returns a new ArrayT containing the results of mapping `transform` over its elements. The resulting elements are guaranteed to be the same type as the items of the provided one.
+    */
+    public func mapConserve(transform: (T) -> T) -> ArrayT {
+        return mapConserveT(self, transform)
+    }
+    
+    /**
     Returns a string representation of all the elements within the ArrayT, without any separation between them.
     */
     public func mkString() -> String {
@@ -269,20 +283,6 @@ extension ArrayT {
     */
     public func mkString(start: String, separator: String, end: String) -> String {
         return mkStringT(self, start, separator, end)
-    }
-    
-    /**
-    Returns an array containing the results of mapping `transform` over the elements of the current ArrayT.
-    */
-    public func map<U>(transform: (T) -> U) -> [U] {
-        return mapT(self, transform)
-    }
-    
-    /**
-    Returns a new ArrayT containing the results of mapping `transform` over its elements. The resulting elements are guaranteed to be the same type as the items of the provided one.
-    */
-    public func mapConserve(transform: (T) -> T) -> ArrayT {
-        return mapConserveT(self, transform)
     }
     
     /**
