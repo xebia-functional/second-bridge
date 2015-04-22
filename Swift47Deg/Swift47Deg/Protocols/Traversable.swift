@@ -192,6 +192,7 @@ public func foldRightT<S: Traversable, U>(source: S, initialValue: U, combine: (
 /**
 Returns true if all the elements of this Traversable satisfy the given predicate.
 */
+
 public func forAllT<S: Traversable>(source: S, p: (S.ItemType) -> Bool) -> Bool {
     return countT(source, p) == sizeT(source)
 }
@@ -447,8 +448,8 @@ public func toArrayT<S: Traversable>(source: S) -> [S.ItemType] {
 /**
 Returns a list containing the elements of this Traversable.
 */
-public func toListT<S: Traversable>(source: S) -> TravList<S.ItemType> {
-    return reduceT(source, TravList<S.ItemType>(), { (list : TravList<S.ItemType>, item : S.ItemType) -> TravList<S.ItemType> in
+public func toListT<S: Traversable>(source: S) -> ListT<S.ItemType> {
+    return reduceT(source, ListT<S.ItemType>(), { (list : ListT<S.ItemType>, item : S.ItemType) -> ListT<S.ItemType> in
         return list.append(item)
     })
 }

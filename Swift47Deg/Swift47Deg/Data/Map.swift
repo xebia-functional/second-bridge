@@ -213,6 +213,8 @@ extension Map {
     
     /**
     Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element (taking also into account the key) of the current map.
+    
+    :returns: An array containing the different values from the current map. Note: might return different results for different runs, as the underlying collection type is unordered.
     */
     public func reduce<U>(initialValue: U, combine: (U, (Key, Value)) -> U) -> U {
          return reduceT(self, initialValue, combine)

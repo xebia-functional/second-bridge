@@ -242,7 +242,6 @@ extension Stack {
     * stack.groupBy((pfa |||> pfb) >>> pfc)
     
     * stack.groupBy(match(pfa, pfb, pfc, pfd))
-    
     */
     public func groupBy(f: Function<T, HashableAny>) -> Map<Stack> {
         return groupByT(self, f)
@@ -406,7 +405,7 @@ extension Stack {
     /**
     Returns a list containing the elements of this Stack.
     */
-    public func toList() -> TravList<T> {
+    public func toList() -> ListT<T> {
         return toListT(self)
     }
     

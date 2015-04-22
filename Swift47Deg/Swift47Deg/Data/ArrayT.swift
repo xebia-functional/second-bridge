@@ -224,7 +224,6 @@ extension ArrayT {
     * array.groupBy((pfa |||> pfb) >>> pfc)
     
     * array.groupBy(match(pfa, pfb, pfc, pfd))
-    
     */
     public func groupBy(f: Function<T, HashableAny>) -> Map<ArrayT> {
         return groupByT(self, f)
@@ -379,7 +378,7 @@ extension ArrayT {
     /**
     Returns a list containing the elements of this ArrayT.
     */
-    public func toList() -> TravList<T> {
+    public func toList() -> ListT<T> {
         return toListT(self)
     }
     
