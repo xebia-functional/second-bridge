@@ -48,6 +48,10 @@ extension Map : DictionaryLiteralConvertible {
         }
         internalDict = tempDict
     }
+    
+    public init(_ arrayOfGenerators: [Generator.Element]) {
+        self = Map() + arrayOfGenerators
+    }
 }
 
 extension Map : SequenceType {
@@ -107,10 +111,6 @@ extension Map : Iterable {
 // MARK: Higher-order functions
 
 extension Map {
-    public init(_ arrayOfGenerators: [Generator.Element]) {
-        self = Map() + arrayOfGenerators
-    }
-    
     /**
     Returns an array containing the results of mapping the partial function `f` over a set of this map's elements that match the condition defined in `f`'s `isDefinedAt`.
     */
