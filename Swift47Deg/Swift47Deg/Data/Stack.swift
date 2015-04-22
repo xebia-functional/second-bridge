@@ -121,6 +121,10 @@ extension Stack : Iterable {
 }
 
 extension Stack: Printable, DebugPrintable {
+    public var debugDescription : String {
+        return self.description
+    }
+    
     public var description : String {
         get {
             if self.size() > 0 {
@@ -132,10 +136,6 @@ extension Stack: Printable, DebugPrintable {
             }
             return "Empty stack"
         }
-    }
-    
-    public var debugDescription : String {
-        return self.description
     }
 }
 
@@ -276,6 +276,13 @@ extension Stack {
     }
     
     /**
+    Returns an array containing the results of mapping `transform` over the elements of the current Stack.
+    */
+    public func map<U>(transform: (T) -> U) -> [U] {
+        return mapT(self, transform)
+    }
+    
+    /**
     Returns a new Stack containing the results of mapping `transform` over its elements. The resulting elements are guaranteed to be the same type as the items of the provided Stack.
     */
     public func mapConserve(transform: (T) -> T) -> Stack {
@@ -311,19 +318,11 @@ extension Stack {
     }
     
     /**
-    Returns an array containing the results of mapping `transform` over the elements of the current Stack.
-    */
-    public func map<U>(transform: (T) -> U) -> [U] {
-        return mapT(self, transform)
-    }
-    
-    /**
     :returns: Returns a tuple containing the results of splitting the Stack according to a predicate `p`. The first stack in the tuple contains those elements which satisfy the predicate, while the second contains those which don't. Equivalent to (filter, filterNot).
     */
     public func partition(p: (T) -> Bool) -> (Stack, Stack) {
         return partitionT(self, p)
-    }
-    
+    }    
     
     /**
     Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element of the current Stack.

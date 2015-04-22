@@ -124,17 +124,17 @@ extension ArrayT {
 // MARK: - Traversable functions accesors
 extension ArrayT {
     /**
-    Returns the number of elements of this ArrayT satisfy the given predicate.
-    */
-    public func count(p: (T) -> Bool) -> Int {
-        return countT(self, p)
-    }
-    
-    /**
     Returns an array containing the results of mapping the partial function `f` over a set of the elements of this ArrayT that match the condition defined in `f`'s `isDefinedAt`.
     */
     public func collect<U>(f: PartialFunction<T, U>) -> [U] {
         return collectT(self, f)
+    }
+    
+    /**
+    Returns the number of elements of this ArrayT satisfy the given predicate.
+    */
+    public func count(p: (T) -> Bool) -> Int {
+        return countT(self, p)
     }
     
     /**
@@ -279,13 +279,6 @@ extension ArrayT {
     }
     
     /**
-    Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element of the current ArrayT.
-    */
-    public func reduce<U>(initialValue: U, combine: (U, T) -> U) -> U {
-        return reduceT(self, initialValue, combine)
-    }
-    
-    /**
     Returns an array containing the results of mapping `transform` over the elements of the current ArrayT.
     */
     public func map<U>(transform: (T) -> U) -> [U] {
@@ -304,6 +297,13 @@ extension ArrayT {
     */
     public func partition(p: (T) -> Bool) -> (ArrayT, ArrayT) {
         return partitionT(self, p)
+    }
+    
+    /**
+    Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element of the current ArrayT.
+    */
+    public func reduce<U>(initialValue: U, combine: (U, T) -> U) -> U {
+        return reduceT(self, initialValue, combine)
     }
     
     /**

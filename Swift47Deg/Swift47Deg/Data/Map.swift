@@ -203,21 +203,21 @@ extension Map {
     }
     
     /**
+    Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element (taking also into account the key) of the current map.
+    
+    :returns: An array containing the different values from the current map. Note: might return different results for different runs, as the underlying collection type is unordered.
+    */
+    public func reduce<U>(initialValue: U, combine: (U, (Key, Value)) -> U) -> U {
+        return reduceT(self, initialValue, combine)
+    }
+    
+    /**
     Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element's value of the current map.
     */
     public func reduceByValue<U>(initialValue: U, combine: (U, Value) -> U) -> U {
         return self.reduce(initialValue, combine: { (currentTotal, currentElement) -> U in
             return combine(currentTotal, currentElement.1)
         })
-    }
-    
-    /**
-    Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element (taking also into account the key) of the current map.
-    
-    :returns: An array containing the different values from the current map. Note: might return different results for different runs, as the underlying collection type is unordered.
-    */
-    public func reduce<U>(initialValue: U, combine: (U, (Key, Value)) -> U) -> U {
-         return reduceT(self, initialValue, combine)
     }
 }
 
@@ -257,18 +257,19 @@ extension Map {
     public func isEmpty() -> Bool {
         return internalDict.keys.isEmpty
     }
-    /**
-    Returns true if this Map contains elements.
-    */
-    public func nonEmpty() -> Bool {
-        return !self.isEmpty()
-    }
     
     /**
     :returns: An array containing all the keys from the current map. Note: might return different results for different runs, as the underlying collection type is unordered.
     */
     public var keys : [Key] {
         return Array(internalDict.keys)
+    }
+    
+    /**
+    Returns true if this Map contains elements.
+    */
+    public func nonEmpty() -> Bool {
+        return !self.isEmpty()
     }
     
     /**
@@ -440,34 +441,6 @@ extension Map {
 
 // MARK: - numeric operations
 extension Map {
-    private func convertValueToNumber(value: Value) -> Double? {
-        switch value {
-        case let number as Double: return number
-        case let number as Int: return Double(number)
-        case let numberString as String:
-            if let number = NSNumberFormatter().numberFromString(numberString) {
-                return number.doubleValue
-            }
-            return nil
-        default: return nil
-        }
-    }
-    
-    private func comparisonBy<U: Comparable>(f: (Value) -> U, compareFunction: (x: U, y: U) -> Bool) -> (Key, Value)? {
-        if !self.isEmpty() {
-            let keys = self.keys
-            if let firstKey = keys.first {
-                return self.reduce((firstKey, self[firstKey]!), combine: { (currentMax: (Key, Value), currentItem: (Key, Value)) -> (Key, Value) in
-                    if compareFunction(x: f(currentMax.1), y: f(currentItem.1)) {
-                        return currentItem
-                    }
-                    return currentMax
-                })
-            }
-        }
-        return nil
-    }
-    
     /**
     Applies a binary numeric operation to each value contained in the map, if it's castable to a number. If a value contains a String representation of a number, its content will be converted to a Double value suitable for the multiplication. Any other value will be ignored.
     */
@@ -506,6 +479,35 @@ extension Map {
     */
     public func sum() -> Double {
         return self.applyNumericOperation(0, +)
+    }
+    
+    // Private utility methods:
+    private func convertValueToNumber(value: Value) -> Double? {
+        switch value {
+        case let number as Double: return number
+        case let number as Int: return Double(number)
+        case let numberString as String:
+            if let number = NSNumberFormatter().numberFromString(numberString) {
+                return number.doubleValue
+            }
+            return nil
+        default: return nil
+        }
+    }
+    
+    private func comparisonBy<U: Comparable>(f: (Value) -> U, compareFunction: (x: U, y: U) -> Bool) -> (Key, Value)? {
+        if !self.isEmpty() {
+            let keys = self.keys
+            if let firstKey = keys.first {
+                return self.reduce((firstKey, self[firstKey]!), combine: { (currentMax: (Key, Value), currentItem: (Key, Value)) -> (Key, Value) in
+                    if compareFunction(x: f(currentMax.1), y: f(currentItem.1)) {
+                        return currentItem
+                    }
+                    return currentMax
+                })
+            }
+        }
+        return nil
     }
 }
 
