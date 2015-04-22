@@ -20,7 +20,7 @@ import XCTest
 import Swiftz
 
 
-class TravListTests: XCTestCase {
+class ListTTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
