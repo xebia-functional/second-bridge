@@ -22,6 +22,8 @@
 		5981E3C91AB6DFE600F052A0 /* Traversable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5981E3C81AB6DFE600F052A0 /* Traversable.swift */; };
 		5981E3CA1AB6DFE600F052A0 /* Traversable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5981E3C81AB6DFE600F052A0 /* Traversable.swift */; };
 		5982D6821AE647A100BA53D0 /* ArrayTTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5982D6811AE647A100BA53D0 /* ArrayTTests.swift */; };
+		5982D68F1AE7B6DC00BA53D0 /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5982D68E1AE7B6DC00BA53D0 /* Vector.swift */; };
+		5982D6901AE7B6DC00BA53D0 /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5982D68E1AE7B6DC00BA53D0 /* Vector.swift */; };
 		59BBB2391AC4656B00D2F7C1 /* Swiftz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F0C7151AA8B8150070C03F /* Swiftz.framework */; };
 		59BBB24D1AC466BD00D2F7C1 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BBB24B1AC466BD00D2F7C1 /* List.swift */; };
 		59BBB24E1AC466BD00D2F7C1 /* Range.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BBB24C1AC466BD00D2F7C1 /* Range.swift */; };
@@ -108,6 +110,7 @@
 		59800BFE1AD6C1020044D0ED /* IterableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IterableTests.swift; sourceTree = "<group>"; };
 		5981E3C81AB6DFE600F052A0 /* Traversable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Traversable.swift; sourceTree = "<group>"; };
 		5982D6811AE647A100BA53D0 /* ArrayTTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayTTests.swift; sourceTree = "<group>"; };
+		5982D68E1AE7B6DC00BA53D0 /* Vector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vector.swift; sourceTree = "<group>"; };
 		59BBB24B1AC466BD00D2F7C1 /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		59BBB24C1AC466BD00D2F7C1 /* Range.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Range.swift; sourceTree = "<group>"; };
 		59C9BCA81AC2DD440043C96E /* PartialFunction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartialFunction.swift; sourceTree = "<group>"; };
@@ -206,6 +209,7 @@
 				597686151ACAA87B00756A9F /* Stack.swift */,
 				5973D3071AD2A46200EBDE0B /* ArrayT.swift */,
 				A182FAFF1ADBC319005636C1 /* ListT.swift */,
+				5982D68E1AE7B6DC00BA53D0 /* Vector.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -435,6 +439,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1B6F0EA1AE4ECB3006E7997 /* ListT.swift in Sources */,
+				5982D68F1AE7B6DC00BA53D0 /* Vector.swift in Sources */,
 				A1B6F0EB1AE4ECB3006E7997 /* Iterable.swift in Sources */,
 				59D811B71AA87B7C005F7761 /* HashableAny.swift in Sources */,
 				59BBB24D1AC466BD00D2F7C1 /* List.swift in Sources */,
@@ -463,6 +468,7 @@
 				597686191ACAB3DE00756A9F /* StackTests.swift in Sources */,
 				597686171ACAA87B00756A9F /* Stack.swift in Sources */,
 				59C9BCAA1AC2DD440043C96E /* PartialFunction.swift in Sources */,
+				5982D6901AE7B6DC00BA53D0 /* Vector.swift in Sources */,
 				59C9BCAE1AC2DD500043C96E /* PartialFunctionTests.swift in Sources */,
 				596D70421AADB80400CE9962 /* MapTests.swift in Sources */,
 				A183A1351AA85FA500C535A6 /* Swift47DegTests.swift in Sources */,
