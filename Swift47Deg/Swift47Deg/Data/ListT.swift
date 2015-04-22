@@ -44,8 +44,8 @@ extension ListT {
         return ListT(result.append([item]))
     }
     
-    /*
-    *Returns a new ListT with the array passed as parameter.
+    /**
+    Returns a new ListT with the provided array as parameter.
     */
     public func arrayToList( elements: Array<T>) -> ListT<T> {
         var result = internalList
@@ -57,8 +57,8 @@ extension ListT {
     }
     
     
-    /*
-    *Folds the elements of this traversable or iterator using the specified associative binary operator.
+    /**
+    Folds the elements of this ListT using the specified associative binary operator.
     */
     public func fold<B>(f : (B, T) -> B, initial : B) -> B {
         switch internalList.match() {
@@ -68,8 +68,8 @@ extension ListT {
             return xs.reduce(f, initial: f(initial,x))
         }
     }
-    /*
-    *Applies a binary operator to all elements of this list and a start value, going right to left.
+    /**
+    Applies a binary operator to all elements of this ListT and a start value, going right to left.
     */
     public func foldRight<B>(f : (B, T) -> B, initial : B) -> B {
         let a = internalList.reverse()
@@ -82,14 +82,14 @@ extension ListT {
     }
     
     /**
-    Returns the number of items contained in the ListT.
+    Returns the number of items contained in this ListT.
     */
     public func length() -> UInt {
         return internalList.length()
     }
         
-    /*
-    *Reduces the elements of this traversable or iterator using the specified associative binary operator
+    /**
+    Reduces the elements of this ListT using the specified associative binary operator.
     */
     public func reduce<B>(f : (B, T) -> B) -> B? {
         if let head = internalList.head() as? B{
@@ -107,7 +107,7 @@ extension ListT {
     }
     
     /**
-    Applies a binary operator to all elements of this sequence, going right to left. Parameter initial is not necessary
+    Applies a binary operator to all elements of this sequence, going right to left. Initial parameter is not necessary.
     */
     public func reduceRight<B>(f : (B, T) -> B) -> B? {
         let a = internalList.reverse()
