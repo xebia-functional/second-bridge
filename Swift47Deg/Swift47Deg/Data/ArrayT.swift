@@ -272,13 +272,6 @@ extension ArrayT {
     }
     
     /**
-    Returns true if this ArrayT contains elements.
-    */
-    public func nonEmpty() -> Bool {
-        return nonEmptyT(self)
-    }
-    
-    /**
     Returns an array containing the results of mapping `transform` over the elements of the current ArrayT.
     */
     public func map<U>(transform: (T) -> U) -> [U] {
@@ -290,6 +283,13 @@ extension ArrayT {
     */
     public func mapConserve(transform: (T) -> T) -> ArrayT {
         return mapConserveT(self, transform)
+    }
+    
+    /**
+    Returns true if this ArrayT contains elements.
+    */
+    public func nonEmpty() -> Bool {
+        return nonEmptyT(self)
     }
     
     /**
