@@ -27,13 +27,6 @@ public class Vector<T> {
     typealias Array5 = [[[[[T]]]]]
     typealias Array6 = [[[[[[T]]]]]]
     
-    private var level1 : Array1?
-    private var level2 : Array2?
-    private var level3 : Array3?
-    private var level4 : Array4?
-    private var level5 : Array5?
-    private var level6 : Array6?
-    
     private var tailOff : Int = 0
     private var tail : Array1 = Array1()
     private var trie : VectorCaseGen<T>
@@ -47,49 +40,8 @@ public class Vector<T> {
         self.length = length
     }
     
-//    private init() {
-//        
-//    }
-//    
-//    private init(_ trie: Array1) {
-//        level1 = trie
-//    }
-//    
-//    private init(_ trie: Array2) {
-//        level2 = trie
-//    }
-//    
-//    private init(_ trie: Array3) {
-//        level3 = trie
-//    }
-//    
-//    private init(_ trie: Array4) {
-//        level4 = trie
-//    }
-//    
-//    private init(_ trie: Array5) {
-//        level5 = trie
-//    }
-//    
-//    private init(_ trie: Array6) {
-//        level6 = trie
-//    }
-    
-    func vectorType() -> VectorType {
-        if level1 != nil {
-            return .One
-        } else if level2 != nil {
-            return .Two
-        } else if level3 != nil {
-            return .Three
-        } else if level4 != nil {
-            return .Four
-        } else if level5 != nil {
-            return .Five
-        } else if level6 != nil {
-            return .Six
-        }
-        return .Zero
+    convenience init() {
+        self.init(length: 0, trie: VectorCaseGen<T>(), tail: Array1())
     }
 }
 
@@ -120,7 +72,7 @@ extension Vector {
             var trie2 = VectorCaseGen<T>(self.trie.append(tail))
             var arrayTail = Vector<T>.Array1()
             arrayTail.append(obj)
-            return Vector<T>(length: self.length, trie: trie2, tail: arrayTail)
+            return Vector<T>(length: self.length + 1, trie: trie2, tail: arrayTail)
         }
     }
     
@@ -152,6 +104,12 @@ extension Vector {
         } else {
             var pop = trie.pop()
             return Vector(length: length - 1, trie: VectorCaseGen<T>(pop.0), tail: pop.1)
+        }
+    }
+    
+    public var count : Int {
+        get {
+            return self.length
         }
     }
 }
@@ -207,7 +165,6 @@ class VectorCaseGen<T> {
         default: break;
         }
     }
-    
     
     func vectorType() -> VectorType {
         if one != nil {
