@@ -52,10 +52,11 @@ extension Vector {
         get {
             if i >= 0 && i < length {
                 if i >= tailOff {
-                    return tail[i & 0x01]
+                    return tail[i & 0x01f]
                 } else {
                     var arr = trie[i]
-                    return arr[i & 0x01]
+                    //return arr[i & 0x01f]
+                    return arr[i & 0x01f]
                 }
             } else {
                 assertionFailure("Vector index out of bounds: \(i)")
@@ -80,7 +81,7 @@ extension Vector {
         if i >= 0 && i < length {
             if i >= tailOff {
                 var newTail = tail
-                newTail[i & 0x01] = obj
+                newTail[i & 0x01f] = obj
                 return Vector(length: length, trie: self.trie, tail: newTail)
             } else {
                 var newTrie = VectorCaseGen<T>(trie.update(i, obj: obj))
@@ -312,7 +313,7 @@ class VectorOne<T> : VectorCase {
     
     func update(i: Int, obj: ItemType) -> SelfType {
         var trie2 = self.trie
-        trie2[i & 0x01] = obj
+        trie2[i & 0x01f] = obj
         return VectorOne<T>(trie2)
     }
     
@@ -342,16 +343,16 @@ class VectorTwo<T> : VectorCase {
     
     subscript(i: Int) -> Vector<ItemType>.Array1 {
         get {
-            return self.trie[(i >> 5) & 0x01]
+            return self.trie[(i >> 5) & 0x01f]
         }
     }
     
     func update(i: Int, obj: ItemType) -> SelfType {
         var trie2a = trie
-        var trie2b = trie2a[(i >> 5) & 0x01]
+        var trie2b = trie2a[(i >> 5) & 0x01f]
         
-        trie2b[i & 0x01] = obj
-        trie2a[(i >> 5) & 0x01] = trie2b
+        trie2b[i & 0x01f] = obj
+        trie2a[(i >> 5) & 0x01f] = trie2b
         
         return VectorTwo(trie2a)
     }
@@ -395,18 +396,18 @@ class VectorThree<T> : VectorCase {
     
     subscript(i: Int) -> Vector<ItemType>.Array1 {
         get {
-            return self.trie[(i >> 10) & 0x01][(i >> 5) & 0x01]
+            return self.trie[(i >> 10) & 0x01f][(i >> 5) & 0x01f]
         }
     }
     
     func update(i: Int, obj: ItemType) -> SelfType {
         var trie2a = trie
-        var trie2b = trie2a[(i >> 10) & 0x01]
-        var trie2c = trie2b[(i >> 5) & 0x01]
+        var trie2b = trie2a[(i >> 10) & 0x01f]
+        var trie2c = trie2b[(i >> 5) & 0x01f]
         
-        trie2c[i & 0x01] = obj
-        trie2b[(i >> 5) & 0x01] = trie2c
-        trie2a[(i >> 10) & 0x01] = trie2b
+        trie2c[i & 0x01f] = obj
+        trie2b[(i >> 5) & 0x01f] = trie2c
+        trie2a[(i >> 10) & 0x01f] = trie2b
 
         return VectorThree<T>(trie2a)
     }
@@ -471,20 +472,20 @@ class VectorFour<T> : VectorCase {
     
     subscript(i: Int) -> Vector<ItemType>.Array1 {
         get {
-            return self.trie[(i >> 15) & 0x01][(i >> 10) & 0x01][(i >> 5) & 0x01]
+            return self.trie[(i >> 15) & 0x01f][(i >> 10) & 0x01f][(i >> 5) & 0x01f]
         }
     }
     
     func update(i: Int, obj: ItemType) -> SelfType {
         var trie2a = trie
-        var trie2b = trie2a[(i >> 15) & 0x01]
-        var trie2c = trie2b[(i >> 10) & 0x01]
-        var trie2d = trie2c[(i >> 5) & 0x01]
+        var trie2b = trie2a[(i >> 15) & 0x01f]
+        var trie2c = trie2b[(i >> 10) & 0x01f]
+        var trie2d = trie2c[(i >> 5) & 0x01f]
         
-        trie2d[i & 0x01] = obj
-        trie2c[(i >> 5) & 0x01] = trie2d
-        trie2b[(i >> 10) & 0x01] = trie2c
-        trie2a[(i >> 15) & 0x01] = trie2b
+        trie2d[i & 0x01f] = obj
+        trie2c[(i >> 5) & 0x01f] = trie2d
+        trie2b[(i >> 10) & 0x01f] = trie2c
+        trie2a[(i >> 15) & 0x01f] = trie2b
         return VectorFour<T>(trie2a)
     }
     
@@ -580,22 +581,22 @@ class VectorFive<T> : VectorCase {
     
     subscript(i: Int) -> Vector<ItemType>.Array1 {
         get {
-            return self.trie[(i >> 20) & 0x01][(i >> 15) & 0x01][(i >> 10) & 0x01][(i >> 5) & 0x01]
+            return self.trie[(i >> 20) & 0x01f][(i >> 15) & 0x01f][(i >> 10) & 0x01f][(i >> 5) & 0x01f]
         }
     }
     
     func update(i: Int, obj: ItemType) -> SelfType {
         var trie2a = trie
-        var trie2b = trie2a[(i >> 20) & 0x01]
-        var trie2c = trie2b[(i >> 15) & 0x01]
-        var trie2d = trie2c[(i >> 10) & 0x01]
-        var trie2e = trie2d[(i >> 5) & 0x01]
+        var trie2b = trie2a[(i >> 20) & 0x01f]
+        var trie2c = trie2b[(i >> 15) & 0x01f]
+        var trie2d = trie2c[(i >> 10) & 0x01f]
+        var trie2e = trie2d[(i >> 5) & 0x01f]
         
-        trie2e[i & 0x01] = obj
-        trie2d[(i >> 5) & 0x01] = trie2e
-        trie2c[(i >> 10) & 0x01] = trie2d
-        trie2b[(i >> 15) & 0x01] = trie2c
-        trie2a[(i >> 20) & 0x01] = trie2b
+        trie2e[i & 0x01f] = obj
+        trie2d[(i >> 5) & 0x01f] = trie2e
+        trie2c[(i >> 10) & 0x01f] = trie2d
+        trie2b[(i >> 15) & 0x01f] = trie2c
+        trie2a[(i >> 20) & 0x01f] = trie2b
         return VectorFive<T>(trie2a)
     }
     
@@ -726,24 +727,24 @@ class VectorSix<T> : VectorCase {
     
     subscript(i: Int) -> Vector<ItemType>.Array1 {
         get {
-            return self.trie[(i >> 25) & 0x01][(i >> 20) & 0x01][(i >> 15) & 0x01][(i >> 10) & 0x01][(i >> 5) & 0x01]
+            return self.trie[(i >> 25) & 0x01f][(i >> 20) & 0x01f][(i >> 15) & 0x01f][(i >> 10) & 0x01f][(i >> 5) & 0x01f]
         }
     }
     
     func update(i: Int, obj: ItemType) -> SelfType {
         var trie2a = trie
-        var trie2b = trie2a[(i >> 25) & 0x01]
-        var trie2c = trie2b[(i >> 20) & 0x01]
-        var trie2d = trie2c[(i >> 15) & 0x01]
-        var trie2e = trie2d[(i >> 10) & 0x01]
-        var trie2f = trie2e[(i >> 5) & 0x01]
+        var trie2b = trie2a[(i >> 25) & 0x01f]
+        var trie2c = trie2b[(i >> 20) & 0x01f]
+        var trie2d = trie2c[(i >> 15) & 0x01f]
+        var trie2e = trie2d[(i >> 10) & 0x01f]
+        var trie2f = trie2e[(i >> 5) & 0x01f]
         
-        trie2f[i & 0x01] = obj
-        trie2e[(i >> 5) & 0x01] = trie2f
-        trie2d[(i >> 10) & 0x01] = trie2e
-        trie2c[(i >> 15) & 0x01] = trie2d
-        trie2b[(i >> 20) & 0x01] = trie2c
-        trie2a[(i >> 25) & 0x01] = trie2b
+        trie2f[i & 0x01f] = obj
+        trie2e[(i >> 5) & 0x01f] = trie2f
+        trie2d[(i >> 10) & 0x01f] = trie2e
+        trie2c[(i >> 15) & 0x01f] = trie2d
+        trie2b[(i >> 20) & 0x01f] = trie2c
+        trie2a[(i >> 25) & 0x01f] = trie2b
         return VectorSix<T>(trie2a)
     }
    
