@@ -1,10 +1,18 @@
-//
-//  VectorTests.swift
-//  Swift47Deg
-//
-//  Created by Javier de Silóniz Sandino on 23/4/15.
-//  Copyright (c) 2015 47 Degrees. All rights reserved.
-//
+/*
+* Copyright (C) 2015 47 Degrees, LLC http://47deg.com hello@47deg.com
+*
+* Licensed under the Apache License, Version 2.0 (the "License"); you may
+* not use this file except in compliance with the License. You may obtain
+* a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 
 import UIKit
 import XCTest
@@ -63,6 +71,17 @@ class VectorTests: XCTestCase {
         for i in 0..<(1048576 + 32) {
             vectorLevelFourMax = vectorLevelFourMax.append(i)
         }
+        
+        // This tests take a lot to get completed, commented for sanity unless necessary:
+        
+//
+//        for i in 0...(1048576 + 32) {
+//            vectorLevelFiveMin = vectorLevelFiveMin.append(i)
+//        }
+//        
+//        for i in 0..<(33554432 + 32) {
+//            vectorLevelFiveMax = vectorLevelFiveMax.append(i)
+//        }
     }
     
     override func tearDown() {
@@ -104,6 +123,15 @@ class VectorTests: XCTestCase {
         XCTAssertTrue(vectorLevelFourToThree.debugTrieLevel == .Three, "Vectors should handle its trie levels OK")
         XCTAssertTrue(vectorLevelFourToFive.debugTrieLevel == .Five, "Vectors should handle its trie levels OK")
         
-        println("lel")
+
+        // This tests take a lot to get completed, commented for sanity unless necessary:
+        
+//        XCTAssertTrue(vectorLevelFiveMin.debugTrieLevel == .Five, "Vectors should handle its trie levels OK")
+//        XCTAssertTrue(vectorLevelFiveMax.debugTrieLevel == .Five, "Vectors should handle its trie levels OK")
+//        
+//        var vectorLevelFiveToSix = vectorLevelFiveMin.pop()
+//        var vectorLevelFiveToFour = vectorLevelFiveMax.append(666)
+//        XCTAssertTrue(vectorLevelFiveToSix.debugTrieLevel == .Six, "Vectors should handle its trie levels OK")
+//        XCTAssertTrue(vectorLevelFiveToFour.debugTrieLevel == .Four, "Vectors should handle its trie levels OK")
     }
 }

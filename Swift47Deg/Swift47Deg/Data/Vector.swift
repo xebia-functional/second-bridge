@@ -1,14 +1,29 @@
-//
-//  Vector.swift
-//  Swift47Deg
-//
-//  Created by Javier de Silóniz Sandino on 22/4/15.
-//  Copyright (c) 2015 47 Degrees. All rights reserved.
-//
+/*
+* Copyright (C) 2015 47 Degrees, LLC http://47deg.com hello@47deg.com
+*
+* Licensed under the Apache License, Version 2.0 (the "License"); you may
+* not use this file except in compliance with the License. You may obtain
+* a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+/*
+* This code is an straight port (or at least, as straight as it can be) from the Scala Vector class made by
+* Daniel Spiewak, which was part from his awesome talk "Extreme Cleverness: Functional Data Structures in Scala".
+* You can (and should) find this talk at this URL: http://www.infoq.com/presentations/Functional-Data-Structures-in-Scala
+* and the Scala implementation code at this GitHub repo: https://github.com/djspiewak/extreme-cleverness
+*/
 
 import Foundation
 
-enum VectorType {
+public enum VectorType {
     case Zero
     case One
     case Two
@@ -18,6 +33,7 @@ enum VectorType {
     case Six
 }
 
+/// Vector | An immutable Persistent Bit-partitioned Vector Trie containing elements of type T.
 public class Vector<T> {
     
     typealias Array1 = [T]
@@ -64,6 +80,9 @@ extension Vector {
         }
     }
     
+    /**
+    * Returns a new Vector containing all the elements of the provided one, and `obj` appended to its tail.
+    */
     public func append(obj: T) -> Vector<T> {
         if tail.count < 32 {
             var tail2 = tail
@@ -77,6 +96,10 @@ extension Vector {
         }
     }
     
+    /**
+    * Returns a new Vector containing all the elements of the provided one, except for the item at `i` position
+    * which is updated with the value `obj`.
+    */
     public func update(i: Int, obj: T) -> Vector<T> {
         if i >= 0 && i < length {
             if i >= tailOff {
@@ -93,6 +116,9 @@ extension Vector {
         assertionFailure("Vector index out of bounds: \(i)")
     }
     
+    /**
+    * Returns a new Vector containing all the elements of the provided one, except its last one.
+    */
     public func pop() -> Vector<T> {
         if length == 0 {
             assertionFailure("Cannot pop empty vector")
@@ -108,9 +134,25 @@ extension Vector {
         }
     }
     
+    /**
+    * Returns the number of elements contained in the provided Vector.
+    */
     public var count : Int {
         get {
             return self.length
+        }
+    }
+}
+
+// MARK: - Operations for testing purposes:
+
+extension Vector {
+    /**
+    * Returns the depth level of the tries inside this Vector. Implemented for testing purposes only.
+    */
+    public var debugTrieLevel : VectorType {
+        get {
+            return self.trie.vectorType()
         }
     }
 }
@@ -505,8 +547,8 @@ class VectorFour<T> : VectorCase {
                 } else {
                     var trie2 = trie
                     trie2.append(Vector<ItemType>.Array3())
-                    trie2[0].append(Vector<ItemType>.Array2())
-                    trie2[0][0].append(tail)
+                    trie2[trie2.count - 1].append(Vector<ItemType>.Array2())
+                    trie2[trie2.count - 1][0].append(tail)
                     
                     return VectorFour<T>(trie2)
                 }
@@ -617,10 +659,12 @@ class VectorFive<T> : VectorCase {
                         return VectorSix<T>(trie2)
                     } else {
                         var trie2 = trie
-                        trie2.append(Vector<ItemType>.Array4())
-                        trie2[0].append(Vector<ItemType>.Array3())
-                        trie2[0][0].append(Vector<ItemType>.Array2())
-                        trie2[0][0][0].append(tail)
+                        var emptyTrie = Vector<ItemType>.Array4()
+                        emptyTrie.append(Vector<ItemType>.Array3())
+                        emptyTrie[0].append(Vector<ItemType>.Array2())
+                        emptyTrie[0][0].append(tail)
+                        
+                        trie2.append(emptyTrie)
                         
                         return VectorFive<T>(trie2)
                     }
@@ -628,10 +672,11 @@ class VectorFive<T> : VectorCase {
                     var trie2 = trie
                     var trie2Last = trie2.last!
                     
-                    trie2Last.append(Vector<ItemType>.Array3())
-                    trie2Last[0].append(Vector<ItemType>.Array2())
-                    trie2Last[0][0].append(tail)
+                    var emptyTrie = Vector<ItemType>.Array3()
+                    emptyTrie.append(Vector<ItemType>.Array2())
+                    emptyTrie[0].append(tail)
                     
+                    trie2Last.append(emptyTrie)
                     trie2[trie2.count - 1] = trie2Last
                     
                     return VectorFive<T>(trie2)
@@ -641,8 +686,9 @@ class VectorFive<T> : VectorCase {
                 var trie2Last = trie2.last!
                 var trie2LastLast = trie2.last!.last!
                 
-                trie2LastLast.append(Vector<ItemType>.Array2())
-                trie2LastLast[0].append(tail)
+                var emptyTrie = Vector<ItemType>.Array2()
+                emptyTrie.append(tail)
+                trie2LastLast.append(emptyTrie)
                 trie2Last[trie2Last.count - 1] = trie2LastLast
                 trie2[trie2.count - 1] = trie2Last
                 
@@ -758,11 +804,13 @@ class VectorSix<T> : VectorCase {
                             return VectorZero<T>()
                         } else {
                             var trie2 = trie
-                            trie2.append(Vector<ItemType>.Array5())
-                            trie2[0].append(Vector<ItemType>.Array4())
-                            trie2[0][0].append(Vector<ItemType>.Array3())
-                            trie2[0][0][0].append(Vector<ItemType>.Array2())
-                            trie2[0][0][0][0].append(tail)
+                            var emptyTrie = Vector<ItemType>.Array5()
+                            emptyTrie.append(Vector<ItemType>.Array4())
+                            emptyTrie[0].append(Vector<ItemType>.Array3())
+                            emptyTrie[0][0].append(Vector<ItemType>.Array2())
+                            emptyTrie[0][0][0].append(tail)
+                            
+                            trie2.append(emptyTrie)
                             
                             return VectorSix<T>(trie2)
                         }
@@ -770,12 +818,14 @@ class VectorSix<T> : VectorCase {
                         var trie2 = trie
                         var trie2Last = trie2.last!
                         
-                        trie2Last.append(Vector<ItemType>.Array4())
-                        trie2Last[0].append(Vector<ItemType>.Array3())
-                        trie2Last[0][0].append(Vector<ItemType>.Array2())
-                        trie2Last[0][0][0].append(tail)
+                        var emptyTrie = Vector<ItemType>.Array4()
+                        emptyTrie.append(Vector<ItemType>.Array3())
+                        emptyTrie[0].append(Vector<ItemType>.Array2())
+                        emptyTrie[0][0].append(tail)
                         
+                        trie2Last.append(emptyTrie)
                         trie2[trie2.count - 1] = trie2Last
+                        
                         return VectorSix<T>(trie2)
                     }
                 } else {
@@ -783,10 +833,11 @@ class VectorSix<T> : VectorCase {
                     var trie2Last = trie2.last!
                     var trie2LastLast = trie2Last.last!
                     
-                    trie2LastLast.append(Vector<ItemType>.Array3())
-                    trie2LastLast[0].append(Vector<ItemType>.Array2())
-                    trie2LastLast[0][0].append(tail)
+                    var emptyTrie = Vector<ItemType>.Array3()
+                    emptyTrie.append(Vector<ItemType>.Array2())
+                    emptyTrie[0].append(tail)
                     
+                    trie2LastLast.append(emptyTrie)
                     trie2Last[trie2Last.count - 1] = trie2LastLast
                     trie2[trie2.count - 1] = trie2Last
                     
@@ -798,8 +849,9 @@ class VectorSix<T> : VectorCase {
                 var trie2LastLast = trie2.last!.last!
                 var trie2LastLastLast = trie2.last!.last!.last!
                 
-                trie2LastLastLast.append(Vector<ItemType>.Array2())
-                trie2LastLastLast[0].append(tail)
+                var emptyTrie = Vector<ItemType>.Array2()
+                emptyTrie.append(tail)
+                trie2LastLastLast.append(emptyTrie)
                 
                 trie2LastLast[trie2LastLast.count - 1] = trie2LastLastLast
                 trie2Last[trie2Last.count - 1] = trie2LastLast
@@ -897,6 +949,7 @@ class VectorSix<T> : VectorCase {
 }
 
 // MARK: - Vector Builder
+// TODO: A direct translation from Scala's version, it has to be changed to support Swift's arrays to allow creating a Vector from an existing Array.
 
 class VectorBuilder<T> {
     private var buffer = Array<T>()
