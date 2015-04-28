@@ -34,7 +34,7 @@ public enum VectorType {
 }
 
 /// Vector | An immutable Persistent Bit-partitioned Vector Trie containing elements of type T.
-public class Vector<T> {
+public final class Vector<T> {
     
     typealias Array1 = [T]
     typealias Array2 = [[T]]
@@ -71,7 +71,6 @@ extension Vector {
                     return tail[i & 0x01f]
                 } else {
                     var arr = trie[i]
-                    //return arr[i & 0x01f]
                     return arr[i & 0x01f]
                 }
             } else {
@@ -156,6 +155,62 @@ extension Vector {
         }
     }
 }
+
+// MARK: - Traversable / Iterable implementations
+
+extension Vector : SequenceType {
+    public typealias Generator = GeneratorOf<T>
+    
+    public func generate() -> Generator {
+        var index : Int = 0
+        
+        return Generator {
+            if index < self.count {
+                let result = self[index]
+                index++
+                return result
+            }
+            return nil
+        }
+    }
+}
+
+extension Vector : Traversable {
+    public func foreach(f: (T) -> ()) {
+        for item in self {
+            f(item)
+        }
+    }
+    
+    /**
+    Build a new Vector instance with the elements contained in the `elements` array.
+    */
+    public class func build(elements: [T]) -> Vector<T> {
+        let vectorGen = VectorBuilder(buffer: elements)
+        return vectorGen.result()
+    }
+    
+    /**
+    Build a new Vector instance with the elements contained in the provided Traversable instance. The provided traversable is expected to contain
+    items with the same type as the Stack struct. Items of different types will be discarded.
+    */
+    public class func buildFromTraversable<U where U : Traversable>(traversable: U) -> Vector<T> {
+        return reduceT(traversable, Vector()) { (result, item) -> Vector in
+            switch item {
+            case let sameTypeItem as T: result.append(sameTypeItem)
+            default: break
+            }
+            return result
+        }
+    }
+}
+
+extension Vector : Iterable {
+    
+}
+
+
+// MARK: - Inner stuff
 
 class VectorCaseGen<T> {
     typealias ItemType = T
@@ -949,10 +1004,10 @@ class VectorSix<T> : VectorCase {
 }
 
 // MARK: - Vector Builder
-// TODO: A direct translation from Scala's version, it has to be changed to support Swift's arrays to allow creating a Vector from an existing Array.
+// A direct translation from Scala's version, just changed a little bit to allow creating a Vector from an existing Swift Array.
 
 class VectorBuilder<T> {
-    private var buffer = Array<T>()
+    private var buffer : Array<T>
     
     let ZeroThresh = 0
     let OneThresh = 32
@@ -962,8 +1017,8 @@ class VectorBuilder<T> {
     let FiveThresh = 32 << 20
     let SixThresh = 32 << 25
     
-    func append(obj: T) {
-        buffer.append(obj)
+    init(buffer: Array<T>) {
+        self.buffer = buffer
     }
     
     func result() -> Vector<T> {
@@ -991,7 +1046,7 @@ class VectorBuilder<T> {
             assertionFailure("Cannot build vector with length which exceeds MAX_INT")
         }
         
-        return Vector<T>(length: buffer.count, trie: trie, tail: fillArray1(tailBuffer))
+        return Vector(length: buffer.count, trie: trie, tail: fillArray1(tailBuffer))
     }
 }
 
