@@ -55,8 +55,7 @@ class VectorPerformanceTests: XCTestCase {
         self.measureBlock() {
             self.vectorSmall = self.vectorSmall.append(666)
         }
-    }
-    
+    }    
     
     func testPerformanceAppendMedium() {
         self.measureBlock() {
@@ -111,6 +110,72 @@ class VectorPerformanceTests: XCTestCase {
             for i in 0..<10 {
                 let index = Int(arc4random_uniform(UInt32(self.vectorMedium.count)))
                 let value = self.vectorBig[index]
+            }
+        }
+    }
+    
+    // MARK: - Array performance tests
+    
+    func testPerformanceAppendArraySmall() {
+        self.measureBlock() {
+            self.arraySmall.append(666)
+        }
+    }
+    
+    
+    func testPerformanceAppendArrayMedium() {
+        self.measureBlock() {
+            self.arrayMedium.append(666)
+        }
+    }
+    
+    func testPerformanceAppendArrayBig() {
+        self.measureBlock() {
+            self.arrayBig.append(666)
+        }
+    }
+    
+    func testPerformanceUpdateArraySmall() {
+        self.measureBlock() {
+            self.arraySmall[5] = 666
+        }
+    }
+    
+    func testPerformanceUpdateArrayMedium() {
+        self.measureBlock() {
+            self.arrayMedium[500] = 666
+        }
+    }
+    
+    func testPerformanceUpdateArrayBig() {
+        self.measureBlock() {
+            self.arrayBig[30000] = 666
+        }
+    }
+    
+    func testPerformanceAccessArraySmall() {
+        self.measureBlock() {
+            for i in 0..<10 {
+                let index = Int(arc4random_uniform(UInt32(self.vectorSmall.count)))
+                let value = self.arraySmall[index]
+            }
+        }
+    }
+    
+    func testPerformanceAccessArrayMedium() {
+        self.measureBlock() {
+            for i in 0..<10 {
+                let index = Int(arc4random_uniform(UInt32(self.vectorMedium.count)))
+                let value = self.arrayMedium[index]
+            }
+        }
+    }
+    
+    func testPerformanceAccessArrayBig() {
+        self.measureBlock() {
+            for i in 0..<10 {
+                let index = Int(arc4random_uniform(UInt32(self.vectorMedium.count)))
+                let value = self.arrayBig[index]
             }
         }
     }
