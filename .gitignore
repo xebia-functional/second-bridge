@@ -16,6 +16,9 @@ DerivedData
 *.hmap
 *.xccheckout
 
+#Playground
+*.playgrounddata
+
 #CocoaPods
 Pods
 Podfile.lock
