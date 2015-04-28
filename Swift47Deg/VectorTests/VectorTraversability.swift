@@ -14,13 +14,6 @@
 * limitations under the License.
 */
 
-/*
-* This code is an straight port (or at least, as straight as it can be) from the Scala Vector class made by
-* Daniel Spiewak, which was part from his awesome talk "Extreme Cleverness: Functional Data Structures in Scala".
-* You can (and should) find this talk at this URL: http://www.infoq.com/presentations/Functional-Data-Structures-in-Scala
-* and the Scala implementation code at this GitHub repo: https://github.com/djspiewak/extreme-cleverness
-*/
-
 import UIKit
 import XCTest
 
@@ -48,6 +41,9 @@ class VectorTraversability: XCTestCase {
     func testTraversability() {
         let vectorFromArraySmall = Vector<Int>.build(arraySmall)
         let vectorFromArrayBig = Vector<Int>.build(arrayBig)
-        println("lel")
+        XCTAssertEqual(vectorFromArraySmall.count, arraySmall.count, "Traversability should allow to create vectors from arrays")
+        XCTAssertEqual(vectorFromArraySmall[10], arraySmall[10], "Traversability should allow to create vectors from arrays")
+        XCTAssertEqual(vectorFromArrayBig.count, arrayBig.count, "Traversability should allow to create vectors from arrays")
+        XCTAssertEqual(vectorFromArrayBig[1000], arrayBig[1000], "Traversability should allow to create vectors from arrays")
     }
 }
