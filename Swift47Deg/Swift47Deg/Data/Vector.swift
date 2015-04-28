@@ -49,15 +49,25 @@ public final class Vector<T> {
     private var length : Int = 0
     
     // MARK: - Initializers
-    init(length: Int, trie: VectorCaseGen<T>, tail: Array1) {
+    public init(length: Int, trie: VectorCaseGen<T>, tail: Array1) {
         tailOff = length - tail.count
         self.tail = tail
         self.trie = trie
         self.length = length
     }
     
-    convenience init() {
+    public convenience init() {
         self.init(length: 0, trie: VectorCaseGen<T>(), tail: Array1())
+    }
+    
+    public convenience init(array: [T]) {
+        self.init()
+        
+        // Not the best way to do it, performance should be much greater using Vector.build(...). Added for convenience:
+        let sourceVector = Vector.build(array)
+        self.trie = sourceVector.trie
+        self.tail = sourceVector.tail
+        self.length = sourceVector.length
     }
 }
 
@@ -175,6 +185,8 @@ extension Vector : SequenceType {
     }
 }
 
+// MARK: - Traversable / Iterable implementation
+
 extension Vector : Traversable {
     public func foreach(f: (T) -> ()) {
         for item in self {
@@ -209,10 +221,25 @@ extension Vector : Iterable {
     
 }
 
+// MARK: - Printable
+
+extension Vector : Printable, DebugPrintable {
+    public var description : String {
+        get {
+            return "Vector(\(self.length))"
+        }
+    }
+    
+    public var debugDescription : String {
+        get {
+            return self.description
+        }
+    }
+}
 
 // MARK: - Inner stuff
 
-class VectorCaseGen<T> {
+public class VectorCaseGen<T> {
     typealias ItemType = T
     typealias SelfType = VectorCaseGen<T>
     
