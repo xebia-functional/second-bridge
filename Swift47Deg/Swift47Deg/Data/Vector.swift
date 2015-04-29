@@ -65,6 +65,8 @@ public final class Vector<T> {
         
         // Not the best way to do it, performance should be much greater using Vector.build(...). Added for convenience:
         let sourceVector = Vector.build(array)
+        
+        self.tailOff = sourceVector.tailOff
         self.trie = sourceVector.trie
         self.tail = sourceVector.tail
         self.length = sourceVector.length
@@ -74,7 +76,7 @@ public final class Vector<T> {
 // MARK: - Public operations
 
 extension Vector {
-    subscript(i: Int) -> T {
+    public subscript(i: Int) -> T {
         get {
             if i >= 0 && i < length {
                 if i >= tailOff {

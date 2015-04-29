@@ -85,7 +85,6 @@ func nQueensSolutions(n: Int) -> Stack<Stack<Pos>> {
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        println("lel")
     }
     
     var squareSize : CGFloat {
