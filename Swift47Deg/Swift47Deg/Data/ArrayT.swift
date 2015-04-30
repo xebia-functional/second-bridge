@@ -114,6 +114,20 @@ extension ArrayT : Iterable {
     
 }
 
+extension ArrayT : DebugPrintable, Printable {
+    public var description : String {
+        get {
+            return internalArray.description
+        }
+    }
+    
+    public var debugDescription : String {
+        get {
+            return internalArray.debugDescription
+        }
+    }
+}
+
 extension ArrayT {
     func toArray() -> Array<T> {
         var internalArray = self.internalArray
