@@ -2,7 +2,7 @@
 import UIKit
 import Swift47Deg
 
-let str = "Playground Example Map"
+let str = "Playground Map Koans"
 
 //Maps can be created easily:
 let myMap1 : Map<String> = ["MI" : "Michigan", "OH" : "Ohio", "WI" : "Wisconsin", "IA" : "Iowa"]
@@ -84,7 +84,6 @@ let myMap14 : Map = ["WI" : "Wisconsin", "MI" : "Michigan", "IA" : "Iowa", "OH" 
 myMap13 == (myMap14)
 
 
-myMap12.map(2)
 
 
 
