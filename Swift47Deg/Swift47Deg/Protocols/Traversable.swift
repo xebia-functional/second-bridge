@@ -300,7 +300,7 @@ public func mkStringT<S: Traversable>(source: S, start: String, separator: Strin
     })
     switch (start, separator, end) {
     case ("", "", ""): return reduceString
-    default: return reduceString.substringToIndex(reduceString.endIndex.predecessor()) + end
+    default: return reduceString.substringToIndex(advance(reduceString.startIndex, reduceString.utf16Count - separator.utf16Count)) + end
     }
 }
 
