@@ -128,11 +128,7 @@ extension Stack: Printable, DebugPrintable {
     public var description : String {
         get {
             if self.size() > 0 {
-                return "bottom ->" + reduceT(self, "") { (text, item) -> String in
-                    var nextText = text
-                    nextText += "[\(item)]"
-                    return nextText
-                } + "<- top"
+                return self.mkString("[ ", separator: " | ", end: " ] <- top")
             }
             return "Empty stack"
         }

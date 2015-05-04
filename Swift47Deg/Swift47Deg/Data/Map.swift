@@ -108,7 +108,23 @@ extension Map : Iterable {
 
 }
 
-// MARK: Higher-order functions
+// MARK: - Printable
+
+extension Map: Printable, DebugPrintable {
+    public var description : String {
+        get {
+            return self.mkString(", ")
+        }
+    }
+    
+    public var debugDescription: String {
+        get {
+            return self.description
+        }
+    }
+}
+
+// MARK: - Higher-order functions
 
 extension Map {
     /**
@@ -532,6 +548,20 @@ extension Map {
     */
     public func mkString(start: String, separator: String, end: String) -> String {
         return mkStringT(self, start, separator, end)
+    }
+    
+    /**
+    Returns a string representation of all the elements within the Map, without any separation between them.
+    */
+    public func mkString() -> String {
+        return self.mkString("", separator: "", end: "")
+    }
+    
+    /**
+    Returns a string representation of all the elements within the Map, separated by the provided separator.
+    */
+    public func mkString(separator: String) -> String {
+        return self.mkString("", separator: separator, end: "")
     }
 }
 

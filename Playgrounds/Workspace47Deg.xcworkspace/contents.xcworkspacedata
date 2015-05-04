@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:ExampleNQueens.playground">
+   </FileRef>
+   <FileRef
       location = "group:ExampleMap.playground">
    </FileRef>
    <FileRef
