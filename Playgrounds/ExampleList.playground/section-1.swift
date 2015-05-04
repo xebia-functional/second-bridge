@@ -44,6 +44,19 @@ var f : ListT = [1,3,5,7,9]
 var g : ListT = f.filterNot({$0 == 1})
 
 //Lists have many useful methods
+var h : ListT = [1,3,5,7,9]
+
+// get the length of the list
+h.length() == 5
+
+// reverse the list
+h.reverse()
+
+
+
+
+
+
 
 
 
