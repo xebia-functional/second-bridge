@@ -27,12 +27,15 @@ public struct ListT<T> {
     }
 }
 
-extension ListT: Equatable {}
+//Operators
 
-public func ==<T>(lhs: ListT<T> , rhs: ListT<T> ) -> Bool {
-    return true
+public func ==<T : Equatable>(lhs: ListT<T> , rhs: ListT<T> ) -> Bool {
+    return lhs.internalList == rhs.internalList
 }
 
+public func ==<A,B>(lhs: ListT<A> , rhs: ListT<B> ) -> Bool {
+    return lhs.length() == 0 && rhs.length() == 0
+}
 
 extension ListT {
     
@@ -136,8 +139,24 @@ extension ListT {
         case let .Cons(x, xs):
             return xs.reduce(f, initial: f(initial,x))
         }
+    }    
+    
+}
+
+// MARK: - Printable
+
+extension ListT: Printable, DebugPrintable {
+    public var description : String {
+        get {
+            return internalList.description
+        }
     }
     
+    public var debugDescription: String {
+        get {
+            return internalList.description
+        }
+    }
 }
 
 extension ListT: ArrayLiteralConvertible {

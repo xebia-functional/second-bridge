@@ -1,3 +1,20 @@
+/*
+* Copyright (C) 2015 47 Degrees, LLC http://47deg.com hello@47deg.com
+*
+* Licensed under the Apache License, Version 2.0 (the "License"); you may
+* not use this file except in compliance with the License. You may obtain
+* a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
 import UIKit
 import Swift47Deg
 
@@ -132,7 +149,7 @@ extension ChessBoardView {
 // MARK: - Resolution view
 
 // N-Queens resolution is a really cool visual image of what can be achieved with functional code with just a few lines of codes. But its algorithm use intensive recursive calculation, and as such it won't work that well under a Playground if using values of n = 4 - 6. Please keep that in mind while playing with it :).
-let numberOfPieces = 4
+let numberOfPieces = 2
 let chessBoard = ChessBoardView(size: 200, boardPieces: numberOfPieces)
 let solutions = nQueensSolutions(numberOfPieces).toArray()
 

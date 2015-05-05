@@ -21,20 +21,27 @@ let str = "Playground Map Koans"
 
 //Maps can be created easily:
 let myMap1 : Map<String> = ["MI" : "Michigan", "OH" : "Ohio", "WI" : "Wisconsin", "IA" : "Iowa"]
+println(myMap1)
 myMap1.size == 4
+
 
 //Maps contain distinct pairings:
 let myMap2 : Map<String> = ["MI" : "Michigan", "OH" : "Ohio", "WI" : "Wisconsin", "WI" : "Wisconsin"]
+println(myMap2)
 myMap2.size == 3
 
 //:Maps can be added to easily:
 let myMap3 : Map<String> = ["MI" : "Michigan", "OH" : "Ohio", "WI" : "Wisconsin", "WI" : "Wisconsin"]
+println(myMap3)
 let aNewMap = myMap3 + ["IL":"Illinois"]
+println(aNewMap)
 aNewMap.contains("IL")
 
 //Map values can be iterated:
 let myMap4 :  Map<String> = ["MI" : "Michigan", "OH" : "Ohio", "WI" : "Wisconsin", "MI" : "Michigan"]
+println(myMap4)
 let map4Values = myMap4.values()
+println(map4Values)
 map4Values.count == 3
 map4Values.first
 let lastElement = map4Values.last
