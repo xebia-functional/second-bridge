@@ -38,23 +38,22 @@ Introduction
 Datatypes conforming to this protocol should expose certain functions that allow to traverse through them, and also being built from other Traversable types (although the latter has some limitations due to Swift type constraints restrictions). All Traversable instances have access to the methods declared in this protocol.
 
 ```swift
- typealias ItemType
+public protocol Traversable {
+   typealias ItemType
     
-    /** 
-    Traverse all items of the instance, and call the provided function on each one.
-    */
-    func foreach(f: (ItemType) -> ())
+  //Traverse all items of the instance, and call the provided function on each one.
+  
+  func foreach(f: (ItemType) -> ())
+   
+ // Build a new instance of the same Traversable type with the elements contained in the `elements` array (i.e.: returned from the **T functions).
     
-    /**
-    Build a new instance of the same Traversable type with the elements contained in the `elements` array (i.e.: returned from the trav*** functions).
-    */
-    class func build(elements: [ItemType]) -> Self
+  class func build(elements: [ItemType]) -> Self
     
-    /**
-    Build a new instance of the same Traversable type with the elements contained in the provided Traversable instance. Users calling this function are responsible of transforming the data of each item to a valid ItemType suitable for the current Traversable class.
-    */
-    class func buildFromTraversable<U where U : Traversable>(traversable: U) -> Self
-
+ /**Build a new instance of the same Traversable type with the elements contained in the provided Traversable     instance. Users calling this function are responsible of transforming the data of each item to a valid ItemType suitable for the current Traversable class.
+  */
+   class func buildFromTraversable<U where U : Traversable>(traversable: U) -> Self
+}
+ 
 ```
 
 Global functions. These functions are available for all Traversable-conforming types:
@@ -114,7 +113,7 @@ Methods implemented:
 * **zipWithIndex**<S: Iterable where S.Generator.Element == S.ItemType>(source: S) -> [(S.ItemType, Int)] 
 
 
-#STRUCT
+#### STRUCT
 
 **ArrayT**
 
@@ -184,7 +183,7 @@ import SecondBrigde
 
 [PlayGroundNQueens](https://github.com/47deg/swift-poc/blob/master/Playgrounds/ExampleNQueens.playground/section-1.swift)
 
-#FUNTION
+####  FUNTION
 
 **Partial Function**
 
