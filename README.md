@@ -147,7 +147,7 @@ a.filter({$0 % 3 == 0})  //  [1,2,4]
 
 ```
 
-[PlayGroundList](https://github.com/47deg/swift-poc/blob/master/Playgrounds/ExampleList.playground/section-1.swift)
+[Playground for Lists](https://github.com/47deg/swift-poc/blob/master/Playgrounds/ExampleList.playground/section-1.swift)
 
 **Map**
 
@@ -169,7 +169,7 @@ let reducedResult = map.reduceByValue(0, combine: +)   // 10
 let values = map.values 	// [1, 2, 3, 4]
 
 ```
-[PlayGroundMap](https://github.com/47deg/swift-poc/blob/master/Playgrounds/ExampleMap.playground/section-1.swift)
+[Playground for Maps](https://github.com/47deg/swift-poc/blob/master/Playgrounds/ExampleMap.playground/section-1.swift)
 
 **Stack**
 
@@ -188,6 +188,8 @@ stack = stack.top()		// 3
 stack.pop()				// (3, Stack[2, 1])
 
 ```
+[Playground for Stacks](https://github.com/47deg/swift-poc/blob/master/Playgrounds/ExampleStack.playground/section-1.swift)
+[Playground to showcase the use of Stacks and functional algorithms to solve the N-Queens problem](https://github.com/47deg/swift-poc/blob/master/Playgrounds/ExampleNQueens.playground/section-1.swift)
 
 **Vector**
 
@@ -204,8 +206,7 @@ let value = vector[1]			// 2
 vector = vector.pop()			// [1, 2]
 
 ```
-
-[PlayGroundNQueens](https://github.com/47deg/swift-poc/blob/master/Playgrounds/ExampleNQueens.playground/section-1.swift)
+[Playground for Vectors](https://github.com/47deg/swift-poc/blob/master/Playgrounds/ExampleVector.playground/section-1.swift)
 
 ####  FUNCTIONS
 
