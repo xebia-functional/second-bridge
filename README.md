@@ -1,7 +1,7 @@
-Second Brigde
+Second Bridge
 =============
 
-Second Brigde is a Swift library for functional programming.
+Second Bridge is a Swift library for functional programming. Our goal is to make Swift development on par with other functional languages like Scala by adding new data types, functions and operators.
 
 This project depends on the [Swiftz](https://github.com/typelift/Swiftz) library. This library defines functional data structures, functions, idioms, and extensions that augment the Swift standard library. Please install as a local git submodule, for more information please read the [project site](https://github.com/typelift/Swiftz).
 
@@ -28,35 +28,35 @@ To add Second Brigde to your application:
 
 
 
-Introduction
+Features
 ===========
 
-####  PROTOCOL
+####  PROTOCOLS
 
-**Protocol Traversable**
+**Traversable**
 
-Datatypes conforming to this protocol should expose certain functions that allow to traverse through them, and also being built from other Traversable types (although the latter has some limitations due to Swift type constraints restrictions). All Traversable instances have access to the methods declared in this protocol.
+Data types conforming to this protocol should expose certain functions that allow to traverse through them, and also being built from other Traversable types (although the latter has some limitations due to Swift type constraints restrictions). Any data type instantly gain access to a wide range of functional utility functions, by just implementing the following three methods:
 
 ```swift
 public protocol Traversable {
    typealias ItemType
     
-//Traverse all items of the instance, and call the provided function on each one.
+// Traverse all items of the instance, and call the provided function on each one.
   
   func foreach(f: (ItemType) -> ())
    
-//Build a new instance of the same Traversable type with the elements contained in the `elements` array (i.e.: returned from the **T functions).
+// Build a new instance of the same Traversable type with the elements contained in the `elements` array (i.e.: returned from the **T functions).
     
   class func build(elements: [ItemType]) -> Self
     
-//Build a new instance of the same Traversable type with the elements contained in the provided Traversable     instance. Users calling this function are responsible of transforming the data of each item to a valid ItemType suitable for the current Traversable class.
+// Build a new instance of the same Traversable type with the elements contained in the provided Traversable instance. Users calling this function are responsible of transforming the data of each item to a valid ItemType suitable for the current Traversable class.
  
   class func buildFromTraversable<U where U : Traversable>(traversable: U) -> Self
 }
  
 ```
 
-Global functions. These functions are available for all Traversable-conforming types:
+The following global functions are available for any Traversable-conforming type. Those are based on the ones available in Scala to Traversable-derived types:
 
 * **collectT**<S, U where S: Traversable>(source: S, f: PartialFunction<S.ItemType, U>) -> [U]
 * **countT**<S: Traversable>(source: S, p: (S.ItemType) -> Bool) -> Int
@@ -101,8 +101,7 @@ Global functions. These functions are available for all Traversable-conforming t
 
 **Iterable**
 
-Swift collections that define an iterator method to step through one-by-one the collection's elements.
-Methods implemented:
+A Traversable-conforming data type that also implements the standard SequenceType (defining an iterator  to step one-by-one through the collection's elements) becomes instantly an Iterable. Iterables have instant access to the next functions, also based on their Scala counter-parts:
 
 * **grouped**<S: Iterable>(source: S, n: Int) -> [S]
 * **sameElements**<S: Iterable where S.Generator.Element == S.ItemType, S.ItemType : Equatable>(sourceA: S, sourceB: S) -> Bool
@@ -113,11 +112,11 @@ Methods implemented:
 * **zipWithIndex**<S: Iterable where S.Generator.Element == S.ItemType>(source: S) -> [(S.ItemType, Int)] 
 
 
-#### STRUCT
+#### DATA TYPES
 
 **ArrayT**
 
-An immutable and traversable Array containing elements of type T.
+An immutable, traversable and typed Array.
 
 ```swift
 import SecondBrigde
@@ -135,10 +134,10 @@ anArray.filterNot({ $0 == 1 }  // [2, 3, 4, 5, 6]
 
 **ListT**
 
-An immutable and traversable List containing elements of type T.
+An immutable, traversable and typed List.
 
 ```swift
-import SecondBrigde
+import SecondBridge
 
 let a : ListT<Int> = [1,2,3,4]
 a.head()  // 1
@@ -152,57 +151,108 @@ a.filter({$0 % 3 == 0})  //  [1,2,4]
 
 **Map**
 
-An immutable iterable collection containing pairs of keys and values. Each key is of type HashableAny to allow to have keys with different types (currently supported types are Int, Float, and String). Each value is of a type T. If you need to store values of different types, make an instance of Map<Any>
+An immutable, unordered, traversable and iterable collection containing pairs of keys and values. Values are typed, but Second Bridge supports several types of keys within one Map (i.e.: Int, Float and String) inside a container called HashableAny.
 
 ```swift
-import SecondBrigde
+import SecondBridge
 
+let map : Map<Int> = ["a" : 1, 2 : 2, 4.5 : 3]
+map = map + ["c" : 4]		// map = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4]
+map += ("d"", 5)			// map = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "d" : 5]
+map += [("foo", 7), ("bar", 8)]	// map = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "d" : 5, "foo" : 7,  "bar" : 8]
+
+map -= "d"				// map = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "foo" : 7,  "bar" : 8]
+map --= ["foo", "bar"]		// map = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4]
+
+let filteredMap = map.filter({ (value) -> Bool in (value as Int) < 3})  // ("a" : 1, 2 : 2)
+let reducedResult = map.reduceByValue(0, combine: +)   // 10
+let values = map.values 	// [1, 2, 3, 4]
 
 ```
 [PlayGroundMap](https://github.com/47deg/swift-poc/blob/master/Playgrounds/ExampleMap.playground/section-1.swift)
 
 **Stack**
 
-An immutable iterable LIFO containing elements of type T
+An immutable, traversable, iterable and typed LIFO stack.
 
 ```swift
 import SecondBrigde
 
+var stack = Stack<Int>()
+stack = stack.push(1)	// top -> 1 <- bottom
+stack = stack.push(2)	// top -> 2, 1 <- bottom
+stack = stack.push(3)	// top -> 3, 2, 1 <- bottom
+
+stack = stack.top()		// 3
+
+stack.pop()				// (3, Stack[2, 1])
 
 ```
 
 **Vector**
 
-An immutable Persistent Bit-partitioned Vector Trie containing elements of type T.
+An immutable, traversable, iterable and typed Persistent Bit-partitioned Vector Trie, based on Haskell and Scala's Vector implementations.
 
 ```swift
 import SecondBrigde
 
+let vector = Vector<Int>()		// Empty vector
+vector = vector.append(1) 	// [1]
+vector = vector + 2			// [1, 2]
+vector += 3					// [1, 2, 3]
+let value = vector[1]			// 2
+vector = vector.pop()			// [1, 2]
 
 ```
 
 [PlayGroundNQueens](https://github.com/47deg/swift-poc/blob/master/Playgrounds/ExampleNQueens.playground/section-1.swift)
 
-####  FUNTION
+####  FUNCTIONS
 
 **Partial Function**
 
-Defines a function whose execution is restricted to a certain set of values defined by `isDefinedAt`
+A partial function defines a function whose execution is restricted to a certain set of values, defined by the method **isDefinedAt**. This allows developers to set certain conditions to their functions. An easy to understand example is division, whose execution is restricted to dividers equal to zero. As with Scala's partial functions, you are allowed to execute them even by using their restricted set of parameters. But you have access to the **isDefinedAt** function that tells you if you're good to go.
 
-The methods implemented are:
+Second Bridge defines several custom operators that makes creating partial functions really easy. Just by joining two closures with the **|->** operator, we create a partial function (the first closure must return a Bool, thus defining the conditions under which this function works).
 
-* **orElse**<T, U>(a: PartialFunction<T, U>, b: PartialFunction<T, U>) -> Function<T, U>
-* **match**<T, U>(listOfPartialFunctions: PartialFunction<T, U>...) -> Function<T, U>
-* **|||>** <T, U>(a: PartialFunction<T, U>, b: PartialFunction<T, U>) -> Function<T, U>
-* **|->**<T, U>(isDefinedAt: Function<T, Bool>, function: Function<T, U>) -> PartialFunction<T, U>
-* **|->**<T, U>(isDefinedAt: T -> Bool, function: T -> U) -> PartialFunction<T, U>
-*** ∫** <T, U>(f: T -> U) -> Function<T, U>  
+One important aspect of partial functions is that by combining them you can create meaningful pieces of code that define algorithms. i.e.: you can create a combined function that performs an operation or another, depending on the received parameter. You have access to other custom operators like **|||>** (OR), **>>>** (AND THEN), and  **∫** (function definition). One quick example:
 
+```swift
+import SecondBridge
+
+let doubleEvens = { $0 % 2 == 0 } |-> { $0 * 2 }		// Multiply by 2 any even number
+let tripleOdds = { $0 % 2 != 0 } |-> { $0 * 3 }		// Multiply by 3 any odd number
+let addFive = ∫(+5)								// Regular function to add five to any number
+
+let opOrElseOp = doubleEvens |||> tripleOdds		// If receiving an even, double it. If not, triple it.
+let opOrElseAndThenOp = doubleEvens |||> tripleOdds >>> addFive	// If receiving an even, double it. If not, triple it. Then, add five to the result.
+
+opOrElseOp.apply(3)			// 9
+opOrElseOp.apply(4)			// 8
+opOrElseAndThenOp.apply(3)	// 14
+opOrElseAndThenOp.apply(4)	// 13
+
+```
+
+Partial functions also gives us the ability to perform complex pattern matching sets, more powerful than Swift's switch block, by using our **match** function:
+
+```swift
+import SecondBridge
+let matchTest = match({(item: Int) -> Bool in item == 0 } |-> {(Int) -> String in return "Zero"},
+                              {(item: Int) -> Bool in item == 1 } |-> {(Int) -> String in return "One"},
+                              {(item: Int) -> Bool in item == 2 } |-> {(Int) -> String in return "Two"},
+                              {(item: Int) -> Bool in item > 2 } |-> {(Int) -> String in return "Moar!"})
+                              
+matchTest.apply(0)			// "Zero"
+matchTest.apply(1)			// "One"
+matchTest.apply(1000)		// "Moar!"
+
+```
 
 System Requirements
 ==================
 
-Second Brigde supports  iOS 7.0+.
+Second Brigde supports iOS 7.0+.
 
 Contribute
 =========

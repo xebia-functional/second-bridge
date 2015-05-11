@@ -116,7 +116,7 @@ public func |-><T, U>(isDefinedAt: T -> Bool, function: T -> U) -> PartialFuncti
 }
 
 /**
-Syntatic sugar, equivalent to Function.arr(T -> U).
+Syntatic sugar, equivalent to Function(T -> U).
 Key shortcut: ⌥+S (Unicode 0x222B).
 */
 public prefix func ∫ <T, U>(f: T -> U) -> Function<T, U> {
