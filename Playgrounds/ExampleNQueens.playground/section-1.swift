@@ -111,8 +111,8 @@ func nQueensSolutions(n: Int) -> Stack<Stack<Pos>> {
     }
     
     override func drawRect(rect: CGRect) {
-        let cols = Vector<Int>(array: [Int](0..<self.boardPieces))
-        let rows = Vector<Int>(array: [Int](0..<self.boardPieces))
+        let cols = Vector<Int>([Int](0..<self.boardPieces))
+        let rows = Vector<Int>([Int](0..<self.boardPieces))
         
         cols.foreach({ (currentRow: Int) -> () in
             rows.foreach({ (currentCol: Int) -> () in
