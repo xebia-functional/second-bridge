@@ -56,7 +56,7 @@ public protocol Traversable {
  
 ```
 
-The following global functions are available for any Traversable-conforming type. Those are based on the ones available in Scala to Traversable-derived types:
+The following global functions are available for any Traversable-conforming type. Those are based on the ones available in Scala for Traversable-derived types:
 
 * **collectT**<S, U where S: Traversable>(source: S, f: PartialFunction<S.ItemType, U>) -> [U]
 * **countT**<S: Traversable>(source: S, p: (S.ItemType) -> Bool) -> Int
@@ -97,7 +97,6 @@ The following global functions are available for any Traversable-conforming type
 * **toArrayT**<S: Traversable>(source: S) -> [S.ItemType]
 * **toListT**<S: Traversable>(source: S) -> ListT<S.ItemType>
 * **unionT**<S: Traversable>(a: S, b: S) -> S
-* **findIndexOfFirstItemToNotSatisfyPredicate**<S: Traversable>(source: S, p: (S.ItemType) -> Bool) -> Int?
 
 **Iterable**
 
