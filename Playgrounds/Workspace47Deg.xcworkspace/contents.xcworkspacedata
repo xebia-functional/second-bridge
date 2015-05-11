@@ -8,6 +8,9 @@
       location = "group:ExampleMap.playground">
    </FileRef>
    <FileRef
+      location = "group:ExampleList.playground">
+   </FileRef>
+   <FileRef
       location = "group:../Swift47Deg/Swift47Deg.xcodeproj">
    </FileRef>
 </Workspace>

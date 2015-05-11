@@ -180,6 +180,7 @@ class MapTests : XCTestCase {
         let intMap : Map<Int> = ["a": 1, "b": 2, "c": 3]
         let floatMap : Map<Float> = ["a": 4.5, "b": 3.14159]
         let concatenation = stringMap.addString(nil)
+        
         XCTAssertEqual(stringMap.addString(nil), "abc", "Maps should be convertible to String with addString()")
         XCTAssertEqual(stringMap.addString(" "), "a b c", "Maps should be convertible to String with addString()")
         XCTAssertEqual(intMap.addString(" "), "1 2 3", "Maps should be convertible to String with addString(), no matter its content type")
