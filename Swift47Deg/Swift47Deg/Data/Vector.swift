@@ -61,11 +61,25 @@ public enum VectorType {
         self.init(length: 0, trie: VectorCaseGen<T>(), tail: Array1())
     }
     
-    public convenience init(array: [T]) {
+    public convenience init(_ array: [T]) {
         self.init()
         
         // Not the best way to do it, performance should be much greater using Vector.build(...). Added for convenience:
         let sourceVector = Vector.build(array)
+        
+        self.tailOff = sourceVector.tailOff
+        self.trie = sourceVector.trie
+        self.tail = sourceVector.tail
+        self.length = sourceVector.length
+    }
+}
+
+extension Vector : ArrayLiteralConvertible {
+    public convenience init(arrayLiteral elements: T...) {
+        self.init()
+        
+        // Not the best way to do it, performance should be much greater using Vector.build(...). Added for convenience:
+        let sourceVector = Vector.build(elements)
         
         self.tailOff = sourceVector.tailOff
         self.trie = sourceVector.trie
@@ -1430,4 +1444,14 @@ extension Vector {
     public func union(a: Vector, b: Vector) -> Vector {
         return unionT(a, b)
     }
+}
+
+// MARK: - Operators
+
+public func +<T> (left: Vector<T>, right: T) -> Vector<T> {
+    return left.append(right)
+}
+
+public func +=<T> (left: Vector<T>, right: T) -> Vector<T> {
+    return left + right
 }

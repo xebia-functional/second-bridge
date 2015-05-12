@@ -5,7 +5,16 @@
       location = "group:ExampleNQueens.playground">
    </FileRef>
    <FileRef
+      location = "group:ExampleVector.playground">
+   </FileRef>
+   <FileRef
       location = "group:ExampleMap.playground">
+   </FileRef>
+   <FileRef
+      location = "group:ExamplePartialFunctions.playground">
+   </FileRef>
+   <FileRef
+      location = "group:ExampleStack.playground">
    </FileRef>
    <FileRef
       location = "group:ExampleList.playground">

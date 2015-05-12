@@ -111,8 +111,8 @@ func nQueensSolutions(n: Int) -> Stack<Stack<Pos>> {
     }
     
     override func drawRect(rect: CGRect) {
-        let cols = Vector<Int>(array: [Int](0..<self.boardPieces))
-        let rows = Vector<Int>(array: [Int](0..<self.boardPieces))
+        let cols = Vector<Int>([Int](0..<self.boardPieces))
+        let rows = Vector<Int>([Int](0..<self.boardPieces))
         
         cols.foreach({ (currentRow: Int) -> () in
             rows.foreach({ (currentCol: Int) -> () in
@@ -137,7 +137,7 @@ extension ChessBoardView {
         solution.foreach({ (pos: Pos) -> () in
             let label = UILabel(frame: CGRectMake(CGFloat(pos.x - 1) * self.squareSize, CGFloat(pos.y - 1) * self.squareSize, self.squareSize, self.squareSize))
             label.textColor = UIColor.blackColor()
-            label.textAlignment = .Center
+            label.textAlignment = NSTextAlignment.Center
             label.font = UIFont.systemFontOfSize(35)
             label.text = "♛"
             
@@ -149,7 +149,7 @@ extension ChessBoardView {
 // MARK: - Resolution view
 
 // N-Queens resolution is a really cool visual image of what can be achieved with functional code with just a few lines of codes. But its algorithm use intensive recursive calculation, and as such it won't work that well under a Playground if using values of n = 4 - 6. Please keep that in mind while playing with it :).
-let numberOfPieces = 2
+let numberOfPieces = 4
 let chessBoard = ChessBoardView(size: 200, boardPieces: numberOfPieces)
 let solutions = nQueensSolutions(numberOfPieces).toArray()
 
