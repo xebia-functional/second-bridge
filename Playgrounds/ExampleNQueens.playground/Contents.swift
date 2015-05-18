@@ -15,8 +15,24 @@
 */
 
 
+/*:
+# N-Queens Example
+
+This Playground offers an example on how you can use functional programming to solve problems.
+The N-Queens problem was first published in the 19th century by Max Bezzel and Franz Nauck. It’s
+a classic example on the use of **backtracking algorithms**, and can be solved with pure functions
+in a really short amount of code.
+
+The problem we're solving with this algorithm is as follows: imagine we had a chess board of size NxN.
+We need to place N queens in the board, without any of them killing any of the others. It's not as easy
+a it seems: in a regular 8x8 board, there are only **92** solutions for **4,426,165,368** possible placements.
+
+The algorithm itself is implemented in the following functions: **placeQueens**, **isAttacking**, **isSafe**.
+*/
+
 import UIKit
-import Swift47Deg
+import SecondBridge
+import XCPlayground
 
 // MARK: N-Queens resolution algorithm
 
@@ -45,6 +61,14 @@ func ==(lhs: Solution, rhs: Solution) -> Bool {
     return result
 }
 
+/*:
+This algorithm for the N-Queens problem resolution is based on **Martin Odersky**'s solution
+("Programming in Scala", Chapter 23 - For Expressions Revisited). Its **for-comprehension**
+has just been translated to a **flatmap/filter/map chain**.
+Beware that Swift doesn't warrant recursion optimization, so its performance can be
+problematic with high values of n (> 10).
+*/
+
 func isAttacking(posA: Pos, posB: Pos) -> Bool {
     return posA.x == posB.x || posA.y == posB.y || abs(posA.x - posB.x) == abs(posA.y - posB.y)
 }
@@ -56,12 +80,6 @@ func isSafe(queen: Pos, queens: Stack<Pos>) -> Bool {
 }
 
 func placeQueens(k: Int, n: Int) -> Solutions {
-    // This algorithm for the N-Queens problem resolution is based on Martin Odersky's solution
-    // ("Programming in Scala", Chapter 23 - For Expressions Revisited). Its for comprehension
-    // is just translated to a flatmap/filter/map chain.
-    // Beware that Swift doesn't warrant recursion optimization, so its performance can be
-    // problematic with high values of n (> 10).
-    
     switch k {
     case 0: return Stack<Stack<Pos>>().push(Stack<Pos>())
     default:
@@ -89,7 +107,7 @@ func nQueensSolutions(n: Int) -> Stack<Stack<Pos>> {
     let blackColor = UIColor.brownColor()
     let whiteColor = UIColor.yellowColor()
     
-    override init() {
+    init() {
         super.init(frame: CGRectZero)
     }
     
@@ -143,19 +161,20 @@ extension ChessBoardView {
             
             self.addSubview(label)
             self.queenLabels = self.queenLabels.append(label)})
-        }
+    }
 }
 
 // MARK: - Resolution view
+/*:
+N-Queens resolution is a really cool visual image of what you can achieve doing functional code with just a few lines of codes.
+But its algorithm use intensive recursive calculation, and as such it won't work that well under a Playground if using values of `numberOfPieces` = 4 - 6.
+Please keep that in mind while playing with it :).
+*/
 
-// N-Queens resolution is a really cool visual image of what can be achieved with functional code with just a few lines of codes. But its algorithm use intensive recursive calculation, and as such it won't work that well under a Playground if using values of n = 4 - 6. Please keep that in mind while playing with it :).
 let numberOfPieces = 4
-let chessBoard = ChessBoardView(size: 200, boardPieces: numberOfPieces)
 let solutions = nQueensSolutions(numberOfPieces).toArray()
+let chessBoard = ChessBoardView(size: 300, boardPieces: numberOfPieces)
 
 for solution in solutions {
     chessBoard.showSolution(solution)
 }
-
-
-

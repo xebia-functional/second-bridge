@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		59283E531B0A03B500EC3A9F /* SecondBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = A183A1271AA85FA500C535A6 /* SecondBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		596D703D1AADB79B00CE9962 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596D703C1AADB79B00CE9962 /* Map.swift */; };
 		596D703E1AADB79B00CE9962 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596D703C1AADB79B00CE9962 /* Map.swift */; };
 		596D70421AADB80400CE9962 /* MapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596D70401AADB80400CE9962 /* MapTests.swift */; };
@@ -50,7 +51,6 @@
 		59F0C71A1AA8B8590070C03F /* Swiftz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F0C7151AA8B8150070C03F /* Swiftz.framework */; };
 		59F0C71C1AA8B86B0070C03F /* Swiftz.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59F0C7151AA8B8150070C03F /* Swiftz.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A12A115B1AC31B2200FE8A80 /* RangeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12A115A1AC31B2200FE8A80 /* RangeTests.swift */; };
-		A183A1281AA85FA500C535A6 /* Swift47Deg.h in Headers */ = {isa = PBXBuildFile; fileRef = A183A1271AA85FA500C535A6 /* Swift47Deg.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A183A1351AA85FA500C535A6 /* Swift47DegTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A183A1341AA85FA500C535A6 /* Swift47DegTests.swift */; };
 		A1B6F0EA1AE4ECB3006E7997 /* ListT.swift in Sources */ = {isa = PBXBuildFile; fileRef = A182FAFF1ADBC319005636C1 /* ListT.swift */; };
 		A1B6F0EB1AE4ECB3006E7997 /* Iterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59800BFA1AD6BD200044D0ED /* Iterable.swift */; };
@@ -142,7 +142,7 @@
 		A182FB031ADBFC1B005636C1 /* ListTTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTTests.swift; sourceTree = "<group>"; };
 		A183A1221AA85FA500C535A6 /* SecondBridge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SecondBridge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A183A1261AA85FA500C535A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A183A1271AA85FA500C535A6 /* Swift47Deg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Swift47Deg.h; sourceTree = "<group>"; };
+		A183A1271AA85FA500C535A6 /* SecondBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondBridge.h; sourceTree = "<group>"; };
 		A183A12D1AA85FA500C535A6 /* SecondBridgeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SecondBridgeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A183A1331AA85FA500C535A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A183A1341AA85FA500C535A6 /* Swift47DegTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift47DegTests.swift; sourceTree = "<group>"; };
@@ -315,7 +315,7 @@
 				59C9BCA71AC2DD440043C96E /* Functions */,
 				59D811B21AA87B3B005F7761 /* Data */,
 				5981E3C61AB6DFD200F052A0 /* Protocols */,
-				A183A1271AA85FA500C535A6 /* Swift47Deg.h */,
+				A183A1271AA85FA500C535A6 /* SecondBridge.h */,
 				A183A1251AA85FA500C535A6 /* Supporting Files */,
 			);
 			path = SecondBridge;
@@ -358,7 +358,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A183A1281AA85FA500C535A6 /* Swift47Deg.h in Headers */,
+				59283E531B0A03B500EC3A9F /* SecondBridge.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

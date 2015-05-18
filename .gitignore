@@ -18,6 +18,7 @@ DerivedData
 
 #Playground
 *.playgrounddata
+*.xctimeline
 
 #CocoaPods
 Pods

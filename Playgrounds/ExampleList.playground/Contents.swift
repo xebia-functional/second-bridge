@@ -15,68 +15,75 @@
 */
 
 import UIKit
-import Swift47Deg
+import SecondBridge
 import Swiftz
 
-let str = "Playground List Koans"
+/*:
+# Lists
 
-// == tests equality (same content)
+SecondBridge includes additions to Swiftz's implementation of the singly-linked list to give users the option
+of using a syntax more closer to Scala's, that you can access by using the ListT struct. We've also implemented
+both **Traversable** and **Iterable** protocols, so you can use all the functions available to them (as our other
+implemented data types, ListT includes accessors for those methods in its own struct).
+*/
+
+//: `==` tests for equality (same content)
 var a : ListT<Int> = [1,2,3,4]
 var b : ListT<Int> = [1,2,3,4]
 println(a)
 a == b
 
-// Nil lists are identical, even of different types
+//: Nil lists are identical, even if declared when specifying different generic types
 var ab : ListT<String>  = []
 var ba : ListT<Int>  = []
 ab == ba
 
-// Lists are easily created
+//: You can create Lists using ArrayLiterals:
 var d : ListT<Int> = [1,2,3,4]
 
-// Lists can be accessed via head and tail
+//: Lists can be accessed via head and tail
 d.head() == 1
 let dTail : ListT<Int> = [2,3,4]
 d.tail() == dTail
 
-// Lists can be accessed by position
+//: and can also be accessed by position
 var e : ListT<Int> = [1,3,5,7,9]
 e[0] == 1
 e[2] == 5
 e[4] == 9
 
-// Lists are immutable
+//: Lists are immutable
 var f : ListT<Int> = [1,3,5,7,9]
 println(f)
 var g : ListT<Int> = f.filterNot({$0 == 1})
 println(g)
 
-// Lists have many useful methods
+//: Lists have many useful methods
 var h : ListT<Int> = [1,3,5,7,9]
 
-// You can get the length of the list
+//: You can get the length of the list
 h.length() == 5
 
-// And also reverse the list
+//: And also reverse the list
 let reverseList : ListT<Int> = [9,7,5,3,1]
 h.reverse() == reverseList
 
-// Map a function to double the numbers over the list
+//: Or map a function to double the numbers over the list
 var hMap = h.map({$0 * 2})
 println(hMap)
 
-// Filter any values divisible by 3 in the list
+//: Or filter any values divisible by 3 in the list
 var hFilter = h.filter({$0 % 3 == 0})
 println(hFilter)
 
-// Lists can be reduced with a mathematical operation
+//: Lists can be reduced with a mathematical operation
 var i : ListT<Int> = [1,3,5,7]
 var iReduce = i.reduce({$0+$1})
 println(iReduce)
 var iReduceMul = i.reduce({$0*$1})
 println(iReduceMul)
 
-// Foldleft is like reduce, but with an explicit starting value
+//: Foldleft is like reduce, but with an explicit starting value
 var j : ListT<Int> = [1,3,5,7]
 var jReduce = i.reduce(0, combine: {$0+$1})
 println(jReduce)
@@ -87,3 +94,5 @@ var jReduceM = i.reduce(1, combine: {$0*$1})
 println(jReduceM)
 var jReduceInM = i.reduce(0, combine: {$0*$1})
 println(jReduceInM)
+
+//: Remember that you can take a look at our test classes to see more functions available to Lists and other data types available in SecondBridge!
