@@ -102,6 +102,7 @@ extension Vector {
                 }
             } else {
                 assertionFailure("Vector index out of bounds: \(i)")
+                return tail[i & 0x01f]
             }
         }
     }
@@ -140,6 +141,7 @@ extension Vector {
             return self.append(obj)
         }
         assertionFailure("Vector index out of bounds: \(i)")
+        return Vector()
     }
     
     /**
@@ -148,6 +150,7 @@ extension Vector {
     public func pop() -> Vector<T> {
         if length == 0 {
             assertionFailure("Cannot pop empty vector")
+            return Vector()
         } else if length == 1 {
             return Vector(length: 0, trie: VectorCaseGen<T>(), tail: Array1())
         } else if tail.count > 1 {
@@ -349,7 +352,7 @@ public class VectorCaseGen<T> {
             case let instance as VectorFive<T>: return instance[i]
             case let instance as VectorSix<T>: return instance[i]
             case let instance as VectorZero<T>: return instance[i]
-            default: assertionFailure("Vector index error");
+            default: assertionFailure("Vector index error"); return Vector<T>.Array1()
             }
         }
     }
@@ -363,7 +366,7 @@ public class VectorCaseGen<T> {
         case let instance as VectorFive<T>: return instance.update(i, obj: obj)
         case let instance as VectorSix<T>: return instance.update(i, obj: obj)
         case let instance as VectorZero<T>: return instance.update(i, obj: obj)
-        default: assertionFailure("Vector index error");
+        default: assertionFailure("Vector index error"); return 0
         }
     }
     
@@ -376,7 +379,7 @@ public class VectorCaseGen<T> {
         case let instance as VectorFive<T>: return instance.append(tail)
         case let instance as VectorSix<T>: return instance.append(tail)
         case let instance as VectorZero<T>: return instance.append(tail)
-        default: assertionFailure("Vector index error");
+        default: assertionFailure("Vector index error"); return 0
         }
     }
     
@@ -389,7 +392,7 @@ public class VectorCaseGen<T> {
         case let instance as VectorFive<T>: return instance.pop()
         case let instance as VectorSix<T>: return instance.pop()
         case let instance as VectorZero<T>: return instance.pop()
-        default: assertionFailure("Vector index error");
+        default: assertionFailure("Vector index error"); return (0, Vector<ItemType>.Array1())
         }
     }
 }
@@ -417,12 +420,12 @@ class VectorZero<T> : VectorCase {
     
     subscript(i: Int) -> Vector<ItemType>.Array1 {
         get {
-            assertionFailure("Vector index out of bounds: \(i)")
+            assertionFailure("Vector index out of bounds: \(i)"); return Vector<ItemType>.Array1()
         }
     }
 
     func update(i: Int, obj: ItemType) -> SelfType {
-        assertionFailure("Vector index out of bounds: \(i)")
+        assertionFailure("Vector index out of bounds: \(i)"); return VectorZero()
     }
     
     func append(tail: Vector<ItemType>.Array1) -> Any {
@@ -430,7 +433,7 @@ class VectorZero<T> : VectorCase {
     }
     
     func pop() -> (trie: Any, Vector<ItemType>.Array1) {
-        assertionFailure("Cannot pop an empty Vector")
+        assertionFailure("Cannot pop an empty Vector"); return (0, Vector<ItemType>.Array1())
     }
 }
 
@@ -1088,6 +1091,7 @@ class VectorBuilder<T> {
             trie = VectorCaseGen<T>(VectorSix<T>(fillArray6(trieBuffer)))
         } else {
             assertionFailure("Cannot build vector with length which exceeds MAX_INT")
+            return Vector()
         }
         
         return Vector(length: buffer.count, trie: trie, tail: fillArray1(tailBuffer))
@@ -1119,11 +1123,11 @@ extension VectorBuilder {
 }
 
 extension VectorBuilder {
-    func fillArray1(seq: Slice<T>) -> Vector<T>.Array1 {
+    func fillArray1(seq: ArraySlice<T>) -> Vector<T>.Array1 {
         return Vector<T>.Array1(seq)
     }
     
-    func fillArray2(seq: Slice<T>) -> Vector<T>.Array2 {
+    func fillArray2(seq: ArraySlice<T>) -> Vector<T>.Array2 {
         let cellSize = OneThresh
         let length = (seq.count % cellSize == 0) ? seq.count / cellSize : (seq.count / cellSize) + 1
         var back = Vector<T>.Array2()
@@ -1135,7 +1139,7 @@ extension VectorBuilder {
         return back
     }
     
-    func fillArray3(seq: Slice<T>) -> Vector<T>.Array3 {
+    func fillArray3(seq: ArraySlice<T>) -> Vector<T>.Array3 {
         let cellSize = TwoThresh
         let length = (seq.count % cellSize == 0) ? seq.count / cellSize : (seq.count / cellSize) + 1
         var back = Vector<T>.Array3()
@@ -1147,7 +1151,7 @@ extension VectorBuilder {
         return back
     }
     
-    func fillArray4(seq: Slice<T>) -> Vector<T>.Array4 {
+    func fillArray4(seq: ArraySlice<T>) -> Vector<T>.Array4 {
         let cellSize = ThreeThresh
         let length = (seq.count % cellSize == 0) ? seq.count / cellSize : (seq.count / cellSize) + 1
         var back = Vector<T>.Array4()
@@ -1159,7 +1163,7 @@ extension VectorBuilder {
         return back
     }
     
-    func fillArray5(seq: Slice<T>) -> Vector<T>.Array5 {
+    func fillArray5(seq: ArraySlice<T>) -> Vector<T>.Array5 {
         let cellSize = FourThresh
         let length = (seq.count % cellSize == 0) ? seq.count / cellSize : (seq.count / cellSize) + 1
         var back = Vector<T>.Array5()
@@ -1171,7 +1175,7 @@ extension VectorBuilder {
         return back
     }
     
-    func fillArray6(seq: Slice<T>) -> Vector<T>.Array6 {
+    func fillArray6(seq: ArraySlice<T>) -> Vector<T>.Array6 {
         let cellSize = FiveThresh
         let length = (seq.count % cellSize == 0) ? seq.count / cellSize : (seq.count / cellSize) + 1
         var back = Vector<T>.Array6()
