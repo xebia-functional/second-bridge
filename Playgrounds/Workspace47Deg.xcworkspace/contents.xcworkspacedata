@@ -2,10 +2,10 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:ExampleNQueens.playground">
+      location = "group:ExampleVector.playground">
    </FileRef>
    <FileRef
-      location = "group:ExampleVector.playground">
+      location = "group:ExampleNQueens.playground">
    </FileRef>
    <FileRef
       location = "group:ExampleMap.playground">
@@ -20,6 +20,6 @@
       location = "group:ExampleList.playground">
    </FileRef>
    <FileRef
-      location = "group:../Swift47Deg/Swift47Deg.xcodeproj">
+      location = "group:../SecondBridge/SecondBridge.xcodeproj">
    </FileRef>
 </Workspace>

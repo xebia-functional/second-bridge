@@ -31,12 +31,12 @@ public protocol Traversable {
     /**
     Build a new instance of the same Traversable type with the elements contained in the `elements` array (i.e.: returned from the trav*** functions).
     */
-    class func build(elements: [ItemType]) -> Self
+    static func build(elements: [ItemType]) -> Self
     
     /**
     Build a new instance of the same Traversable type with the elements contained in the provided Traversable instance. Users calling this function are responsible of transforming the data of each item to a valid ItemType suitable for the current Traversable class.
     */
-    class func buildFromTraversable<U where U : Traversable>(traversable: U) -> Self
+    static func buildFromTraversable<U where U : Traversable>(traversable: U) -> Self
 }
 
 // MARK: - Global functions
@@ -300,7 +300,7 @@ public func mkStringT<S: Traversable>(source: S, start: String, separator: Strin
     })
     switch (start, separator, end) {
     case ("", "", ""): return reduceString
-    default: return reduceString.substringToIndex(advance(reduceString.startIndex, reduceString.utf16Count - separator.utf16Count)) + end
+    default: return reduceString.substringToIndex(advance(reduceString.startIndex, count(reduceString.utf16) - count(separator.utf16))) + end
     }
 }
 
@@ -359,7 +359,7 @@ public func sliceT<S: Traversable>(source: S, from startIndex: Int, until endInd
     let size = sizeT(source)
     switch size {
     case 0: return source
-    case _ where endIndex > size: assertionFailure("SliceT: end index out of range")
+    case _ where endIndex > size: assertionFailure("SliceT: end index out of range"); return source
     default: return S.build(reduceT(source, (0, ArrayT<S.ItemType>())) {
         (result: (index: Int, buffer: ArrayT<S.ItemType>), currentItem: S.ItemType) -> (Int, ArrayT<S.ItemType>) in
         

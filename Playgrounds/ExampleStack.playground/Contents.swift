@@ -15,10 +15,24 @@
 */
 
 import UIKit
-import Swift47Deg
+import SecondBridge
 
+/*:
+# Stacks
+
+SecondBridge includes an implementation for a basic but completely functional LIFO struct. That is: every operation performed on a Stack will always return a new Stack with the resulting changes.
+
+Stacks implement both *Traversable* and *Iterable* protocols, which means that they can be used a lot of really
+useful functions. In fact, most of them are implemented as accesors in the Stack struct.
+
+In the next lines of code, we explore some basics of the use of SecondBridge's Stacks. Remember that you can take a look
+at our test classes to learn more about all their available functions.
+*/
+
+//: Stacks are created like this:
 var stack = Stack<Int>()
-// You can use the push operation to add new elements to a stack. The one at the top is always the last to be added:
+
+//: You can use the push operation to add new elements to a stack. The one at the top is always the last to be added:
 stack = stack.push(1)
 stack.description
 stack = stack.push(2)
@@ -28,7 +42,7 @@ stack.description
 
 stack.top()
 
-// Then you can use the pop operation to take new elements from the stack, also getting a new stack with that element removed.
+//: Then you can use the pop operation to take new elements from the stack, also getting a new stack with that element removed.
 stack = stack.pop().stack
 stack.description
 
@@ -39,11 +53,11 @@ stack = stack.pop().stack
 stack.description
 
 
-// Stacks are Traversable and Iterable, that means that you can create them easily using Swift arrays
+//: Stacks are **Traversable** and **Iterable**, that means that you can create them easily using Swift arrays
 stack = Stack<Int>([1, 2, 3, 4, 5])
 stack.description
 
-// And also you have access to the broad array of functions available:
+//: And also you have access to the broad array of functions available:
 let mappedStack = stack.mapConserve({$0 * 2})
 mappedStack.description
 

@@ -460,7 +460,7 @@ extension Map {
     /**
     Applies a binary numeric operation to each value contained in the map, if it's castable to a number. If a value contains a String representation of a number, its content will be converted to a Double value suitable for the multiplication. Any other value will be ignored.
     */
-    public func applyNumericOperation(initialValue: Double, f: (Double, Double) -> Double) -> Double {
+    public func applyNumericOperation(initialValue: Double, _ f: (Double, Double) -> Double) -> Double {
         return self.reduce(initialValue, combine: { (currentTotal: Double, currentItem: (Key, Value)) -> Double in
             if let number = self.convertValueToNumber(currentItem.1) {
                 return f(currentTotal, number)

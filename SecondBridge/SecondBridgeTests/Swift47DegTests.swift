@@ -18,7 +18,7 @@ import Foundation
 import XCTest
 import Swiftz
 
-class Swift47DegTests: XCTestCase {
+class SecondBridgeTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

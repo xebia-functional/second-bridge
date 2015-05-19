@@ -287,9 +287,9 @@ class MapTests : XCTestCase {
         
         let map : Map<Any> = ["a": itemA, "b": itemB, "c": itemC, 4: itemD]
         XCTAssertEqual(map.size, 4, "Maps should support any type by using the Any protocol")
-        XCTAssertNotNil(map["a"] as Int, "Maps should support any type by using the Any protocol")
-        XCTAssertNotNil(map["b"] as Double, "Maps should support any type by using the Any protocol")
-        XCTAssertNotNil(map["c"] as String, "Maps should support any type by using the Any protocol")
+        XCTAssertNotNil(map["a"] as! Int, "Maps should support any type by using the Any protocol")
+        XCTAssertNotNil(map["b"] as! Double, "Maps should support any type by using the Any protocol")
+        XCTAssertNotNil(map["c"] as! String, "Maps should support any type by using the Any protocol")
         
         if let storedMap = map[4] as? Map<Int> {
             XCTAssertNotNil(storedMap["a"], "Maps should support any type by using the Any protocol")
