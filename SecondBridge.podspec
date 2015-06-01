@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.authors     = { "47 Degrees, LLC" }
   s.requires_arc = true
   s.ios.deployment_target = "8.0"
-  s.source   = { :git => "https://github.com/47deg/swift-poc.git" }
+  s.source   = { :git => "https://github.com/47deg/second-bridge.git" }
   s.source_files = "SecondBridge/SecondBridge/**/*.swift"
   s.dependency 'Swiftz'
 end
