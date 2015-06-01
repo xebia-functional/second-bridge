@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.summary     = "SecondBridge is a Swift library for functional programming."
   s.homepage    = "http://www.47deg.com/"
   s.license     = { :type => "Apache License, Version 2.0" }
-  s.authors     = { "47 Degrees, LLC" }
+  s.authors     = { "47 Degrees, LLC"  => "hola@47deg.com" }
   s.requires_arc = true
   s.ios.deployment_target = "8.0"
   s.source   = { :git => "https://github.com/47deg/second-bridge.git" }
