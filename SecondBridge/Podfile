@@ -1,0 +1,5 @@
+platform :ios, '8.0'
+inhibit_all_warnings!
+use_frameworks!
+link_with 'SecondBridge','SecondBridgeTests', 'VectorTests'
+pod 'Swiftz'
