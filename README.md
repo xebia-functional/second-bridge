@@ -10,12 +10,13 @@ Installation
 
 **Second Bridge** supports the **CocoaPods** dependency manager. To install the framework in your project, place the following in your Podfile:
 
-	platform :ios, '8.0'
-	use_frameworks!
-	
-	// (... other pods ...)
-	pod 'SecondBridge', :git => 'https://github.com/47deg/second-bridge.git'
-	
+```swift
+platform :ios, '8.0'
+use_frameworks!
+
+// (... other pods ...)
+pod 'SecondBridge', :git => 'https://github.com/47deg/second-bridge.git'
+```
 By running `pod install` or `pod update` you should have **Second Bridge** in your workspace ready to go!
 
 Features
@@ -27,23 +28,23 @@ Features
 
 Protocols like **Traversable** and **Iterable** will make it easier for you to expand the current data-types available. If you need to create a new data-type, just by implementing the following three methods your type will have access to the 40-something functions available in **Second Bridge**:
 
-
-	public protocol Traversable {
-	   typealias ItemType
-	    
-	  // Traverse all items of the instance, and call the provided function on each one.  
-	  func foreach(f: (ItemType) -> ())
-	   
-	  // Build a new instance of the same Traversable type with the elements contained
-	  // in the `elements` array (i.e.: returned from the **T functions).    
-	  class func build(elements: [ItemType]) -> Self
-	    
-	  // Build a new instance of the same Traversable type with the elements contained in the provided
-	  // Traversable instance. Users calling this function are responsible of transforming the data of each
-	  // item to a valid ItemType suitable for the current Traversable class. 
-	  class func buildFromTraversable<U where U : Traversable>(traversable: U) -> Self
-	}
- 
+```swift
+public protocol Traversable {
+   typealias ItemType
+    
+  // Traverse all items of the instance, and call the provided function on each one.  
+  func foreach(f: (ItemType) -> ())
+   
+  // Build a new instance of the same Traversable type with the elements contained
+  // in the `elements` array (i.e.: returned from the **T functions).    
+  class func build(elements: [ItemType]) -> Self
+    
+  // Build a new instance of the same Traversable type with the elements contained in the provided
+  // Traversable instance. Users calling this function are responsible of transforming the data of each
+  // item to a valid ItemType suitable for the current Traversable class. 
+  class func buildFromTraversable<U where U : Traversable>(traversable: U) -> Self
+}
+```
 The following **global** functions are available for any **Traversable-conforming** type. Those are based on the main ones available in Scala for Traversable-derived types:
 
 * **collectT**: Returns an array containing the results of mapping a partial function `f` over a set of the elements of this Traversable that match the condition defined in `f`'s `isDefinedAt`.
@@ -102,26 +103,30 @@ Any Traversable-conforming data type that also implements the standard **Sequenc
 
 An **immutable**, **traversable** and **typed** Array.
 
-	import SecondBrigde
+```swift
+import SecondBrigde
 
-	let anArray : ArrayT<Int> = [1, 2, 3, 4, 5, 6] 
-	let list = anArray.toList()
-	anArray.isEmpty()  // False
-	anArray.size()  // 6
-	anArray.drop(4)  // [5,6]
-	anArray.filterNot({ $0 == 1 }  // [2, 3, 4, 5, 6]
+let anArray : ArrayT<Int> = [1, 2, 3, 4, 5, 6] 
+let list = anArray.toList()
+anArray.isEmpty()  // False
+anArray.size()  // 6
+anArray.drop(4)  // [5,6]
+anArray.filterNot({ $0 == 1 }  // [2, 3, 4, 5, 6]
+```
 
 **ListT**
 
 An **immutable**, **traversable** and **typed** List.
 
-	import SecondBridge
+```swift
+import SecondBridge
 
-	let a : ListT<Int> = [1,2,3,4]
-	a.head()  // 1
-	a.tail()  // [2,3,4]
-	a.length()  // 4
-	a.filter({$0 % 3 == 0})  //  [1,2,4]
+let a : ListT<Int> = [1,2,3,4]
+a.head()  // 1
+a.tail()  // [2,3,4]
+a.length()  // 4
+a.filter({$0 % 3 == 0})  //  [1,2,4]
+```
 
 [Interactive Playground about Lists](https://github.com/47deg/swift-poc/blob/master/Playgrounds/ExampleList.playground/section-1.swift)
 
@@ -151,16 +156,18 @@ let values = map.values 	// [1, 2, 3, 4]
 
 An **immutable**, **traversable**, **iterable** and **typed** LIFO stack.
 
-	import SecondBrigde
+```swift
+import SecondBrigde
 
-	var stack = Stack<Int>()
-	stack = stack.push(1)	// top -> 1 <- bottom
-	stack = stack.push(2)	// top -> 2, 1 <- bottom
-	stack = stack.push(3)	// top -> 3, 2, 1 <- bottom
+var stack = Stack<Int>()
+stack = stack.push(1)	// top -> 1 <- bottom
+stack = stack.push(2)	// top -> 2, 1 <- bottom
+stack = stack.push(3)	// top -> 3, 2, 1 <- bottom
 
-	stack = stack.top()		// 3
+stack = stack.top()		// 3
 
-	stack.pop()				// (3, Stack[2, 1])
+stack.pop()				// (3, Stack[2, 1])
+```
 
 * [Interactive Playground about Stacks](https://github.com/47deg/swift-poc/blob/master/Playgrounds/ExampleStack.playground/section-1.swift)
 * [Interactive Playground to showcase the use of Stacks and functional algorithms to solve the N-Queens problem](https://github.com/47deg/swift-poc/blob/master/Playgrounds/ExampleNQueens.playground/section-1.swift)
@@ -169,14 +176,16 @@ An **immutable**, **traversable**, **iterable** and **typed** LIFO stack.
 
 An **immutable**, **traversable**, **iterable** and **typed** **Persistent Bit-partitioned Vector Trie**, based on Haskell and Scala's Vector implementations.
 
-	import SecondBrigde
+```swift
+import SecondBrigde
 
-	let vector = Vector<Int>()		// Empty vector
-	vector = vector.append(1) 		// [1]
-	vector = vector + 2				// [1, 2]
-	vector += 3						// [1, 2, 3]
-	let value = vector[1]			// 2
-	vector = vector.pop()			// [1, 2]
+let vector = Vector<Int>()		// Empty vector
+vector = vector.append(1) 		// [1]
+vector = vector + 2				// [1, 2]
+vector += 3						// [1, 2, 3]
+let value = vector[1]			// 2
+vector = vector.pop()			// [1, 2]
+```
 
 [Interactive Playground about Vectors](https://github.com/47deg/swift-poc/blob/master/Playgrounds/ExampleVector.playground/section-1.swift)
 
@@ -190,20 +199,21 @@ A partial function are those whose execution is restricted to a certain set of v
 
 One important aspect of partial functions is that by combining them you can create meaningful pieces of code that define algorithms. i.e.: you can create a combined function that performs an operation or another, depending on the received parameter. You have access to other custom operators like `|||>` (*OR*), `>>>` (*AND THEN*), and  `∫` (*function definition*). One quick example:
 
-	import SecondBridge
+```swift
+import SecondBridge
 
-	let doubleEvens = { $0 % 2 == 0 } |-> { $0 * 2 }		// Multiply by 2 any even number
-	let tripleOdds = { $0 % 2 != 0 } |-> { $0 * 3 }		// Multiply by 3 any odd number
-	let addFive = ∫(+5)								// Regular function to add five to any number
+let doubleEvens = { $0 % 2 == 0 } |-> { $0 * 2 }		// Multiply by 2 any even number
+let tripleOdds = { $0 % 2 != 0 } |-> { $0 * 3 }		// Multiply by 3 any odd number
+let addFive = ∫(+5)								// Regular function to add five to any number
 
-	let opOrElseOp = doubleEvens |||> tripleOdds		// If receiving an even, double it. If not, triple it.
-	let opOrElseAndThenOp = doubleEvens |||> tripleOdds >>> addFive	// If receiving an even, double it. If not, triple it. Then, add five to the result.
+let opOrElseOp = doubleEvens |||> tripleOdds		// If receiving an even, double it. If not, triple it.
+let opOrElseAndThenOp = doubleEvens |||> tripleOdds >>> addFive	// If receiving an even, double it. If not, triple it. Then, add five to the result.
 
-	opOrElseOp.apply(3)			// 9
-	opOrElseOp.apply(4)			// 8
-	opOrElseAndThenOp.apply(3)	// 14
-	opOrElseAndThenOp.apply(4)	// 13
-
+opOrElseOp.apply(3)			// 9
+opOrElseOp.apply(4)			// 8
+opOrElseAndThenOp.apply(3)	// 14
+opOrElseAndThenOp.apply(4)	// 13
+```
 
 Partial functions also gives us the ability to perform **complex pattern matching sets**, more powerful than Swift's standard **switch** block, by using our **match** function:
 
