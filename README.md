@@ -131,7 +131,7 @@ a.filter({$0 % 3 == 0})  //  [1,2,4]
 
 An **immutable**, **unordered**, **traversable** and **iterable** collection containing pairs of keys and values. Values are typed, but **Second Bridge** supports several types of keys within one Map (i.e.: **Int**, **Float** and **String**) inside a container called `HashableAny`.
 
-```swift
+```C
 import SecondBridge
 
 var map : Map<Int> = ["a" : 1, 2 : 2, 4.5 : 3]
