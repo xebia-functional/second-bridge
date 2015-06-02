@@ -30,10 +30,12 @@ Protocols like **Traversable** and **Iterable** will make it easier for you to e
 
 ```swift
 // Traverse all items of the instance, and call the provided function on each one.
- func foreach(f: (ItemType) -> ())
+func foreach(f: (ItemType) -> ())
+
 // Build a new instance of the same Traversable type with the elements contained
 // in the `elements` array (i.e.: returned from the **T functions).
 class func build(elements: [ItemType]) -> Self 
+
 // Build a new instance of the same Traversable type with the elements contained in the provided
 // Traversable instance. Users calling this function are responsible of transforming the data of each
 // item to a valid ItemType suitable for the current Traversable class. 
