@@ -3,12 +3,12 @@ Second Bridge
 
 **[Second Bridge](http://47deg.github.io/second-bridge)** is a Swift framework for functional programming. Our goal is to make Swift development on par with other functional languages like Scala by adding new data types, functions and operators.
 
-This project depends on the [Swiftz](https://github.com/typelift/Swiftz) library. This library defines functional data structures, functions, idioms, and extensions that augment the Swift standard library.
+This project depends on the awesome [Swiftz](https://github.com/typelift/Swiftz) framework, that defines functional data structures, functions, idioms, and extensions that augment the Swift standard library.
 
 Installation
 ==========
 
-Second Bridge supports the CocoaPods dependency manager. To install the framework in your project, place the following in your Podfile:
+**Second Bridge** supports the **CocoaPods** dependency manager. To install the framework in your project, place the following in your Podfile:
 
 	platform :ios, '8.0'
 	use_frameworks!
