@@ -146,8 +146,8 @@ map -= "d"						// map = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "foo" : 7,  "bar" : 
 map --= ["foo", "bar"]			// map = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4]
 
 let filteredMap = map.filter({ (value) -> Bool in (value as Int) < 3})  // ("a" : 1, 2 : 2)
-let reducedResult = map.reduceByValue(0, combine: +)   // 10
-let values = map.values 								// [1, 2, 3, 4]
+let reducedResult = map.reduceByValue(0, combine: +)   					// 10
+let values = map.values 												// [1, 2, 3, 4]
 
 ```
 [Interactive Playground about Maps](https://github.com/47deg/swift-poc/blob/master/Playgrounds/ExampleMap.playground/section-1.swift)
@@ -203,8 +203,8 @@ One important aspect of partial functions is that by combining them you can crea
 import SecondBridge
 
 let doubleEvens = { $0 % 2 == 0 } |-> { $0 * 2 }		// Multiply by 2 any even number
-let tripleOdds = { $0 % 2 != 0 } |-> { $0 * 3 }		// Multiply by 3 any odd number
-let addFive = ∫(+5)								// Regular function to add five to any number
+let tripleOdds = { $0 % 2 != 0 } |-> { $0 * 3 }			// Multiply by 3 any odd number
+let addFive = ∫(+5)									  // Regular function to add five to any number
 
 let opOrElseOp = doubleEvens |||> tripleOdds		// If receiving an even, double it. If not, triple it.
 let opOrElseAndThenOp = doubleEvens |||> tripleOdds >>> addFive	// If receiving an even, double it. If not, triple it. Then, add five to the result.
