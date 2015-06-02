@@ -10,7 +10,7 @@ Installation
 
 **Second Bridge** supports the **CocoaPods** dependency manager. To install the framework in your project, place the following in your Podfile:
 
-```swift
+```
 platform :ios, '8.0'
 use_frameworks!
 
@@ -28,7 +28,7 @@ Features
 
 Protocols like **Traversable** and **Iterable** will make it easier for you to expand the current data-types available. If you need to create a new data-type, just by implementing the following three methods your type will have access to the 40-something functions available in **Second Bridge**:
 
-```swift
+```
 // Traverse all items of the instance, and call the provided function on each one.
 func foreach(f: (ItemType) -> ())
 
