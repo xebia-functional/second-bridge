@@ -30,7 +30,7 @@ Protocols like **Traversable** and **Iterable** will make it easier for you to e
 
 ```swift
 // Traverse all items of the instance, and call the provided function on each one.
-func foreach(f: (ItemType) -> ())
+func foreach
 
 // Build a new instance of the same Traversable type with the elements contained
 // in the `elements` array (i.e.: returned from the **T functions).
@@ -134,7 +134,7 @@ An **immutable**, **unordered**, **traversable** and **iterable** collection con
 ```swift
 import SecondBridge
 
-let map : Map<Int> = ["a" : 1, 2 : 2, 4.5 : 3]
+var map : Map<Int> = ["a" : 1, 2 : 2, 4.5 : 3]
 map = map + ["c" : 4]			// map = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4]
 map += ("d"", 5)				// map = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "d" : 5]
 map += [("foo", 7), ("bar", 8)]	// map = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "d" : 5, "foo" : 7,  "bar" : 8]
