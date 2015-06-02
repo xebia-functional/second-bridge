@@ -25,7 +25,7 @@ Features
 
 **Traversable**
 
-Protocols like **Traversable** and **Iterable** will make it easier for you to expand the current data-types available. If you need to create a new data-type, just by implementing the following three methods your type will have access to the 40-something functions available in Second Bridge:
+Protocols like **Traversable** and **Iterable** will make it easier for you to expand the current data-types available. If you need to create a new data-type, just by implementing the following three methods your type will have access to the 40-something functions available in **Second Bridge**:
 
 
 	public protocol Traversable {
@@ -34,10 +34,13 @@ Protocols like **Traversable** and **Iterable** will make it easier for you to e
 	  // Traverse all items of the instance, and call the provided function on each one.  
 	  func foreach(f: (ItemType) -> ())
 	   
-	  // Build a new instance of the same Traversable type with the elements contained in the `elements` array (i.e.: returned from the **T functions).	    
+	  // Build a new instance of the same Traversable type with the elements contained
+	  // in the `elements` array (i.e.: returned from the **T functions).    
 	  class func build(elements: [ItemType]) -> Self
 	    
-	  // Build a new instance of the same Traversable type with the elements contained in the provided Traversable instance. Users calling this function are responsible of transforming the data of each item to a valid ItemType suitable for the current Traversable class.	 
+	  // Build a new instance of the same Traversable type with the elements contained in the provided
+	  // Traversable instance. Users calling this function are responsible of transforming the data of each
+	  // item to a valid ItemType suitable for the current Traversable class. 
 	  class func buildFromTraversable<U where U : Traversable>(traversable: U) -> Self
 	}
  
@@ -169,9 +172,9 @@ An **immutable**, **traversable**, **iterable** and **typed** **Persistent Bit-p
 	import SecondBrigde
 
 	let vector = Vector<Int>()		// Empty vector
-	vector = vector.append(1) 	// [1]
-	vector = vector + 2			// [1, 2]
-	vector += 3					// [1, 2, 3]
+	vector = vector.append(1) 		// [1]
+	vector = vector + 2				// [1, 2]
+	vector += 3						// [1, 2, 3]
 	let value = vector[1]			// 2
 	vector = vector.pop()			// [1, 2]
 
@@ -181,7 +184,7 @@ An **immutable**, **traversable**, **iterable** and **typed** **Persistent Bit-p
 
 **Partial Function**
 
-A partial function are those whose execution is restricted to a certain set of values, defined by the method **isDefinedAt**. This allows developers to set certain conditions to their functions. An easy to understand example is a divider function, whose execution is restricted to dividers equal to zero. As with **Scala**'s partial functions, you are allowed to execute them even by using their restricted set of parameters. But you have access to the **isDefinedAt** function that tells you if it's safe to call.
+A partial function are those whose execution is restricted to a certain set of values, defined by the method `isDefinedAt`. This allows developers to set certain conditions to their functions. An easy to understand example is a divider function, whose execution is restricted to dividers equal to zero. As with **Scala**'s partial functions, you are allowed to execute them even by using their restricted set of parameters. But you have access to the `isDefinedAt` function that tells you if it's safe to call.
 
 **Second Bridge** defines several custom operators that makes creating partial functions really easy. Just by joining two closures with the `|->` operator, we create a partial function (the first closure must return a Bool, thus defining the conditions under which this function works).
 
@@ -223,7 +226,7 @@ Second Bridge supports iOS 8.0+.
 Contribute
 =========
 
-We've tried to pack **Second Bridge** with many useful features from the Scala language, but considering all the work done in that language we have a lot of ground to cover yet. That's why **47 Degrees wants YOU**! Second Bridge is **completely open-source**, and we're really looking forward to see what you can come up with! So if you're interested in Second Bridge and think that you've come up with a great feature to add... don't hesitate and send us a PR! We'll review and incorporate it to our code-base as soon as possible.
+We've tried to pack **Second Bridge** with many useful features from the **Scala** language. But considering all the work done there, we have a lot of ground to cover yet. That's why **47 Degrees wants YOU**! Second Bridge is **completely open-source**, and we're really looking forward to see what you can come up with! So if you're interested in Second Bridge and think that you've come up with a great feature to add... don't hesitate and send us a PR! We'll review and incorporate it to our code-base as soon as possible.
 
 License
 ======
