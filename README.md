@@ -135,7 +135,7 @@ An **immutable**, **unordered**, **traversable** and **iterable** collection con
 import SecondBridge
 
 var map : Map<Int> = ["a" : 1, 2 : 2, 4.5 : 3]
-map = map + ["c" : 4]			// ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4]
+map = map + ["c" : 4]			// [a : 1, 2 : 2, 4.5 : 3, c : 4]
 map += ("d"", 5)				// ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "d" : 5]
 map += [("foo", 7), ("bar", 8)]	// ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "d" : 5, "foo" : 7,  "bar" : 8]
 
