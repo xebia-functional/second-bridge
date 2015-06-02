@@ -136,15 +136,15 @@ import SecondBridge
 
 var map : Map<Int> = ["a" : 1, 2 : 2, 4.5 : 3]
 
-map = map + ["c" : 4]			// [a : 1, 2 : 2, 4.5 : 3, c : 4]
+map = map + ["c" : 4]	   // ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4]
 
-map += ("d"", 5)				// ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "d" : 5]
+map += ("d"", 5)  // ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "d" : 5]
 
-map += [("foo", 7), ("bar", 8)]	// ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "d" : 5, "foo" : 7,  "bar" : 8]
+map += [("foo", 7), ("bar", 8)]  // ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "d" : 5, "foo" : 7,  "bar" : 8]
 
-map -= "d"						// ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "foo" : 7,  "bar" : 8]
+map -= "d"   // ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "foo" : 7,  "bar" : 8]
 
-map --= ["foo", "bar"]			// ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4]
+map --= ["foo", "bar"]  // ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4]
 
 let filteredMap = map.filter({ (value) -> Bool in (value as Int) < 3})  // ("a" : 1, 2 : 2)
 let reducedResult = map.reduceByValue(0, combine: +)   					// 10
