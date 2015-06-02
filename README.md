@@ -104,7 +104,7 @@ Any Traversable-conforming data type that also implements the standard **Sequenc
 An **immutable**, **traversable** and **typed** Array.
 
 ```swift
-import SecondBrigde
+import SecondBridge
 
 let anArray : ArrayT<Int> = [1, 2, 3, 4, 5, 6] 
 let list = anArray.toList()
@@ -157,7 +157,7 @@ let values = map.values 	// [1, 2, 3, 4]
 An **immutable**, **traversable**, **iterable** and **typed** LIFO stack.
 
 ```swift
-import SecondBrigde
+import SecondBridge
 
 var stack = Stack<Int>()
 stack = stack.push(1)	// top -> 1 <- bottom
@@ -177,7 +177,7 @@ stack.pop()				// (3, Stack[2, 1])
 An **immutable**, **traversable**, **iterable** and **typed** **Persistent Bit-partitioned Vector Trie**, based on Haskell and Scala's Vector implementations.
 
 ```swift
-import SecondBrigde
+import SecondBridge
 
 let vector = Vector<Int>()		// Empty vector
 vector = vector.append(1) 		// [1]
