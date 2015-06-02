@@ -142,8 +142,8 @@ map = map + ["c" : 4]			// map = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4]
 map += ("d"", 5)				// map = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "d" : 5]
 map += [("foo", 7), ("bar", 8)]	// map = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "d" : 5, "foo" : 7,  "bar" : 8]
 
-map -= "d"					// map = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "foo" : 7,  "bar" : 8]
-map --= ["foo", "bar"]		// map = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4]
+map -= "d"						// map = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "foo" : 7,  "bar" : 8]
+map --= ["foo", "bar"]			// map = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4]
 
 let filteredMap = map.filter({ (value) -> Bool in (value as Int) < 3})  // ("a" : 1, 2 : 2)
 let reducedResult = map.reduceByValue(0, combine: +)   // 10
