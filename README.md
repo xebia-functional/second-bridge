@@ -131,7 +131,7 @@ a.filter({$0 % 3 == 0})  //  [1,2,4]
 
 An **immutable**, **unordered**, **traversable** and **iterable** collection containing pairs of keys and values. Values are typed, but **Second Bridge** supports several types of keys within one Map (i.e.: **Int**, **Float** and **String**) inside a container called `HashableAny`.
 
-```swift
+```C
 import SecondBridge
 
 var map : Map<Int> = ["a" : 1, 2 : 2, 4.5 : 3]
@@ -214,16 +214,17 @@ opOrElseAndThenOp.apply(4)	// 13
 
 Partial functions also gives us the ability to perform **complex pattern matching sets**, more powerful than Swift's standard **switch** block, by using our **match** function:
 
-	import SecondBridge
-	let matchTest = match({(item: Int) -> Bool in item == 0 } |-> {(Int) -> String in return "Zero"},
-	                              {(item: Int) -> Bool in item == 1 } |-> {(Int) -> String in return "One"},
-	                              {(item: Int) -> Bool in item == 2 } |-> {(Int) -> String in return "Two"},
-	                              {(item: Int) -> Bool in item > 2 } |-> {(Int) -> String in return "Moar!"})
-	                              
-	matchTest.apply(0)			// "Zero"
-	matchTest.apply(1)			// "One"
-	matchTest.apply(1000)		// "Moar!"
-
+```swift
+import SecondBridge
+let matchTest = match({(item: Int) -> Bool in item == 0 } |-> {(Int) -> String in return "Zero"},
+                              {(item: Int) -> Bool in item == 1 } |-> {(Int) -> String in return "One"},
+                              {(item: Int) -> Bool in item == 2 } |-> {(Int) -> String in return "Two"},
+                              {(item: Int) -> Bool in item > 2 } |-> {(Int) -> String in return "Moar!"})
+                              
+matchTest.apply(0)			// "Zero"
+matchTest.apply(1)			// "One"
+matchTest.apply(1000)		// "Moar!"
+```
 
 System Requirements
 ==================
