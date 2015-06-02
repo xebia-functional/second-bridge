@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.2 (12043) - http://www.bohemiancoding.com/sketch -->
+    <title>icon_lambda</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <path d="M6.92190476,7.82768778 C7.52952381,7.49189985 8.46857143,7.32400589 9.13142857,7.32400589 C10.9542857,7.32400589 12.1695238,7.82768778 12.832381,9.33873343 L13.8266667,11.6332842 L3,39 L10.512381,39 L17.472381,20.1958763 L24.432381,39 L32,39 L19.4609524,7.54786451 C17.472381,2.455081 13.9371429,1.11192931 9.35238095,1 C8.52380952,1 6.75619048,1.16789396 5.87238095,1.44771723 L6.92190476,7.82768778 Z" id="λ" fill="#1ABC9C" sketch:type="MSShapeGroup"></path>
+    </g>
+</svg>

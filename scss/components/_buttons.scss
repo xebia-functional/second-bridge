@@ -1,0 +1,13 @@
+// Buttons
+// -----------------------------------------------------
+
+.btn-outline-inverse {
+  border: 2px solid #fff;
+  color: #fff;
+    @include transition(all .3s ease-in);
+  &:hover,
+  &:focus {
+    background: #fff;
+    color: $gray-darker;
+  }
+}

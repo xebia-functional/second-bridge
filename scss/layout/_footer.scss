@@ -1,0 +1,16 @@
+// Footer
+// -----------------------------------------------------
+footer {
+    padding: 40px 0;
+    background: $gray-base;
+    color: #5D6168;
+    a {
+        color: #5D6168;
+        border-bottom: 1px dotted #5D6168;
+        &:hover, &:focus {
+            text-decoration: none;
+            color: #D2D4D7;
+            border-bottom: 1px dotted #D2D4D7;
+        }
+    }
+}
