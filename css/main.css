@@ -7658,9 +7658,7 @@ section {
     section {
       padding: 80px 0; } }
   section ul {
-    padding: 0; }
-    section ul li {
-      list-style: none; }
+    padding-left: 15px; }
 
 .features {
   background: #F4F5F5; }
