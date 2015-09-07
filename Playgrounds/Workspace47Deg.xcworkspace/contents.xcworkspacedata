@@ -22,4 +22,7 @@
    <FileRef
       location = "group:../SecondBridge/SecondBridge.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:../SecondBridge/Pods/Pods.xcodeproj">
+   </FileRef>
 </Workspace>

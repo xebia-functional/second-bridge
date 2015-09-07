@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		590992581B9DD61D008380B0 /* SecondBridge.xcworkspace in Resources */ = {isa = PBXBuildFile; fileRef = 590992571B9DD61D008380B0 /* SecondBridge.xcworkspace */; };
 		59283E531B0A03B500EC3A9F /* SecondBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = A183A1271AA85FA500C535A6 /* SecondBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		596D703D1AADB79B00CE9962 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596D703C1AADB79B00CE9962 /* Map.swift */; };
 		596D703E1AADB79B00CE9962 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596D703C1AADB79B00CE9962 /* Map.swift */; };
@@ -88,6 +89,7 @@
 /* Begin PBXFileReference section */
 		374373D53C1E1730C0517D5F /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		484FE31132DFCAEC6C987ABF /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		590992571B9DD61D008380B0 /* SecondBridge.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = SecondBridge.xcworkspace; sourceTree = "<group>"; };
 		596D703C1AADB79B00CE9962 /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		596D70401AADB80400CE9962 /* MapTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapTests.swift; sourceTree = "<group>"; };
 		597143121AC9369700C1217C /* TraversableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TraversableTests.swift; sourceTree = "<group>"; };
@@ -276,6 +278,7 @@
 		A183A1181AA85FA500C535A6 = {
 			isa = PBXGroup;
 			children = (
+				590992571B9DD61D008380B0 /* SecondBridge.xcworkspace */,
 				A183A1241AA85FA500C535A6 /* SecondBridge */,
 				A183A1311AA85FA500C535A6 /* SecondBridgeTests */,
 				59A911AD1AEA2F6F00EE50CA /* VectorTests */,
@@ -460,6 +463,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				590992581B9DD61D008380B0 /* SecondBridge.xcworkspace in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
