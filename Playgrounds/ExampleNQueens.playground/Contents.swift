@@ -171,7 +171,7 @@ But its algorithm use intensive recursive calculation, and as such it won't work
 Please keep that in mind while playing with it :).
 */
 
-let numberOfPieces = 4
+let numberOfPieces = 5
 let solutions = nQueensSolutions(numberOfPieces).toArray()
 let chessBoard = ChessBoardView(size: 300, boardPieces: numberOfPieces)
 
