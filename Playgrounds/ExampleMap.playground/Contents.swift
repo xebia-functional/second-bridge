@@ -69,10 +69,7 @@ myMap6["Ann Arbor"] == "MI"
 myMap6[49931] == "MI"
 
 //: Mixed type values can be added to a map:
-var myMap7 : Map = ["Ann Arbor" : [48103, 48104, 48108], 49931 : "MI"]
-myMap7[12345] = "Michigan"
-myMap7.size == 3
-
+let myMap7 : Map = ["Ann Arbor" : [48103, 48104, 48108], 49931 : "MI"]
 //: Maps may be accessed:
 let myMap8 : Map = ["MI" : "Michigan", "OH" : "Ohio", "WI" : "Wisconsin", "IA" : "Iowa"]
 myMap8["MI"] == "Michigan"

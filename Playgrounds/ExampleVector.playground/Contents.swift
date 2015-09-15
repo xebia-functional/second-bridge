@@ -29,38 +29,38 @@ by **Rick Hickey**).
 */
 
 //: Vectors can be created by using an array literal:
-var vector : Vector<Int> = [1, 2, 3, 4, 5]
-vector.description
+let v : Vector<Int> = [1, 2, 3, 4, 5]
+v.description
 
 //: But it's better to do this by using the `build` function:
-vector = Vector<Int>.build([1, 2, 3, 4, 5])
-vector.description
+let v2 = Vector<Int>.build([1, 2, 3, 4, 5])
+v2.description
 
 //: You can add more elements to an existing vector by using the append function or the `+` operator
-vector = vector + 6
-vector.description
+let v3 = v + 6
+v3.description
 
 //: And by popping you can remove the last element in the vector
-vector = vector.pop()
-vector.description
+let v4 = v.pop()
+v4.description
 
 //: Vectors are **Iterables**:
-for integer in vector {
+for integer in v {
     integer
 }
 
 //: And as all **Iterables**, are **Traversable**. Both protocols working together give our vectors access to a great deal of utility functions.
-let mappedVector = vector.mapConserve({$0 * 2})
+let mappedVector = v.mapConserve({$0 * 2})
 mappedVector.description
 
-let filteredVector = vector.filter({$0 > 2})
+let filteredVector = v.filter({$0 > 2})
 filteredVector.description
 
-let reducedVector = vector.reduce(0, combine: {$0 + $1})
+let reducedVector = v.reduce(0, combine: {$0 + $1})
 reducedVector
 
 //: We can even do cool things like grouping by a function:
-let groupByResult = groupByT(vector, ∫{(item: (Int)) -> HashableAny in
+let groupByResult = groupByT(v, ∫{(item: (Int)) -> HashableAny in
     if item % 2 == 0 {
         return "Evens"
     } else {
