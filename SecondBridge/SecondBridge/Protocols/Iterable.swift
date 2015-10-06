@@ -52,8 +52,7 @@ public func sameElements<S: Iterable where S.Generator.Element == S.ItemType, S.
 Returns an array of Iterables, being the result of grouping chunks of size `n` while traversing through a sliding window of size `windowSize`. Note: might return different results for different runs if the underlying collection type is unordered.
 */
 public func sliding<S: Iterable>(source: S, n: Int, windowSize: Int) -> [S] {
-//    let itemsToAdd = n - windowSize
-//    let accumulatedItems = n - itemsToAdd
+
     let totalSize = sizeT(source)
     
     return reduceT(source, initialValue: (index: 0, buffer: S.build(Array<S.ItemType>()), result: Array<S>())) { (data: (index: Int, buffer: S, result: [S]), currentItem: S.ItemType) -> (index: Int, buffer: S, result: [S]) in
@@ -91,7 +90,7 @@ public func sliding<S: Iterable>(source: S, n: Int) -> [S] {
 /**
 Returns an array of tuples, each containing the corresponding elements from the provided Iterables. The size of the resulting array will be the same as the smaller source. Note: might return different results for different runs if the underlying collection types are unordered.
 */
-public func zip<S: Iterable, T: Iterable where S.Generator.Element == S.ItemType, T.Generator.Element == T.ItemType>(sourceA: S, sourceB: T) -> [(S.ItemType, T.ItemType)] {
+public func zipI<S: Iterable, T: Iterable where S.Generator.Element == S.ItemType, T.Generator.Element == T.ItemType>(sourceA: S, sourceB: T) -> [(S.ItemType, T.ItemType)] {
     return zipAll(sourceA, sourceB: sourceB, defaultItemA: nil, defaultItemB: nil)
 }
 

@@ -92,7 +92,7 @@ class NQueensExample: XCTestCase {
 
     func testPerformance() {
         self.measureBlock() {
-            let solution6 = nQueensSolutions(6)
+            _ = nQueensSolutions(6)
         }
     }
     

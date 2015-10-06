@@ -38,8 +38,6 @@ class IterableTests: XCTestCase {
         
         let slideResult1 = sliding(array, n: 3, windowSize: 1)
         let slideResult2 = sliding(array, n: 3, windowSize: 2)
-        let slideResult3 = sliding(array, n: 3, windowSize: 3)
-        let slideResult4 = sliding(array, n: 3, windowSize: 4)
         let slideResult5 = sliding(array, n: 3, windowSize: 5)
         
         XCTAssertTrue(slideResult1.count == 5, "Sliding should create an array with groups of n elements separated by window-size distance")
@@ -49,15 +47,14 @@ class IterableTests: XCTestCase {
         XCTAssertTrue(sizeT(slideResult1[1]) == 3, "Sliding should always return groups of elements of size n (except for the last group)")
         XCTAssertTrue(sizeT(slideResult2[0]) == 3, "Sliding should always return groups of elements of size n (except for the last group)")
         XCTAssertTrue(sizeT(slideResult5[0]) == 3, "Sliding should always return groups of elements of size n (except for the last group)")
-//        XCTAssertTrue(headT(dropT(sliden: Result1.last!, 2)) == 6, "Sliding should create an array with groups of n elements separated by window-size distance")
+        XCTAssertTrue(headT(dropT(slideResult1.last!, n: 2)) == 6, "Sliding should create an array with groups of n elements separated by window-size distance")
         
         let arrayOfLetters : ArrayT<String> = ["a", "b", "c"]
-        let zipResult = zip(array, arrayOfLetters)
+        let zipResult = zipI(array, sourceB: arrayOfLetters)
         let zipResultFiller1 = zipAll(array, sourceB: arrayOfLetters, defaultItemA: 0, defaultItemB: "foo")
-        let zipResultFiller2 = zipAll(arrayOfLetters, sourceB: array, defaultItemA: "foo", defaultItemB: 0)
         let zipWithIndexResult = zipWithIndex(arrayOfLetters)
         
-//        XCTAssertTrue(zipResult.count == 3, "Regular zip should return an array with the same size as the smaller Iterable")
+        XCTAssertTrue(zipResult.count == 3, "Regular zip should return an array with the same size as the smaller Iterable")
         XCTAssertTrue(zipResultFiller1.count == 7, "ZipForAll should return an array with the same size as the bigger Iterable")
         XCTAssertTrue(zipResultFiller1.last!.1 == "foo", "ZipForAll should fill the gaps of the smaller Iterable with the provided default value")
         XCTAssertTrue(zipResultFiller1.last!.0 == 6, "ZipForAll should fill the gaps of the smaller Iterable with the provided default value while keeping the bigger Iterable's values")

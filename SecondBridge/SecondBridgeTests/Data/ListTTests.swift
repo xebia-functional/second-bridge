@@ -54,11 +54,7 @@ class ListTTests: XCTestCase {
 
         //Description
         XCTAssert({list.mkString() == "1234"}(),"Description should be 1234")
-        
-        //Map
-        let mapList : ListT<Int> = [2, 4, 6, 8]
-        print(list.map({$0 * 2}))
-//        XCTAssert({ list.map({$0 * 2} == mapList) }(),"")
+             
         
         //Filter
         let filterList : ListT<Int> = [1, 3]
