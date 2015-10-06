@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		590992581B9DD61D008380B0 /* SecondBridge.xcworkspace in Resources */ = {isa = PBXBuildFile; fileRef = 590992571B9DD61D008380B0 /* SecondBridge.xcworkspace */; };
 		59283E531B0A03B500EC3A9F /* SecondBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = A183A1271AA85FA500C535A6 /* SecondBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		594E50371BC40B85005866FE /* ArraySlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594E50361BC40B85005866FE /* ArraySlice.swift */; settings = {ASSET_TAGS = (); }; };
+		594E50381BC40B85005866FE /* ArraySlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594E50361BC40B85005866FE /* ArraySlice.swift */; settings = {ASSET_TAGS = (); }; };
+		594E50391BC40B85005866FE /* ArraySlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594E50361BC40B85005866FE /* ArraySlice.swift */; settings = {ASSET_TAGS = (); }; };
 		596D703D1AADB79B00CE9962 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596D703C1AADB79B00CE9962 /* Map.swift */; };
 		596D703E1AADB79B00CE9962 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596D703C1AADB79B00CE9962 /* Map.swift */; };
 		596D70421AADB80400CE9962 /* MapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596D70401AADB80400CE9962 /* MapTests.swift */; };
@@ -25,6 +28,7 @@
 		5982D6821AE647A100BA53D0 /* ArrayTTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5982D6811AE647A100BA53D0 /* ArrayTTests.swift */; };
 		5982D68F1AE7B6DC00BA53D0 /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5982D68E1AE7B6DC00BA53D0 /* Vector.swift */; };
 		5982D6901AE7B6DC00BA53D0 /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5982D68E1AE7B6DC00BA53D0 /* Vector.swift */; };
+		599207CD1BC40D7800BB786D /* VectorIntegrityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599207CC1BC40D7800BB786D /* VectorIntegrityTests.swift */; settings = {ASSET_TAGS = (); }; };
 		59A911B11AEA2F6F00EE50CA /* VectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A911B01AEA2F6F00EE50CA /* VectorTests.swift */; };
 		59A911B21AEA2F6F00EE50CA /* SecondBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A183A1221AA85FA500C535A6 /* SecondBridge.framework */; };
 		59A911B91AEA2F8000EE50CA /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5982D68E1AE7B6DC00BA53D0 /* Vector.swift */; };
@@ -90,6 +94,7 @@
 		374373D53C1E1730C0517D5F /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		484FE31132DFCAEC6C987ABF /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		590992571B9DD61D008380B0 /* SecondBridge.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = SecondBridge.xcworkspace; sourceTree = "<group>"; };
+		594E50361BC40B85005866FE /* ArraySlice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArraySlice.swift; sourceTree = "<group>"; };
 		596D703C1AADB79B00CE9962 /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		596D70401AADB80400CE9962 /* MapTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapTests.swift; sourceTree = "<group>"; };
 		597143121AC9369700C1217C /* TraversableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TraversableTests.swift; sourceTree = "<group>"; };
@@ -102,6 +107,7 @@
 		5981E3C81AB6DFE600F052A0 /* Traversable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Traversable.swift; sourceTree = "<group>"; };
 		5982D6811AE647A100BA53D0 /* ArrayTTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayTTests.swift; sourceTree = "<group>"; };
 		5982D68E1AE7B6DC00BA53D0 /* Vector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vector.swift; sourceTree = "<group>"; };
+		599207CC1BC40D7800BB786D /* VectorIntegrityTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VectorIntegrityTests.swift; sourceTree = "<group>"; };
 		59A911AC1AEA2F6F00EE50CA /* VectorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VectorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		59A911AF1AEA2F6F00EE50CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59A911B01AEA2F6F00EE50CA /* VectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorTests.swift; sourceTree = "<group>"; };
@@ -198,6 +204,7 @@
 				59A911BD1AEA534A00EE50CA /* VectorPerformanceTests.swift */,
 				59A911AE1AEA2F6F00EE50CA /* Supporting Files */,
 				59B2C4D61AEE8BD200BA104C /* VectorTraversability.swift */,
+				599207CC1BC40D7800BB786D /* VectorIntegrityTests.swift */,
 			);
 			path = VectorTests;
 			sourceTree = "<group>";
@@ -214,6 +221,7 @@
 			isa = PBXGroup;
 			children = (
 				59BBB24C1AC466BD00D2F7C1 /* Range.swift */,
+				594E50361BC40B85005866FE /* ArraySlice.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -522,6 +530,8 @@
 				59B2C4DE1AEE8C6400BA104C /* ArrayT.swift in Sources */,
 				59B2C4DF1AEE8C6400BA104C /* ListT.swift in Sources */,
 				59B2C4D91AEE8C5200BA104C /* Traversable.swift in Sources */,
+				594E50391BC40B85005866FE /* ArraySlice.swift in Sources */,
+				599207CD1BC40D7800BB786D /* VectorIntegrityTests.swift in Sources */,
 				59B2C4DA1AEE8C5200BA104C /* Iterable.swift in Sources */,
 				59A911B91AEA2F8000EE50CA /* Vector.swift in Sources */,
 				59B2C4D71AEE8BD200BA104C /* VectorTraversability.swift in Sources */,
@@ -538,6 +548,7 @@
 				5982D68F1AE7B6DC00BA53D0 /* Vector.swift in Sources */,
 				A1B6F0EB1AE4ECB3006E7997 /* Iterable.swift in Sources */,
 				59D811B71AA87B7C005F7761 /* HashableAny.swift in Sources */,
+				594E50371BC40B85005866FE /* ArraySlice.swift in Sources */,
 				596D703D1AADB79B00CE9962 /* Map.swift in Sources */,
 				5973D3081AD2A46200EBDE0B /* ArrayT.swift in Sources */,
 				597686161ACAA87B00756A9F /* Stack.swift in Sources */,
@@ -569,6 +580,7 @@
 				596D703E1AADB79B00CE9962 /* Map.swift in Sources */,
 				597686211ACAE0BA00756A9F /* NQueensExample.swift in Sources */,
 				5981E3CA1AB6DFE600F052A0 /* Traversable.swift in Sources */,
+				594E50381BC40B85005866FE /* ArraySlice.swift in Sources */,
 				A12A115B1AC31B2200FE8A80 /* RangeTests.swift in Sources */,
 				597143131AC9369700C1217C /* TraversableTests.swift in Sources */,
 			);

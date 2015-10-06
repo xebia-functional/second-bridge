@@ -1148,7 +1148,8 @@ extension VectorBuilder {
         var back = Vector<T>.Array2()
         
         for i in 0..<length {
-            let buffer = seq[(i * cellSize..<min((i + 1) * cellSize, seq.count))]
+            //let buffer = seq[(i * cellSize..<min((i + 1) * cellSize, seq.count))]
+            let buffer = seq.sliceFromRangeWithZeroIndex((i * cellSize..<min((i + 1) * cellSize, seq.count)))
             back.append(fillArray1(buffer))
         }
         return back
@@ -1160,7 +1161,8 @@ extension VectorBuilder {
         var back = Vector<T>.Array3()
         
         for i in 0..<length {
-            let buffer = seq[(i * cellSize..<min((i + 1) * cellSize, seq.count))]
+            //let buffer = seq[(i * cellSize..<min((i + 1) * cellSize, seq.count))]
+            let buffer = seq.sliceFromRangeWithZeroIndex((i * cellSize..<min((i + 1) * cellSize, seq.count)))
             back.append(fillArray2(buffer))
         }
         return back
@@ -1172,7 +1174,8 @@ extension VectorBuilder {
         var back = Vector<T>.Array4()
         
         for i in 0..<length {
-            let buffer = seq[(i * cellSize..<min((i + 1) * cellSize, seq.count))]
+            //let buffer = seq[(i * cellSize..<min((i + 1) * cellSize, seq.count))]
+            let buffer = seq.sliceFromRangeWithZeroIndex((i * cellSize..<min((i + 1) * cellSize, seq.count)))
             back.append(fillArray3(buffer))
         }
         return back
@@ -1184,7 +1187,8 @@ extension VectorBuilder {
         var back = Vector<T>.Array5()
         
         for i in 0..<length {
-            let buffer = seq[(i * cellSize..<min((i + 1) * cellSize, seq.count))]
+            //let buffer = seq[(i * cellSize..<min((i + 1) * cellSize, seq.count))]
+            let buffer = seq.sliceFromRangeWithZeroIndex((i * cellSize..<min((i + 1) * cellSize, seq.count)))
             back.append(fillArray4(buffer))
         }
         return back
@@ -1196,7 +1200,8 @@ extension VectorBuilder {
         var back = Vector<T>.Array6()
         
         for i in 0..<length {
-            let buffer = seq[(i * cellSize..<min((i + 1) * cellSize, seq.count))]
+            //let buffer = seq[(i * cellSize..<min((i + 1) * cellSize, seq.count))]
+            let buffer = seq.sliceFromRangeWithZeroIndex((i * cellSize..<min((i + 1) * cellSize, seq.count)))
             back.append(fillArray5(buffer))
         }
         return back
