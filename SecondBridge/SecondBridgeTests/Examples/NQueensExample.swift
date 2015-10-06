@@ -34,7 +34,7 @@ func ==(lhs: Solution, rhs: Solution) -> Bool {
     var result = true
     lhs.foreach({ (lPos : Pos) in
         if result {
-            let contains = filterT(rhs, { (item: Pos) -> Bool in
+            let contains = filterT(rhs, includeElement: { (item: Pos) -> Bool in
                 item == lPos
             })
             result = contains.size() > 0
@@ -49,8 +49,8 @@ func isAttacking(posA: Pos, posB: Pos) -> Bool {
 }
 
 func isSafe(queen: Pos, queens: Stack<Pos>) -> Bool {
-    return forAllT(queens, { (currentQueen) -> Bool in
-        !isAttacking(queen, currentQueen)
+    return forAllT(queens, p: { (currentQueen) -> Bool in
+        !isAttacking(queen, posB: currentQueen)
     })
 }
 
@@ -64,10 +64,10 @@ func placeQueens(k: Int, n: Int) -> Solutions {
     switch k {
     case 0: return Stack<Stack<Pos>>().push(Stack<Pos>())
     default:
-        return Stack(flatMapT(placeQueens(k - 1, n), { (queens: Solution) -> [Solution] in
-            return mapT(filterT(ArrayT([Int](1...n)), { (column: Int) -> Bool in
-                isSafe((k, column), queens)
-            }), { (column: Int) -> Solution in
+        return Stack(flatMapT(placeQueens(k - 1, n: n), transform: { (queens: Solution) -> [Solution] in
+            return mapT(filterT(ArrayT([Int](1...n)), includeElement: { (column: Int) -> Bool in
+                isSafe((k, column), queens: queens)
+            }), transform: { (column: Int) -> Solution in
                 return queens.push((k, column))
             })
         }))
@@ -75,7 +75,7 @@ func placeQueens(k: Int, n: Int) -> Solutions {
 }
 
 func nQueensSolutions(n: Int) -> Stack<Stack<Pos>> {
-    return placeQueens(n, n)
+    return placeQueens(n, n: n)
 }
 
 // MARK: - Tests
@@ -92,20 +92,20 @@ class NQueensExample: XCTestCase {
 
     func testPerformance() {
         self.measureBlock() {
-            let solution6 = nQueensSolutions(6)
+            _ = nQueensSolutions(6)
         }
     }
     
     func testIsAttacking() {
-        XCTAssertTrue(isAttacking((1, 1), (0, 0)), "This should be considered an attack")
-        XCTAssertTrue(isAttacking((1, 1), (0, 2)), "This should be considered an attack")
-        XCTAssertTrue(isAttacking((1, 1), (1, 0)), "This should be considered an attack")
-        XCTAssertTrue(isAttacking((1, 1), (1, 2)), "This should be considered an attack")
-        XCTAssertTrue(isAttacking((1, 1), (2, 0)), "This should be considered an attack")
-        XCTAssertTrue(isAttacking((1, 1), (2, 1)), "This should be considered an attack")
-        XCTAssertTrue(isAttacking((1, 1), (2, 2)), "This should be considered an attack")
-        XCTAssertTrue(isAttacking((1, 1), (3, 3)), "This should be considered an attack")
-        XCTAssertFalse(isAttacking((1, 1), (2, 3)), "This shouldn't be considered an attack")
+        XCTAssertTrue(isAttacking((1, 1), posB: (0, 0)), "This should be considered an attack")
+        XCTAssertTrue(isAttacking((1, 1), posB: (0, 2)), "This should be considered an attack")
+        XCTAssertTrue(isAttacking((1, 1), posB: (1, 0)), "This should be considered an attack")
+        XCTAssertTrue(isAttacking((1, 1), posB: (1, 2)), "This should be considered an attack")
+        XCTAssertTrue(isAttacking((1, 1), posB: (2, 0)), "This should be considered an attack")
+        XCTAssertTrue(isAttacking((1, 1), posB: (2, 1)), "This should be considered an attack")
+        XCTAssertTrue(isAttacking((1, 1), posB: (2, 2)), "This should be considered an attack")
+        XCTAssertTrue(isAttacking((1, 1), posB: (3, 3)), "This should be considered an attack")
+        XCTAssertFalse(isAttacking((1, 1), posB: (2, 3)), "This shouldn't be considered an attack")
     }
     
     func testSolution() {

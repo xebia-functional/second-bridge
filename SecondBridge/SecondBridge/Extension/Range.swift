@@ -20,15 +20,15 @@ import Swiftz
 
 extension Range{
     
-    func toList()->List<T>{
-        var l  = List<T>()
+    func toList()->List<Element>{
+        var l  = List<Element>()
         for elem in self {
             l = l.append([elem])
         }
         return l
     }
     
-    func toArray()-> Array<T>{
+    func toArray()-> Array<Element>{
         return Array(self)
     }
    

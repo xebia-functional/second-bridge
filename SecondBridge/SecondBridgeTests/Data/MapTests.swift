@@ -179,7 +179,6 @@ class MapTests : XCTestCase {
         let stringMap : Map<String> = ["a" : "a", "b" : "b", "c" : "c"]
         let intMap : Map<Int> = ["a": 1, "b": 2, "c": 3]
         let floatMap : Map<Float> = ["a": 4.5, "b": 3.14159]
-        let concatenation = stringMap.addString(nil)
         
         XCTAssertEqual(stringMap.addString(nil), "abc", "Maps should be convertible to String with addString()")
         XCTAssertEqual(stringMap.addString(" "), "a b c", "Maps should be convertible to String with addString()")
@@ -200,7 +199,7 @@ class MapTests : XCTestCase {
         XCTAssertTrue(removedNonexistantKeyMap.size == anotherMap.size, "Removal of a map unbound key should fail gracefully")
         
         var mutableMap = anotherMap
-        if let value = mutableMap.remove("f") {
+        if let value:Int = mutableMap.remove("f"){
             XCTAssertNil(mutableMap["f"], "Maps should be removable")
             XCTAssertTrue(mutableMap.size == anotherMap.size - 1, "Maps should be removable")
             XCTAssertEqual(value, anotherMap["f"]!, "Maps should be removable")

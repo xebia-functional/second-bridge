@@ -59,32 +59,32 @@ class TraversableTests: XCTestCase {
         
         XCTAssertEqual(sizeT(aMap), 6, "Traversables should know to count their elements")
         
-        let findNotNil = findT(aMap, { (item) -> Bool in item.0 == "a" })
-        let findNil = findT(aMap, { (item) -> Bool in item.0 == "foo" })
+        let findNotNil = findT(aMap, p: { (item) -> Bool in item.0 == "a" })
+        let findNil = findT(aMap, p: { (item) -> Bool in item.0 == "foo" })
         XCTAssertTrue(findNotNil != nil, "Traversables should be able to find elements based on a predicate")
         XCTAssertTrue(findNil == nil, "Traversables should be able to find elements based on a predicate")
         
-        let dropResult = dropT(aMap, 4)
+        let dropResult = dropT(aMap, n: 4)
         XCTAssertEqual(dropResult.size, aMap.size - 4, "Traversables should be droppable")
-        XCTAssertFalse(findT(dropResult, { (item: (HashableAny, Int)) -> Bool in item.0 == aMap.keys[0] }) != nil, "Traversables should be takeable")
-        XCTAssertTrue(findT(dropResult, { (item: (HashableAny, Int)) -> Bool in item.0 == aMap.keys[4] }) != nil, "Traversables should be takeable")
-        XCTAssertTrue(findT(dropResult, { (item: (HashableAny, Int)) -> Bool in item.0 == aMap.keys[5] }) != nil, "Traversables should be takeable")
+        XCTAssertFalse(findT(dropResult, p: { (item: (HashableAny, Int)) -> Bool in item.0 == aMap.keys[0] }) != nil, "Traversables should be takeable")
+        XCTAssertTrue(findT(dropResult, p: { (item: (HashableAny, Int)) -> Bool in item.0 == aMap.keys[4] }) != nil, "Traversables should be takeable")
+        XCTAssertTrue(findT(dropResult, p: { (item: (HashableAny, Int)) -> Bool in item.0 == aMap.keys[5] }) != nil, "Traversables should be takeable")
         
-        let dropRightResult = dropRightT(aMap, 4)
+        let dropRightResult = dropRightT(aMap, n: 4)
         XCTAssertEqual(dropRightResult.size, aMap.size - 4, "Traversables should be droppable")
-        XCTAssertFalse(findT(dropRightResult, { (item: (HashableAny, Int)) -> Bool in item.0 == aMap.keys[5] }) != nil, "Traversables should be takeable")
-        XCTAssertTrue(findT(dropRightResult, { (item: (HashableAny, Int)) -> Bool in item.0 == aMap.keys[0] }) != nil, "Traversables should be takeable")
-        XCTAssertTrue(findT(dropRightResult, { (item: (HashableAny, Int)) -> Bool in item.0 == aMap.keys[1] }) != nil, "Traversables should be takeable")
+        XCTAssertFalse(findT(dropRightResult, p: { (item: (HashableAny, Int)) -> Bool in item.0 == aMap.keys[5] }) != nil, "Traversables should be takeable")
+        XCTAssertTrue(findT(dropRightResult, p: { (item: (HashableAny, Int)) -> Bool in item.0 == aMap.keys[0] }) != nil, "Traversables should be takeable")
+        XCTAssertTrue(findT(dropRightResult, p: { (item: (HashableAny, Int)) -> Bool in item.0 == aMap.keys[1] }) != nil, "Traversables should be takeable")
         
-        let takeResult = takeT(aMap, 2)
-        let takeRightResult = takeRightT(aMap, 2)
-        XCTAssertFalse(findT(takeResult, { (item: (HashableAny, Int)) -> Bool in item.0 == aMap.keys[5] }) != nil, "Traversables should be takeable")
-        XCTAssertTrue(findT(takeResult, { (item: (HashableAny, Int)) -> Bool in item.0 == aMap.keys[0] }) != nil, "Traversables should be takeable")
-        XCTAssertTrue(findT(takeResult, { (item: (HashableAny, Int)) -> Bool in item.0 == aMap.keys[1] }) != nil, "Traversables should be takeable")
+        let takeResult = takeT(aMap, n: 2)
+        let takeRightResult = takeRightT(aMap, n: 2)
+        XCTAssertFalse(findT(takeResult, p: { (item: (HashableAny, Int)) -> Bool in item.0 == aMap.keys[5] }) != nil, "Traversables should be takeable")
+        XCTAssertTrue(findT(takeResult, p: { (item: (HashableAny, Int)) -> Bool in item.0 == aMap.keys[0] }) != nil, "Traversables should be takeable")
+        XCTAssertTrue(findT(takeResult, p: { (item: (HashableAny, Int)) -> Bool in item.0 == aMap.keys[1] }) != nil, "Traversables should be takeable")
         
-        XCTAssertFalse(findT(takeRightResult, { (item: (HashableAny, Int)) -> Bool in item.0 == aMap.keys[0] }) != nil, "Traversables should be takeable")
-        XCTAssertTrue(findT(takeRightResult, { (item: (HashableAny, Int)) -> Bool in item.0 == aMap.keys[4] }) != nil, "Traversables should be takeable")
-        XCTAssertTrue(findT(takeRightResult, { (item: (HashableAny, Int)) -> Bool in item.0 == aMap.keys[5] }) != nil, "Traversables should be takeable")
+        XCTAssertFalse(findT(takeRightResult, p: { (item: (HashableAny, Int)) -> Bool in item.0 == aMap.keys[0] }) != nil, "Traversables should be takeable")
+        XCTAssertTrue(findT(takeRightResult, p: { (item: (HashableAny, Int)) -> Bool in item.0 == aMap.keys[4] }) != nil, "Traversables should be takeable")
+        XCTAssertTrue(findT(takeRightResult, p: { (item: (HashableAny, Int)) -> Bool in item.0 == aMap.keys[5] }) != nil, "Traversables should be takeable")
         
         let dropWhileResult = dropWhileT(aMap) { (key: HashableAny, value: Int) -> Bool in
             key != aMap.keys[2]
@@ -114,23 +114,23 @@ class TraversableTests: XCTestCase {
         XCTAssertTrue(lastResult != nil, "Traversables should know their last element")
         XCTAssertTrue(lastResult!.0 == aMap.keys[5], "Traversables should know their last element")
         
-        let filterNotResult = filterNotT(aMap, { (item) -> Bool in item.0 == "a" })
+        let filterNotResult = filterNotT(aMap, excludeElement: { (item) -> Bool in item.0 == "a" })
         XCTAssertTrue(filterNotResult.size == aMap.size - 1, "Traversables should be filtered with inverted conditions")
         XCTAssertTrue(filterNotResult["a"] == nil, "Traversables should be filtered with inverted conditions")
         
-        let splitAtResult = splitAtT(aMap, 2)
+        let splitAtResult = splitAtT(aMap, n: 2)
         XCTAssertTrue(splitAtResult.0.size == 2, "Traversables should be splittable")
         XCTAssertTrue(splitAtResult.1.size == 4, "Traversables should be splittable")
         
-        let partitionResult = partitionT(aMap, { (item) -> Bool in item.0 == "a" })
+        let partitionResult = partitionT(aMap, p: { (item) -> Bool in item.0 == "a" })
         XCTAssertTrue(partitionResult.0.size == 1, "Traversables should be partitionable")
         XCTAssertTrue(partitionResult.1.size == 5, "Traversables should be partitionable")
         
-        let spanResult = spanT(aMap, { (item) -> Bool in item.0 != aMap.keys[2] })
+        let spanResult = spanT(aMap, p: { (item) -> Bool in item.0 != aMap.keys[2] })
         XCTAssertTrue(spanResult.0.size == 2, "Traversables should be spanable")
         XCTAssertTrue(spanResult.1.size == 4, "Traversables should be spanable")
         
-        let groupByResult = groupByT(aMap, ∫{(item: (HashableAny, Int)) -> HashableAny in
+        let groupByResult = groupByT(aMap, f: ∫{(item: (HashableAny, Int)) -> HashableAny in
             if item.1 % 2 == 0 {
                 return "Evens"
             } else {
@@ -147,13 +147,13 @@ class TraversableTests: XCTestCase {
         let thirdCase = ∫{ (item: (HashableAny, Int)) -> Bool in item.1 >= 5 } |-> ∫{ (item: (HashableAny, Int)) -> HashableAny in "More or same than 5"}
         let fourthCase = ∫{ (item: (HashableAny, Int)) -> Bool in (item.1 >= 2 && item.1 < 5)} |-> ∫{ (item: (HashableAny, Int)) -> HashableAny in "More or same than 2 but less than 5"}
         
-        let complexGroupByResult = groupByT(aMap, firstCase |||> secondCase)
+        let complexGroupByResult = groupByT(aMap, f: firstCase |||> secondCase)
         XCTAssertTrue(complexGroupByResult["Less than 2"]!.size == 1, "Traversable should be groupable by using partial functions-based expressions")
         XCTAssertTrue(complexGroupByResult["More or same than 2"]!.size == 5, "Traversable should be groupable by using partial functions-based expressions")
         XCTAssertNil(complexGroupByResult["Less than 2"]!["b"], "Traversable should be groupable by using partial functions-based expressions")
         XCTAssertNotNil(complexGroupByResult["More or same than 2"]!["b"], "Traversable should be groupable by using partial functions-based expressions")
         
-        let moreComplexGroupByResult = groupByT(aMap, match(firstCase, fourthCase, thirdCase))
+        let moreComplexGroupByResult = groupByT(aMap, f: match(firstCase, fourthCase, thirdCase))
         XCTAssertTrue(moreComplexGroupByResult["Less than 2"]!.size == 1, "Traversable should be groupable by using partial pattern matching")
         XCTAssertTrue(moreComplexGroupByResult["More or same than 2 but less than 5"]!.size == 3, "Traversable should be groupable by using partial pattern matching")
         XCTAssertTrue(moreComplexGroupByResult["More or same than 5"]!.size == 2, "Traversable should be groupable by using partial pattern matching")
@@ -161,27 +161,27 @@ class TraversableTests: XCTestCase {
         XCTAssertNotNil(moreComplexGroupByResult["More or same than 2 but less than 5"]!["b"], "Traversable should be groupable by using partial pattern matching")
         XCTAssertNotNil(moreComplexGroupByResult["More or same than 5"]!["f"], "Traversable should be groupable by using partial pattern matching")
         
-        let forAllResult = forAllT(aMap, { (item) -> Bool in item.1 > 0 })
-        let forAllFalseResult = forAllT(aMap, { (item) -> Bool in item.1 > 3 })
+        let forAllResult = forAllT(aMap, p: { (item) -> Bool in item.1 > 0 })
+        let forAllFalseResult = forAllT(aMap, p: { (item) -> Bool in item.1 > 3 })
         XCTAssertTrue(forAllResult, "Traversables should be certain if all their elements satisfy a given predicate")
         XCTAssertFalse(forAllFalseResult, "Traversables should be certain if all their elements satisfy a given predicate")
         
-        let existsResult = existsT(aMap, { (item) -> Bool in item.1 == 5 })
-        let existsFalseResult = existsT(aMap, { (item) -> Bool in item.1 < 0 })
+        let existsResult = existsT(aMap, p: { (item) -> Bool in item.1 == 5 })
+        let existsFalseResult = existsT(aMap, p: { (item) -> Bool in item.1 < 0 })
         XCTAssertTrue(existsResult, "Traversables should be certain if one of their elements satisfy a given predicate")
         XCTAssertFalse(existsFalseResult, "Traversables should be certain if one of their elements satisfy a given predicate")
         
-        let countResult = countT(aMap, { (item) -> Bool in item.1 >= 4 })
+        let countResult = countT(aMap, p: { (item) -> Bool in item.1 >= 4 })
         XCTAssertTrue(countResult == 3, "Traversables should be able to count the elements which satisfy a given predicate")
         
         let array = ArrayT<Int>([1, 2, 3])
-        let mappedConserveArray = mapConserveT(array, {$0 * 2})
+        let mappedConserveArray = mapConserveT(array, transform: {$0 * 2})
         XCTAssertEqual(sizeT(mappedConserveArray), sizeT(array), "Map-conserved traversable should be the same size as their origin")
         XCTAssertEqual(array[0]! * 2, mappedConserveArray[0]!, "Map-conserved traversable should apply the transformation provided to all their elements")
         
         let stringResult1 = mkStringT(array)
-        let stringResult2 = mkStringT(array, " ")
-        let stringResult3 = mkStringT(array, "<", ",", ">")
+        let stringResult2 = mkStringT(array, separator: " ")
+        let stringResult3 = mkStringT(array, start: "<", separator: ",", end: ">")
         XCTAssertEqual(stringResult1, "123", "Traversable should be able to be represented as Strings")
         XCTAssertEqual(stringResult2, "1 2 3", "Traversable should be able to be represented as Strings")
         XCTAssertEqual(stringResult3, "<1,2,3>", "Traversable should be able to be represented as Strings")
@@ -197,17 +197,17 @@ class TraversableTests: XCTestCase {
         XCTAssertEqual(lastT(sliceResult13)!, 3, "Traversable should be sliceable")
         
         let reverseArray = ArrayT([3, 2, 1])
-        let sortedResult = sortWithT(reverseArray, { $1 > $0 })
+        let sortedResult = sortWithT(reverseArray, p: { $1 > $0 })
         XCTAssertTrue(sizeT(sortedResult) == sizeT(reverseArray), "Traversable should be sortable by predicate")
         XCTAssertEqual(headT(sortedResult)!, lastT(reverseArray)!, "Traversable should be sortable by predicate")
         
-        let unionResult = unionT(array, reverseArray)
+        let unionResult = unionT(array, b: reverseArray)
         XCTAssertTrue(sizeT(unionResult) == sizeT(reverseArray) + sizeT(array), "Traversable should be unitable")
         XCTAssertTrue(unionResult[sizeT(array) - 1] == unionResult[sizeT(array)], "Traversable should be unitable")
         
         let mapA : Map<Int> = ["a" : 1, "b" : 2]
         let mapB : Map<Int> = ["c" : 2, "b" : 4]
-        let unionResultMap = unionT(mapA, mapB)
+        let unionResultMap = unionT(mapA, b: mapB)
         XCTAssertTrue(sizeT(unionResultMap) == sizeT(mapA) + sizeT(mapB) - 1, "Traversables based on keys should be unitable, but no key should be repeated")
         XCTAssertTrue(unionResultMap["b"]! == 4, "Traversables based on keys should be unitable, but no key should be repeated")
     }

@@ -17,7 +17,7 @@
 import Foundation
 
 /// HashableAny | A type that can contain a certain value of the following supported types: Int, String, Float.
-public struct HashableAny: Hashable, IntegerLiteralConvertible, FloatLiteralConvertible, StringLiteralConvertible, Printable, DebugPrintable {
+public struct HashableAny: Hashable, IntegerLiteralConvertible, FloatLiteralConvertible, StringLiteralConvertible, CustomStringConvertible, CustomDebugStringConvertible {
     public typealias UnicodeScalarLiteralType = StringLiteralType
     public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
     

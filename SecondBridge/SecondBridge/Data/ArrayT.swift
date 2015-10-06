@@ -39,12 +39,12 @@ extension ArrayT : ArrayLiteralConvertible {
 }
 
 extension ArrayT : SequenceType {
-    public typealias Generator = GeneratorOf<T>
+    public typealias Generator = AnyGenerator<T>
     
     public func generate() -> Generator {
         var index : Int = 0
         
-        return Generator {
+        return anyGenerator {
             if index < self.internalArray.count {
                 let result = self.internalArray[index]
                 index++
@@ -81,7 +81,7 @@ extension ArrayT {
 }
 
 extension ArrayT : Traversable {
-    typealias ItemType = T
+    public typealias ItemType = T
     public func foreach(f: (T) -> ()) {
         for item in self.internalArray {
             f(item)
@@ -100,7 +100,7 @@ extension ArrayT : Traversable {
     items with the same type as the Stack struct. Items of different types will be discarded.
     */
     public static func buildFromTraversable<U where U : Traversable>(traversable: U) -> ArrayT {
-        return reduceT(traversable, ArrayT()) { (result, item) -> ArrayT in
+        return reduceT(traversable, initialValue: ArrayT()) { (result, item) -> ArrayT in
             switch item {
             case let sameTypeItem as T: result.append(sameTypeItem)
             default: break
@@ -114,7 +114,7 @@ extension ArrayT : Iterable {
     
 }
 
-extension ArrayT : DebugPrintable, Printable {
+extension ArrayT : CustomDebugStringConvertible, CustomStringConvertible {
     public var description : String {
         get {
             return internalArray.description
@@ -130,7 +130,7 @@ extension ArrayT : DebugPrintable, Printable {
 
 extension ArrayT {
     func toArray() -> Array<T> {
-        var internalArray = self.internalArray
+        let internalArray = self.internalArray
         return internalArray
     }
 }
@@ -141,91 +141,91 @@ extension ArrayT {
     Returns an array containing the results of mapping the partial function `f` over a set of the elements of this ArrayT that match the condition defined in `f`'s `isDefinedAt`.
     */
     public func collect<U>(f: PartialFunction<T, U>) -> [U] {
-        return collectT(self, f)
+        return collectT(self, f: f)
     }
     
     /**
     Returns the number of elements of this ArrayT satisfy the given predicate.
     */
     public func count(p: (T) -> Bool) -> Int {
-        return countT(self, p)
+        return countT(self, p: p)
     }
     
     /**
     Returns a new Stack containing all the elements from the current ArrayT except the first `n` ones.
     */
     public func drop(n: Int) -> ArrayT {
-        return dropT(self, n)
+        return dropT(self, n: n)
     }
     
     /**
     Returns a new ArrayT containing all the elements from the current ArrayT except the last `n` ones.
     */
     public func dropRight(n: Int) -> ArrayT {
-        return dropRightT(self, n)
+        return dropRightT(self, n: n)
     }
     
     /**
     Returns the longest prefix of this ArrayT whose first element does not satisfy the predicate p.
     */
     public func dropWhile(p: (T) -> Bool) -> ArrayT {
-        return dropWhileT(self, p)
+        return dropWhileT(self, p: p)
     }
     
     /**
     Returns true if at least one of its elements of this ArrayT satisfy the given predicate.
     */
     public func exists(p: (T) -> Bool) -> Bool {
-        return existsT(self, p)
+        return existsT(self, p: p)
     }
     
     /**
     Returns a ArrayT containing all the values from the current one that satisfy the `includeElement` closure.
     */
     public func filter(includeElement: (T) -> Bool) -> ArrayT {
-        return filterT(self, includeElement)
+        return filterT(self, includeElement: includeElement)
     }
     
     /**
     Returns a new ArrayT containing all the values from the current one except those that satisfy the `excludeElement` closure.
     */
     public func filterNot(excludeElement: (T) -> Bool) -> ArrayT {
-        return filterNotT(self, excludeElement)
+        return filterNotT(self, excludeElement: excludeElement)
     }
     
     /**
     Returns the first element of this ArrayT that satisfy the given predicate `p`, if any.
     */
     public func find(p: (T) -> Bool) -> T? {
-        return findT(self, p)
+        return findT(self, p: p)
     }
     
     /**
     Returns the result of applying `transform` on each element of the ArrayT, and then flattening the results into an array.
     */
     public func flatMap<U>(transform: (T) -> [U]) -> [U] {
-        return flatMapT(self, transform)
+        return flatMapT(self, transform: transform)
     }
     
     /**
     Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element of the current ArrayT from right to left. A reversal equivalent to `reduce`/`foldLeft`.
     */
     public func foldLeft<U>(initialValue: U, combine: (U, T) -> U) -> U {
-        return foldLeftT(self, initialValue, combine)
+        return foldLeftT(self, initialValue: initialValue, combine: combine)
     }
     
     /**
     Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element of the current ArrayT from left to right. Equivalent to `reduce`.
     */
     public func foldRight<U>(initialValue: U, combine: (U, T) -> U) -> U {
-        return foldRightT(self, initialValue, combine)
+        return foldRightT(self, initialValue: initialValue, combine: combine)
     }
     
     /**
     Returns true if all the elements of this ArrayT satisfy the given predicate.
     */
     public func forAll(p: (T) -> Bool) -> Bool {
-        return forAllT(self, p)
+        return forAllT(self, p: p)
     }
     
     /**
@@ -240,18 +240,18 @@ extension ArrayT {
     * array.groupBy(match(pfa, pfb, pfc, pfd))
     */
     public func groupBy(f: Function<T, HashableAny>) -> Map<ArrayT> {
-        return groupByT(self, f)
+        return groupByT(self, f: f)
     }
     
     /**
-    :returns: The first element of the ArrayT, if any.
+    - returns: The first element of the ArrayT, if any.
     */
     public func head() -> T? {
         return headT(self)
     }
     
     /**
-    :returns: All the elements of this ArrayT except the last one.
+    - returns: All the elements of this ArrayT except the last one.
     */
     public func initSegment() -> ArrayT {
         return initT(self)
@@ -268,14 +268,14 @@ extension ArrayT {
     Returns an array containing the results of mapping `transform` over the elements of the current ArrayT.
     */
     public func map<U>(transform: (T) -> U) -> [U] {
-        return mapT(self, transform)
+        return mapT(self, transform: transform)
     }
     
     /**
     Returns a new ArrayT containing the results of mapping `transform` over its elements. The resulting elements are guaranteed to be the same type as the items of the provided one.
     */
     public func mapConserve(transform: (T) -> T) -> ArrayT {
-        return mapConserveT(self, transform)
+        return mapConserveT(self, transform: transform)
     }
     
     /**
@@ -289,14 +289,14 @@ extension ArrayT {
     Returns a string representation of all the elements within the ArrayT, separated by the provided separator.
     */
     public func mkString(separator: String) -> String {
-        return mkStringT(self, separator)
+        return mkStringT(self, separator: separator)
     }
     
     /**
     Returns a string representation of all the elements within the ArrayT, separated by the provided separator and enclosed by the `start` and `end` strings.
     */
     public func mkString(start: String, separator: String, end: String) -> String {
-        return mkStringT(self, start, separator, end)
+        return mkStringT(self, start: start, separator: separator, end: end)
     }
     
     /**
@@ -307,17 +307,17 @@ extension ArrayT {
     }
     
     /**
-    :returns: Returns a tuple containing the results of splitting the ArrayT according to a predicate `p`. The first array in the tuple contains those elements which satisfy the predicate, while the second contains those which don't. Equivalent to (filter, filterNot).
+    - returns: Returns a tuple containing the results of splitting the ArrayT according to a predicate `p`. The first array in the tuple contains those elements which satisfy the predicate, while the second contains those which don't. Equivalent to (filter, filterNot).
     */
     public func partition(p: (T) -> Bool) -> (ArrayT, ArrayT) {
-        return partitionT(self, p)
+        return partitionT(self, p: p)
     }
     
     /**
     Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element of the current ArrayT.
     */
     public func reduce<U>(initialValue: U, combine: (U, T) -> U) -> U {
-        return reduceT(self, initialValue, combine)
+        return reduceT(self, initialValue: initialValue, combine: combine)
     }
     
     /**
@@ -341,52 +341,52 @@ extension ArrayT {
     /**
     Returns a new ArrayT containing all the elements from the provided one, but sorted by a predicate `p`.
     
-    :param: p Closure returning true if the first element should be ordered before the second.
+    - parameter p: Closure returning true if the first element should be ordered before the second.
     */
     public func sortWith(p: (T, T) -> Bool) -> ArrayT {
-        return sortWithT(self, p)
+        return sortWithT(self, p: p)
     }
     
     /**
-    :returns: Returns a tuple containing the results of splitting the ArrayT according to a predicate. The first traversable in the tuple contains the first elements that satisfy the predicate `p`, while the second contains all elements after those. Equivalent to (takeWhileT, dropWhileT).
+    - returns: Returns a tuple containing the results of splitting the ArrayT according to a predicate. The first traversable in the tuple contains the first elements that satisfy the predicate `p`, while the second contains all elements after those. Equivalent to (takeWhileT, dropWhileT).
     */
     public func span(p: (T) -> Bool) -> (ArrayT, ArrayT) {
-        return spanT(self, p)
+        return spanT(self, p: p)
     }
     
     /**
-    :returns: Returns a tuple containing the results of splitting the ArrayT at the given position (equivalent to: (take n, drop n)).
+    - returns: Returns a tuple containing the results of splitting the ArrayT at the given position (equivalent to: (take n, drop n)).
     */
     public func splitAt(n: Int) -> (ArrayT, ArrayT) {
-        return splitAtT(self, n)
+        return splitAtT(self, n: n)
     }
     
     /**
-    :returns: Returns a new ArrayT containing all the elements of the provided one except for the first element.
+    - returns: Returns a new ArrayT containing all the elements of the provided one except for the first element.
     */
     public func tail() -> ArrayT {
         return tailT(self)
     }
     
     /**
-    :returns: A new ArrayT containing the first `n` elements of the current one.
+    - returns: A new ArrayT containing the first `n` elements of the current one.
     */
     public func take(n: Int) -> ArrayT {
-        return takeT(self, n)
+        return takeT(self, n: n)
     }
     
     /**
-    :returns: A new ArrayT containing the last `n` elements of the current one.
+    - returns: A new ArrayT containing the last `n` elements of the current one.
     */
     public func takeRight(n: Int) -> ArrayT {
-        return takeRightT(self, n)
+        return takeRightT(self, n: n)
     }
     
     /**
     Returns the longest prefix of elements that satisfy the predicate `p`.
     */
     public func takeWhile(p: (T) -> Bool) -> ArrayT {
-        return takeWhileT(self, p)
+        return takeWhileT(self, p: p)
     }
     
     /**
@@ -400,6 +400,6 @@ extension ArrayT {
     Returns a new ArrayT containing all the elements from the two provided ArrayT.
     */
     public func union(a: ArrayT, b: ArrayT) -> ArrayT {
-        return unionT(a, b)
+        return unionT(a, b: b)
     }
 }
