@@ -10,5 +10,5 @@ Pod::Spec.new do |s|
   s.osx.deployment_target = "10.9"
   s.source   = { :git => "https://github.com/47deg/second-bridge.git", :tag => "v#{s.version}"}
   s.source_files = "SecondBridge/SecondBridge/**/*.swift"
-  s.dependency 'Swiftz'
+  s.dependency 'Swiftz', '0.2.2'
 end
