@@ -24,7 +24,7 @@ public protocol Iterable : Traversable, SequenceType {
 Returns an array of Iterables of size `n`, comprising all the elements of the provided Iterable. Note: might return different results for different runs if the underlying collection type is unordered.
 */
 public func grouped<S: Iterable>(source: S, n: Int) -> [S] {
-    return sliding(source, n, n)
+    return sliding(source, n: n, windowSize: n)
 }
 
 /**
@@ -36,8 +36,8 @@ public func sameElements<S: Iterable where S.Generator.Element == S.ItemType, S.
     if sizeA != sizeB {
         return false
     }
-    var genA = enumerate(sourceA).generate()
-    var genB = enumerate(sourceB).generate()
+    var genA = sourceA.enumerate().generate()
+    var genB = sourceB.enumerate().generate()
     
     for _ in 0...sizeA - 1 {
         switch (genA.next(), genB.next()) {
@@ -52,16 +52,16 @@ public func sameElements<S: Iterable where S.Generator.Element == S.ItemType, S.
 Returns an array of Iterables, being the result of grouping chunks of size `n` while traversing through a sliding window of size `windowSize`. Note: might return different results for different runs if the underlying collection type is unordered.
 */
 public func sliding<S: Iterable>(source: S, n: Int, windowSize: Int) -> [S] {
-    let itemsToAdd = n - windowSize
-    let accumulatedItems = n - itemsToAdd
+//    let itemsToAdd = n - windowSize
+//    let accumulatedItems = n - itemsToAdd
     let totalSize = sizeT(source)
     
-    return reduceT(source, (index: 0, buffer: S.build(Array<S.ItemType>()), result: Array<S>())) { (data: (index: Int, buffer: S, result: [S]), currentItem: S.ItemType) -> (index: Int, buffer: S, result: [S]) in
+    return reduceT(source, initialValue: (index: 0, buffer: S.build(Array<S.ItemType>()), result: Array<S>())) { (data: (index: Int, buffer: S, result: [S]), currentItem: S.ItemType) -> (index: Int, buffer: S, result: [S]) in
         let nextIndex = data.index + 1
         
         var nextBuffer : S
         if sizeT(data.buffer) == n {
-            nextBuffer = S.build(toArrayT(dropT(data.buffer, 1)) + [currentItem])
+            nextBuffer = S.build(toArrayT(dropT(data.buffer, n: 1)) + [currentItem])
         } else {
             nextBuffer = S.build(toArrayT(data.buffer) + [currentItem])
         }
@@ -73,7 +73,7 @@ public func sliding<S: Iterable>(source: S, n: Int, windowSize: Int) -> [S] {
         } else if nextIndex == totalSize {
             let restCount = totalSize % windowSize
             var nextResult = data.result
-            nextResult += [takeRightT(nextBuffer, restCount)]
+            nextResult += [takeRightT(nextBuffer, n: restCount)]
             return (nextIndex, nextBuffer, nextResult)
         } else {
             return (nextIndex, nextBuffer, data.result)
@@ -85,14 +85,14 @@ public func sliding<S: Iterable>(source: S, n: Int, windowSize: Int) -> [S] {
 Returns an array of Iterables, being the result of grouping chunks of size `n` while traversing through a sliding window of size 1. Note: might return different results for different runs if the underlying collection type is unordered.
 */
 public func sliding<S: Iterable>(source: S, n: Int) -> [S] {
-    return sliding(source, n, 1)
+    return sliding(source, n: n, windowSize: 1)
 }
 
 /**
 Returns an array of tuples, each containing the corresponding elements from the provided Iterables. The size of the resulting array will be the same as the smaller source. Note: might return different results for different runs if the underlying collection types are unordered.
 */
 public func zip<S: Iterable, T: Iterable where S.Generator.Element == S.ItemType, T.Generator.Element == T.ItemType>(sourceA: S, sourceB: T) -> [(S.ItemType, T.ItemType)] {
-    return zipAll(sourceA, sourceB, nil, nil)
+    return zipAll(sourceA, sourceB: sourceB, defaultItemA: nil, defaultItemB: nil)
 }
 
 /**
@@ -105,15 +105,15 @@ public func zipAll<S: Iterable, T: Iterable where S.Generator.Element == S.ItemT
     let largerSize = sizeA > sizeB ? sizeA : sizeB
     let loopCount = (defaultItemA != nil && defaultItemB != nil) ? largerSize : smallerSize
     
-    var genA = enumerate(sourceA).generate()
-    var genB = enumerate(sourceB).generate()
+    var genA = sourceA.enumerate().generate()
+    var genB = sourceB.enumerate().generate()
     var resultArray = Array<(S.ItemType, T.ItemType)>()
     
     for _ in 0...loopCount - 1 {
         switch (genA.next(), genB.next(), defaultItemA, defaultItemB) {
         case let (.Some(itemA), .Some(itemB), _, _): resultArray.append((itemA.element, itemB.element))
-        case let (.Some(itemA), _, .Some(dItemA), .Some(dItemB)): resultArray.append((itemA.element, dItemB))
-        case let (_, .Some(itemB), .Some(dItemA), .Some(dItemB)): resultArray.append((dItemA, itemB.element))
+        case let (.Some(itemA), _, .Some(_), .Some(dItemB)): resultArray.append((itemA.element, dItemB))
+        case let (_, .Some(itemB), .Some(dItemA), .Some(_) ): resultArray.append((dItemA, itemB.element))
         default: break;
         }
     }
@@ -124,5 +124,5 @@ public func zipAll<S: Iterable, T: Iterable where S.Generator.Element == S.ItemT
 Returns an array of tuples, each containing an element from the provided Iterable and its index. Note: might return different results for different runs if the underlying collection type is unordered.
 */
 public func zipWithIndex<S: Iterable where S.Generator.Element == S.ItemType>(source: S) -> [(S.ItemType, Int)] {
-    return zipAll(source, ArrayT<Int>([Int](0...sizeT(source) - 1)), nil, nil)
+    return zipAll(source, sourceB: ArrayT<Int>([Int](0...sizeT(source) - 1)), defaultItemA: nil, defaultItemB: nil)
 }

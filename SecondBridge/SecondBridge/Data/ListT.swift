@@ -43,7 +43,7 @@ extension ListT {
     Returns a new ListT with the current contents and the provided item on top.
     */
     public func append(item: T) -> ListT<T> {
-        var result = internalList
+        let result = internalList
         return ListT(result.append([item]))
     }
     
@@ -64,7 +64,7 @@ extension ListT {
     Folds the elements of this ListT using the specified associative binary operator.
     */
     public func fold<B>(f : (B, T) -> B, initial : B) -> B {
-        switch internalList.match() {
+        switch internalList.match {
         case .Nil:
             return initial
         case let .Cons(x, xs):
@@ -76,7 +76,7 @@ extension ListT {
     */
     public func foldRight<B>(f : (B, T) -> B, initial : B) -> B {
         let a = internalList.reverse()
-        switch a.match() {
+        switch a.match {
         case .Nil:
             return initial
         case let .Cons(x, xs):
@@ -88,16 +88,16 @@ extension ListT {
     Returns the number of items contained in this ListT.
     */
     public func length() -> UInt {
-        return internalList.length()
+        return internalList.count
     }
         
     /**
     Reduces the elements of this ListT using the specified associative binary operator.
     */
     public func reduce<B>(f : (B, T) -> B) -> B? {
-        if let head = internalList.head() as? B{
-            if let tail = internalList.tail() as Swiftz.List<T>?{
-                switch tail.match() {
+        if let head = internalList.head as? B{
+            if let tail = internalList.tail as Swiftz.List<T>?{
+                switch tail.match {
                 case .Nil:
                     return head
                 case let .Cons(x, xs):
@@ -114,9 +114,9 @@ extension ListT {
     */
     public func reduceRight<B>(f : (B, T) -> B) -> B? {
         let a = internalList.reverse()
-        if let head = a.head() as? B{
-            if let tail = a.tail() as Swiftz.List<T>?{
-                switch tail.match() {
+        if let head = a.head as? B{
+            if let tail = a.tail as Swiftz.List<T>?{
+                switch tail.match {
                 case .Nil:
                     return head
                 case let .Cons(x, xs):
@@ -133,7 +133,7 @@ extension ListT {
     */
     public func reduceRight<B>(f : (B, T) -> B, initial : B) -> B {
         let a = internalList.reverse()
-        switch a.match() {
+        switch a.match {
         case .Nil:
             return initial
         case let .Cons(x, xs):
@@ -145,7 +145,7 @@ extension ListT {
 
 // MARK: - Printable
 
-extension ListT: Printable, DebugPrintable {
+extension ListT: CustomStringConvertible, CustomDebugStringConvertible {
     public var description : String {
         get {
             return internalList.description
@@ -179,13 +179,13 @@ extension ListT: ArrayLiteralConvertible {
 
 extension ListT: Traversable {
     
-    typealias ItemType = T
+    public typealias ItemType = T
     
     /**
     Build a new ListT instance with the elements contained in the `elements` array.
     */
     public static func build(elements: [ItemType]) -> ListT<T> {
-        var result =  ListT()
+        let result =  ListT()
         return result.arrayToList(elements)
     }
     
@@ -194,7 +194,7 @@ extension ListT: Traversable {
     items with the same type as the ListT struct. Items of different types will be discarded.
     */
     public static func buildFromTraversable<U where U : Traversable>(traversable: U) -> ListT {
-        return reduceT(traversable, ListT()) { (result, item) -> ListT in
+        return reduceT(traversable, initialValue: ListT()) { (result, item) -> ListT in
             switch item {
             case let sameTypeItem as T: result.append(sameTypeItem)
             default: break
@@ -222,91 +222,91 @@ extension ListT {
     Returns an array containing the results of mapping the partial function `f` over a set of the elements of this ListT that match the condition defined in `f`'s `isDefinedAt`.
     */
     public func collect<U>(f: PartialFunction<T, U>) -> [U] {
-        return collectT(self, f)
+        return collectT(self, f: f)
     }
     
     /**
     Returns the number of elements of this ListT satisfy the given predicate.
     */
     public func count(p: (T) -> Bool) -> Int {
-        return countT(self, p)
+        return countT(self, p: p)
     }
     
     /**
     Returns a new ListT containing all the elements from the current ListT except the first `n` ones.
     */
     public func drop(n: Int) -> ListT {
-        return dropT(self, n)
+        return dropT(self, n: n)
     }
     
     /**
     Returns a new ListT containing all the elements from the current ListT except the last `n` ones.
     */
     public func dropRight(n: Int) -> ListT {
-        return dropRightT(self, n)
+        return dropRightT(self, n: n)
     }
     
     /**
     Returns the longest prefix of this ListT whose first element does not satisfy the predicate p.
     */
     public func dropWhile(p: (T) -> Bool) -> ListT {
-        return dropWhileT(self, p)
+        return dropWhileT(self, p: p)
     }
     
     /**
     Returns true if at least one of its elements of this ListT satisfy the given predicate.
     */
     public func exists(p: (T) -> Bool) -> Bool {
-        return existsT(self, p)
+        return existsT(self, p: p)
     }
     
     /**
     Returns a ListT containing all the values from the current one that satisfy the `includeElement` closure.
     */
     public func filter(includeElement: (T) -> Bool) -> ListT {
-        return filterT(self, includeElement)
+        return filterT(self, includeElement: includeElement)
     }
     
     /**
     Returns a new ListT containing all the values from the current one except those that satisfy the `excludeElement` closure.
     */
     public func filterNot(excludeElement: (T) -> Bool) -> ListT {
-        return filterNotT(self, excludeElement)
+        return filterNotT(self, excludeElement: excludeElement)
     }
     
     /**
     Returns the first element of this ListT that satisfy the given predicate `p`, if any.
     */
     public func find(p: (T) -> Bool) -> T? {
-        return findT(self, p)
+        return findT(self, p: p)
     }
     
     /**
     Returns the result of applying `transform` on each element of the ListT, and then flattening the results into an array.
     */
     public func flatMap<U>(transform: (T) -> [U]) -> [U] {
-        return flatMapT(self, transform)
+        return flatMapT(self, transform: transform)
     }
     
     /**
     Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element of the current ListT from right to left. A reversal equivalent to `reduce`/`foldLeft`.
     */
     public func foldLeft<U>(initialValue: U, combine: (U, T) -> U) -> U {
-        return foldLeftT(self, initialValue, combine)
+        return foldLeftT(self, initialValue: initialValue, combine: combine)
     }
     
     /**
     Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element of the current ListT from left to right. Equivalent to `reduce`.
     */
     public func foldRight<U>(initialValue: U, combine: (U, T) -> U) -> U {
-        return foldRightT(self, initialValue, combine)
+        return foldRightT(self, initialValue: initialValue, combine: combine)
     }
     
     /**
     Returns true if all the elements of this ListT satisfy the given predicate.
     */
     public func forAll(p: (T) -> Bool) -> Bool {
-        return forAllT(self, p)
+        return forAllT(self, p: p)
     }
     
     /**
@@ -322,18 +322,18 @@ extension ListT {
     
     */
     public func groupBy(f: Function<T, HashableAny>) -> Map<ListT> {
-        return groupByT(self, f)
+        return groupByT(self, f: f)
     }
     
     /**
-    :returns: The first element of the ListT, if any.
+    - returns: The first element of the ListT, if any.
     */
     public func head() -> T? {
         return headT(self)
     }
     
     /**
-    :returns: All the elements of this ListT except the last one.
+    - returns: All the elements of this ListT except the last one.
     */
     public func initSegment() -> ListT {
         return initT(self)
@@ -347,7 +347,7 @@ extension ListT {
     }
     
     /**
-    :returns: The last element of the ListT, if any.
+    - returns: The last element of the ListT, if any.
     */
     public func last() -> T? {
         return lastT(self)
@@ -357,14 +357,14 @@ extension ListT {
     Returns an array containing the results of mapping `transform` over the elements of the current ListT.
     */
     public func map<U>(transform: (T) -> U) -> [U] {
-        return mapT(self, transform)
+        return mapT(self, transform: transform)
     }
     
     /**
     Returns a new ListT containing the results of mapping `transform` over its elements. The resulting elements are guaranteed to be the same type as the items of the provided ListT.
     */
     public func mapConserve(transform: (T) -> T) -> ListT {
-        return mapConserveT(self, transform)
+        return mapConserveT(self, transform: transform)
     }
     
     /**
@@ -378,14 +378,14 @@ extension ListT {
     Returns a string representation of all the elements within the ListT, separated by the provided separator.
     */
     public func mkString(separator: String) -> String {
-        return mkStringT(self, separator)
+        return mkStringT(self, separator: separator)
     }
     
     /**
     Returns a string representation of all the elements within the ListT, separated by the provided separator and enclosed by the `start` and `end` strings.
     */
     public func mkString(start: String, separator: String, end: String) -> String {
-        return mkStringT(self, start, separator, end)
+        return mkStringT(self, start: start, separator: separator, end: end)
     }
     
     /**
@@ -396,17 +396,17 @@ extension ListT {
     }
     
     /**
-    :returns: Returns a tuple containing the results of splitting the ListT according to a predicate `p`. The first list in the tuple contains those elements which satisfy the predicate, while the second contains those which don't. Equivalent to (filter, filterNot).
+    - returns: Returns a tuple containing the results of splitting the ListT according to a predicate `p`. The first list in the tuple contains those elements which satisfy the predicate, while the second contains those which don't. Equivalent to (filter, filterNot).
     */
     public func partition(p: (T) -> Bool) -> (ListT, ListT) {
-        return partitionT(self, p)
+        return partitionT(self, p: p)
     }
     
     /**
     Returns the result of repeatedly calling combine with an accumulated value initialized to `initial` and each element of the current ListT.
     */
     public func reduce<U>(initialValue: U, combine: (U, T) -> U) -> U {
-        return reduceT(self, initialValue, combine)
+        return reduceT(self, initialValue: initialValue, combine: combine)
     }
     
     /**
@@ -437,45 +437,45 @@ extension ListT {
     /**
     Returns a new ListT containing all the elements from the provided one, but sorted by a predicate `p`.
     
-    :param: p Closure returning true if the first element should be ordered before the second.
+    - parameter p: Closure returning true if the first element should be ordered before the second.
     */
     public func sortWith(p: (T, T) -> Bool) -> ListT {
-        return sortWithT(self, p)
+        return sortWithT(self, p: p)
     }
     
     /**
-    :returns: Returns a tuple containing the results of splitting the ListT at the given position (equivalent to: (take n, drop n)).
+    - returns: Returns a tuple containing the results of splitting the ListT at the given position (equivalent to: (take n, drop n)).
     */
     public func splitAt(n: Int) -> (ListT, ListT) {
-        return splitAtT(self, n)
+        return splitAtT(self, n: n)
     }
     
     /**
-    :returns: Returns a new ListT containing all the elements of the provided one except for the first element.
+    - returns: Returns a new ListT containing all the elements of the provided one except for the first element.
     */
     public func tail() -> ListT {
         return tailT(self)
     }
     
     /**
-    :returns: A new ListT containing the first `n` elements of the current one.
+    - returns: A new ListT containing the first `n` elements of the current one.
     */
     public func take(n: Int) -> ListT {
-        return takeT(self, n)
+        return takeT(self, n: n)
     }
     
     /**
-    :returns: A new ListT containing the last `n` elements of the current one.
+    - returns: A new ListT containing the last `n` elements of the current one.
     */
     public func takeRight(n: Int) -> ListT {
-        return takeRightT(self, n)
+        return takeRightT(self, n: n)
     }
     
     /**
     Returns the longest prefix of elements that satisfy the predicate `p`.
     */
     public func takeWhile(p: (T) -> Bool) -> ListT {
-        return takeWhileT(self, p)
+        return takeWhileT(self, p: p)
     }
     
     /**
@@ -496,7 +496,7 @@ extension ListT {
     Returns a new ListT containing all the elements from the two provided ListT.
     */
     public func union(a: ListT, b: ListT) -> ListT {
-        return unionT(a, b)
+        return unionT(a, b: b)
     }
     
 }

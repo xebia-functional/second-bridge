@@ -34,10 +34,10 @@ class ListTTests: XCTestCase {
 
     func testListTravBasicFunctions() {
         
-        var listEmpty : ListT<Int> = []
+        let listEmpty : ListT<Int> = []
         XCTAssertTrue(listEmpty.isEmpty(), "List should know if they're empty")
         
-        var list : ListT<Int> = [1,2,3,4]
+        let list : ListT<Int> = [1,2,3,4]
         XCTAssertTrue(list.head() == 1, "Should be 1 head")
         
         let tailList : ListT<Int> = [2,3,4]
@@ -57,7 +57,7 @@ class ListTTests: XCTestCase {
         
         //Map
         let mapList : ListT<Int> = [2, 4, 6, 8]
-        println(list.map({$0 * 2}))
+        print(list.map({$0 * 2}))
 //        XCTAssert({ list.map({$0 * 2} == mapList) }(),"")
         
         //Filter

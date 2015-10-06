@@ -48,20 +48,20 @@ class ArrayTTests: XCTestCase {
         
         let dropResult = anArray.drop(4)
         XCTAssertEqual(dropResult.size(), anArray.size() - 4, "Traversables should be droppable")
-        XCTAssertFalse(findT(dropResult, { (item: Int) -> Bool in item == 1 }) != nil, "Traversables should be droppable")
-        XCTAssertTrue(findT(dropResult, { (item: Int) -> Bool in item == 5 }) != nil, "Traversables should be droppable")
+        XCTAssertFalse(findT(dropResult, p: { (item: Int) -> Bool in item == 1 }) != nil, "Traversables should be droppable")
+        XCTAssertTrue(findT(dropResult, p: { (item: Int) -> Bool in item == 5 }) != nil, "Traversables should be droppable")
         
         let dropRightResult = anArray.dropRight(4)
-        XCTAssertFalse(findT(dropRightResult, { (item: Int) -> Bool in item == 5 }) != nil, "Traversables should be droppable")
-        XCTAssertTrue(findT(dropRightResult, { (item: Int) -> Bool in item == 1 }) != nil, "Traversables should be droppable")
+        XCTAssertFalse(findT(dropRightResult, p: { (item: Int) -> Bool in item == 5 }) != nil, "Traversables should be droppable")
+        XCTAssertTrue(findT(dropRightResult, p: { (item: Int) -> Bool in item == 1 }) != nil, "Traversables should be droppable")
         
         let takeResult = anArray.take(2)
         let takeRightResult = anArray.takeRight(2)
-        XCTAssertFalse(findT(takeResult, { (item: Int) -> Bool in item == 5 }) != nil, "Traversables should be takeable")
-        XCTAssertTrue(findT(takeResult, { (item: Int) -> Bool in item == 1 }) != nil, "Traversables should be takeable")
+        XCTAssertFalse(findT(takeResult, p: { (item: Int) -> Bool in item == 5 }) != nil, "Traversables should be takeable")
+        XCTAssertTrue(findT(takeResult, p: { (item: Int) -> Bool in item == 1 }) != nil, "Traversables should be takeable")
         
-        XCTAssertTrue(findT(takeRightResult, { (item: Int) -> Bool in item == 5 }) != nil, "Traversables should be takeable")
-        XCTAssertFalse(findT(takeRightResult, { (item: Int) -> Bool in item == 1 }) != nil, "Traversables should be takeable")
+        XCTAssertTrue(findT(takeRightResult, p: { (item: Int) -> Bool in item == 5 }) != nil, "Traversables should be takeable")
+        XCTAssertFalse(findT(takeRightResult, p: { (item: Int) -> Bool in item == 1 }) != nil, "Traversables should be takeable")
         
         let dropWhileResult = anArray.dropWhile() { (item: Int) -> Bool in
             item != 3
@@ -134,13 +134,13 @@ class ArrayTTests: XCTestCase {
         XCTAssertTrue(countResult == 3, "Traversables should be able to count the elements which satisfy a given predicate")
         
         let array = ArrayT<Int>([1, 2, 3])
-        let mappedConserveArray = mapConserveT(array, {$0 * 2})
+        let mappedConserveArray = mapConserveT(array, transform: {$0 * 2})
         XCTAssertEqual(sizeT(mappedConserveArray), sizeT(array), "Map-conserved traversable should be the same size as their origin")
         XCTAssertEqual(array[0]! * 2, mappedConserveArray[0]!, "Map-conserved traversable should apply the transformation provided to all their elements")
         
         let stringResult1 = mkStringT(array)
-        let stringResult2 = mkStringT(array, " ")
-        let stringResult3 = mkStringT(array, "<", ",", ">")
+        let stringResult2 = mkStringT(array, separator: " ")
+        let stringResult3 = mkStringT(array, start: "<", separator: ",", end: ">")
         XCTAssertEqual(stringResult1, "123", "Traversable should be able to be represented as Strings")
         XCTAssertEqual(stringResult2, "1 2 3", "Traversable should be able to be represented as Strings")
         XCTAssertEqual(stringResult3, "<1,2,3>", "Traversable should be able to be represented as Strings")
@@ -156,11 +156,11 @@ class ArrayTTests: XCTestCase {
         XCTAssertEqual(lastT(sliceResult13)!, 3, "Traversable should be sliceable")
         
         let reverseArray = ArrayT([3, 2, 1])
-        let sortedResult = sortWithT(reverseArray, { $1 > $0 })
+        let sortedResult = sortWithT(reverseArray, p: { $1 > $0 })
         XCTAssertTrue(sizeT(sortedResult) == sizeT(reverseArray), "Traversable should be sortable by predicate")
         XCTAssertEqual(headT(sortedResult)!, lastT(reverseArray)!, "Traversable should be sortable by predicate")
         
-        let unionResult = unionT(array, reverseArray)
+        let unionResult = unionT(array, b: reverseArray)
         XCTAssertTrue(sizeT(unionResult) == sizeT(reverseArray) + sizeT(array), "Traversable should be unitable")
         XCTAssertTrue(unionResult[sizeT(array) - 1] == unionResult[sizeT(array)], "Traversable should be unitable")
     }

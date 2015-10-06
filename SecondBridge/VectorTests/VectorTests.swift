@@ -94,32 +94,32 @@ class VectorTests: XCTestCase {
         XCTAssertTrue(vectorLevelOneMin.debugTrieLevel == .One, "Vectors should handle its trie levels OK")
         XCTAssertTrue(vectorLevelOneMax.debugTrieLevel == .One, "Vectors should handle its trie levels OK")
         
-        var vectorLevelOneToZero = vectorLevelOneMin.pop()
-        var vectorLevelOneToTwo = vectorLevelOneMax.append(666)
+        let vectorLevelOneToZero = vectorLevelOneMin.pop()
+        let vectorLevelOneToTwo = vectorLevelOneMax.append(666)
         XCTAssertTrue(vectorLevelOneToZero.debugTrieLevel == .Zero, "Vectors should handle its trie levels OK")
         XCTAssertTrue(vectorLevelOneToTwo.debugTrieLevel == .Two, "Vectors should handle its trie levels OK")
         
         XCTAssertTrue(vectorLevelTwoMin.debugTrieLevel == .Two, "Vectors should handle its trie levels OK")
         XCTAssertTrue(vectorLevelTwoMax.debugTrieLevel == .Two, "Vectors should handle its trie levels OK")
         
-        var vectorLevelTwoToOne = vectorLevelTwoMin.pop()
-        var vectorLevelTwoToThree = vectorLevelTwoMax.append(666)
+        let vectorLevelTwoToOne = vectorLevelTwoMin.pop()
+        let vectorLevelTwoToThree = vectorLevelTwoMax.append(666)
         XCTAssertTrue(vectorLevelTwoToOne.debugTrieLevel == .One, "Vectors should handle its trie levels OK")
         XCTAssertTrue(vectorLevelTwoToThree.debugTrieLevel == .Three, "Vectors should handle its trie levels OK")
         
         XCTAssertTrue(vectorLevelThreeMin.debugTrieLevel == .Three, "Vectors should handle its trie levels OK")
         XCTAssertTrue(vectorLevelThreeMax.debugTrieLevel == .Three, "Vectors should handle its trie levels OK")
         
-        var vectorLevelThreeToTwo = vectorLevelThreeMin.pop()
-        var vectorLevelThreeToFour = vectorLevelThreeMax.append(666)
+        let vectorLevelThreeToTwo = vectorLevelThreeMin.pop()
+        let vectorLevelThreeToFour = vectorLevelThreeMax.append(666)
         XCTAssertTrue(vectorLevelThreeToTwo.debugTrieLevel == .Two, "Vectors should handle its trie levels OK")
         XCTAssertTrue(vectorLevelThreeToFour.debugTrieLevel == .Four, "Vectors should handle its trie levels OK")
         
         XCTAssertTrue(vectorLevelFourMin.debugTrieLevel == .Four, "Vectors should handle its trie levels OK")
         XCTAssertTrue(vectorLevelFourMax.debugTrieLevel == .Four, "Vectors should handle its trie levels OK")
         
-        var vectorLevelFourToThree = vectorLevelFourMin.pop()
-        var vectorLevelFourToFive = vectorLevelFourMax.append(666)
+        let vectorLevelFourToThree = vectorLevelFourMin.pop()
+        let vectorLevelFourToFive = vectorLevelFourMax.append(666)
         XCTAssertTrue(vectorLevelFourToThree.debugTrieLevel == .Three, "Vectors should handle its trie levels OK")
         XCTAssertTrue(vectorLevelFourToFive.debugTrieLevel == .Five, "Vectors should handle its trie levels OK")
         

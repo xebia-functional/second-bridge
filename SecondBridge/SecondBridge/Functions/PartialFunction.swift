@@ -31,8 +31,8 @@ public struct PartialFunction<T, U> {
     let isDefinedAt: Function<T, Bool>
     
     /**
-    :param: function A function containing the implementation of this PartialFunction.
-    :param: isDefinedAt A function that defines the values for whom this PartialFunction is executable
+    - parameter function: A function containing the implementation of this PartialFunction.
+    - parameter isDefinedAt: A function that defines the values for whom this PartialFunction is executable
     */
     init(function: Function<T, U>, isDefinedAt: Function<T, Bool>) {
         self.function = function
@@ -92,7 +92,7 @@ Returns a new partial function by chaining two existing partial functions, and i
 * If not, `left` will be executed and `right` will be ignored.
 */
 public func |||> <T, U>(a: PartialFunction<T, U>, b: PartialFunction<T, U>) -> Function<T, U> {
-    return orElse(a, b)
+    return orElse(a, b: b)
 }
 
 // MARK: - Partial function builder
