@@ -50,6 +50,13 @@ struct Try<T> {
         return nil
     }
     
+    func getOrElse() -> T? {
+        switch self.match() {
+        case .Success(let value): return value
+        case .Failure(_): return nil
+        }
+    }
+    
     private func forceThrow(ex: ErrorType) throws {
         throw(ex)
     }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		590992581B9DD61D008380B0 /* SecondBridge.xcworkspace in Resources */ = {isa = PBXBuildFile; fileRef = 590992571B9DD61D008380B0 /* SecondBridge.xcworkspace */; };
+		5927AF651BC5066A00161247 /* TryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5927AF641BC5066A00161247 /* TryTests.swift */; settings = {ASSET_TAGS = (); }; };
 		59283E531B0A03B500EC3A9F /* SecondBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = A183A1271AA85FA500C535A6 /* SecondBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		596D703D1AADB79B00CE9962 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596D703C1AADB79B00CE9962 /* Map.swift */; };
 		596D703E1AADB79B00CE9962 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596D703C1AADB79B00CE9962 /* Map.swift */; };
@@ -92,6 +93,7 @@
 		374373D53C1E1730C0517D5F /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		484FE31132DFCAEC6C987ABF /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		590992571B9DD61D008380B0 /* SecondBridge.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = SecondBridge.xcworkspace; sourceTree = "<group>"; };
+		5927AF641BC5066A00161247 /* TryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TryTests.swift; sourceTree = "<group>"; };
 		596D703C1AADB79B00CE9962 /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		596D70401AADB80400CE9962 /* MapTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapTests.swift; sourceTree = "<group>"; };
 		597143121AC9369700C1217C /* TraversableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TraversableTests.swift; sourceTree = "<group>"; };
@@ -166,6 +168,14 @@
 				374373D53C1E1730C0517D5F /* Pods.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5927AF631BC5065800161247 /* ErrorHandling */ = {
+			isa = PBXGroup;
+			children = (
+				5927AF641BC5066A00161247 /* TryTests.swift */,
+			);
+			path = ErrorHandling;
 			sourceTree = "<group>";
 		};
 		597143101AC9368800C1217C /* Protocols */ = {
@@ -334,6 +344,7 @@
 		A183A1311AA85FA500C535A6 /* SecondBridgeTests */ = {
 			isa = PBXGroup;
 			children = (
+				5927AF631BC5065800161247 /* ErrorHandling */,
 				597143101AC9368800C1217C /* Protocols */,
 				A12A11591AC31B2200FE8A80 /* Extension */,
 				59C9BCAC1AC2DD500043C96E /* Functions */,
@@ -585,6 +596,7 @@
 				5981E3CA1AB6DFE600F052A0 /* Traversable.swift in Sources */,
 				A12A115B1AC31B2200FE8A80 /* RangeTests.swift in Sources */,
 				597143131AC9369700C1217C /* TraversableTests.swift in Sources */,
+				5927AF651BC5066A00161247 /* TryTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
