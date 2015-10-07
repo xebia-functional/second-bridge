@@ -89,27 +89,27 @@ class VectorPerformanceTests: XCTestCase {
     
     func testPerformanceAccessSmall() {
         self.measureBlock() {
-            for i in 0..<10 {
+            for _ in 0..<10 {
                 let index = Int(arc4random_uniform(UInt32(self.vectorSmall.count)))
-                let value = self.vectorSmall[index]
+                _ = self.vectorSmall[index]
             }
         }
     }
     
     func testPerformanceAccessMedium() {
         self.measureBlock() {
-            for i in 0..<10 {
+            for _ in 0..<10 {
                 let index = Int(arc4random_uniform(UInt32(self.vectorMedium.count)))
-                let value = self.vectorBig[index]
+                _ = self.vectorBig[index]
             }
         }
     }
     
     func testPerformanceAccessBig() {
         self.measureBlock() {
-            for i in 0..<10 {
+            for _ in 0..<10 {
                 let index = Int(arc4random_uniform(UInt32(self.vectorMedium.count)))
-                let value = self.vectorBig[index]
+                _ = self.vectorBig[index]
             }
         }
     }
@@ -155,27 +155,27 @@ class VectorPerformanceTests: XCTestCase {
     
     func testPerformanceAccessArraySmall() {
         self.measureBlock() {
-            for i in 0..<10 {
+            for _ in 0..<10 {
                 let index = Int(arc4random_uniform(UInt32(self.vectorSmall.count)))
-                let value = self.arraySmall[index]
+                _ = self.arraySmall[index]
             }
         }
     }
     
     func testPerformanceAccessArrayMedium() {
         self.measureBlock() {
-            for i in 0..<10 {
+            for _ in 0..<10 {
                 let index = Int(arc4random_uniform(UInt32(self.vectorMedium.count)))
-                let value = self.arrayMedium[index]
+                _ = self.arrayMedium[index]
             }
         }
     }
     
     func testPerformanceAccessArrayBig() {
         self.measureBlock() {
-            for i in 0..<10 {
+            for _ in 0..<10 {
                 let index = Int(arc4random_uniform(UInt32(self.vectorMedium.count)))
-                let value = self.arrayBig[index]
+                _ = self.arrayBig[index]
             }
         }
     }
