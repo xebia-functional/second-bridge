@@ -25,9 +25,15 @@ class VectorIntegrityTests: XCTestCase {
     }
 
     func testIntegrity() {
-        for i in 0..<32 << 25 {
+        // Like in the Vector's level tests, the highest value for the integrity tests is commented out for sanity.
+        // You can play with the different Thresh values (i.e.: 32 << 5, 32 << 10, 32 << 15, 32 << 20 or 32 << 25),
+        // but the latest two will take hours to complete!
+        // let dataSize = 32 << 25
+        let dataSize = 32 << 10
+
+        for i in 0..<dataSize {
             extraBigVector = extraBigVector.append(i)
-            print("Integrity Test \((Float(i) / Float(32 << 25)) * 100)%")
+            print("Integrity Test \((Float(i) / Float(dataSize)) * 100)%")
             XCTAssert(extraBigVector[i] == i, "There are inconsistencies in Vector internal data")
         }
     }
