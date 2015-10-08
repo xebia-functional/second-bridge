@@ -52,6 +52,7 @@
 		A183A1351AA85FA500C535A6 /* Swift47DegTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A183A1341AA85FA500C535A6 /* Swift47DegTests.swift */; };
 		A1B6F0EA1AE4ECB3006E7997 /* ListT.swift in Sources */ = {isa = PBXBuildFile; fileRef = A182FAFF1ADBC319005636C1 /* ListT.swift */; };
 		A1B6F0EB1AE4ECB3006E7997 /* Iterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59800BFA1AD6BD200044D0ED /* Iterable.swift */; };
+		A1BE586D1BC4106800EBBFF3 /* BinarySearchTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1BE586C1BC4106800EBBFF3 /* BinarySearchTree.swift */; settings = {ASSET_TAGS = (); }; };
 		A1DEF77D1B18767900BCBAC2 /* PartialFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C9BCA81AC2DD440043C96E /* PartialFunction.swift */; };
 		A1DEF77F1B1876A800BCBAC2 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1DEF77E1B1876A800BCBAC2 /* Pods.framework */; };
 		A1DEF7811B1876AE00BCBAC2 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1DEF7801B1876AE00BCBAC2 /* Pods.framework */; };
@@ -120,6 +121,7 @@
 		A183A12D1AA85FA500C535A6 /* SecondBridgeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SecondBridgeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A183A1331AA85FA500C535A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A183A1341AA85FA500C535A6 /* Swift47DegTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift47DegTests.swift; sourceTree = "<group>"; };
+		A1BE586C1BC4106800EBBFF3 /* BinarySearchTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinarySearchTree.swift; sourceTree = "<group>"; };
 		A1DEF77E1B1876A800BCBAC2 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
 		A1DEF7801B1876AE00BCBAC2 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
 		FFED5D3AE512B747515A216C /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -243,6 +245,7 @@
 				5973D3071AD2A46200EBDE0B /* ArrayT.swift */,
 				A182FAFF1ADBC319005636C1 /* ListT.swift */,
 				5982D68E1AE7B6DC00BA53D0 /* Vector.swift */,
+				A1BE586C1BC4106800EBBFF3 /* BinarySearchTree.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -543,6 +546,7 @@
 				597686161ACAA87B00756A9F /* Stack.swift in Sources */,
 				59BBB24E1AC466BD00D2F7C1 /* Range.swift in Sources */,
 				5981E3C91AB6DFE600F052A0 /* Traversable.swift in Sources */,
+				A1BE586D1BC4106800EBBFF3 /* BinarySearchTree.swift in Sources */,
 				59C9BCA91AC2DD440043C96E /* PartialFunction.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
