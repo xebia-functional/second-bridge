@@ -29,13 +29,13 @@ private enum TryError : ErrorType {
 
 // MARK: - Try definition
 /// Defines a computation that either result in an exception, or return a successfully computed value.
-struct Try<T> {
+public struct Try<T> {
     private let matchResult : TryMatcher<T>
     
     /**
     - parameter op: A throwable computation to be executed and encapsulated
     */
-    internal init(@autoclosure _ op: (() throws -> T)) {
+    public init(@autoclosure _ op: (() throws -> T)) {
         do {
             let result = try op()
             matchResult = TryMatcher<T>.Success(result)
@@ -48,7 +48,7 @@ struct Try<T> {
     Utility constructor to allow compatibility between Try and its match cases (Success and Failure).
     - parameter m: a Success or Failure enum case.
     */
-    internal init(_ m: TryMatcher<T>) {
+    public init(_ m: TryMatcher<T>) {
         matchResult = m
     }
 }
@@ -57,7 +57,7 @@ extension Try {
     /**
     - returns: `true` if the encapsulated computation didn't throw an exception.
     */
-    internal func isSuccess() -> Bool {
+    public func isSuccess() -> Bool {
         switch self.matchResult {
         case .Success(_): return true
         default: return false
@@ -67,7 +67,7 @@ extension Try {
     /**
     - returns: `true` if the encapsulated computation did throw an exception.
     */
-    internal func isFailure() -> Bool {
+    public func isFailure() -> Bool {
         return !self.isSuccess()
     }
     
@@ -75,7 +75,7 @@ extension Try {
     - parameter def: A default value to return if the encapsulated computation throws an exception.
     - returns: The result of the encapsulated computation, or a default value if it did throw an exception.
     */
-    internal func getOrElse(def: T) -> T {
+    public func getOrElse(def: T) -> T {
         switch self.matchResult {
         case .Success(let value): return value
         case .Failure(_): return def
@@ -91,7 +91,7 @@ extension Try {
     - returns: Success(x) if the original computation was successful and `f(x)` is `true`. Failure(ex: TryFilterException)
     in case the filter function returned `false`. If the original computation was a failure, it just goes through.
     */
-    internal func filter(f: T -> Bool) -> Try {
+    public func filter(f: T -> Bool) -> Try {
         switch self.matchResult {
         case .Success(let value):
             if f(value) {
@@ -108,7 +108,7 @@ extension Try {
     - parameter pf: A variadic list of partial functions that will be evaluated as in a Pattern Matching. The result of this process
     will be wrapped in a Try and returned to the user.
     */
-    internal func recover(pf: PartialFunction<ErrorType, T>...) -> Try<T> {
+    public func recover(pf: PartialFunction<ErrorType, T>...) -> Try<T> {
         return recoverWithArray(pf.map{ $0.flatMap { (x: T) -> Try<T> in return Try(x) }})
     }
     
@@ -118,7 +118,7 @@ extension Try {
     - parameter pf: A variadic list of partial functions that will be evaluated as in a Pattern Matching. The result of this process
     will be wrapped in a Try and returned to the user.
     */
-    internal func recoverWith(pf: PartialFunction<ErrorType, Try<T>>...) -> Try<T> {
+    public func recoverWith(pf: PartialFunction<ErrorType, Try<T>>...) -> Try<T> {
         return recoverWithArray(pf)
     }
     
@@ -131,16 +131,16 @@ extension Try {
 }
 
 extension Try: Applicative {
-    typealias A = T
-    typealias B = Any
-    typealias FB = Try<B>
-    typealias FAB = Try<A -> B>
+    public typealias A = T
+    public typealias B = Any
+    public typealias FB = Try<B>
+    public typealias FAB = Try<A -> B>
     
     /**
     - returns: A `Try` instance wrapping a given value. (Serves as a Point function).
     - parameter a: A value to be wrapped in a Try.
     */
-    static func pure(a : A) -> Try {
+    public static func pure(a : A) -> Try {
         return Try(a)
     }
     
@@ -149,7 +149,7 @@ extension Try: Applicative {
     - returns: If our given `Try` is a `Success(x)`, it will return `Try(f(x))`. If not, it will wrap the original
     exception to a `Try` of type `B`.
     */
-    internal func map<B>(f: T -> B) -> Try<B> {
+    public func map<B>(f: T -> B) -> Try<B> {
         switch self.matchResult {
         case .Success(let value): return Try<B>(.Success(f(value)))
         case .Failure(let ex): return Try<B>(.Failure(ex))
@@ -161,7 +161,7 @@ extension Try: Applicative {
     - returns: If our given `Try` is a `Success(x)`, it will return `Try(f(x))`. If not, it will wrap the original
     exception to a `Try` of type `B`.
     */
-    internal func fmap<B>(f : A -> B) -> FB {
+    public func fmap<B>(f : A -> B) -> FB {
         return map({ f($0) })
     }
     
@@ -172,7 +172,7 @@ extension Try: Applicative {
     - returns: A `Try` containing the application of the function contained in `f` if both `f` and our given `Try` are
     `Success`. If not, the corresponding exception will be returned wrapped in a `Try` of type `B`.
     */
-    func ap(f : FAB) -> FB {
+    public func ap(f : FAB) -> FB {
         switch (self.matchResult, f.matchResult) {
         case (.Failure(let ex), _): return Try<B>(.Failure(ex))
         case (.Success(_), .Success(let fs)): return self.map(fs)
@@ -187,7 +187,7 @@ extension Try: Monad {
     - returns: If our given `Try` is a `Success(x)`, it will return a `Try` containing the result of `f(x)`.
     If not, it will wrap the original exception to a `Try` of type `B`.
     */
-    func bind(f: Try.A -> Try.FB) -> Try.FB {
+    public func bind(f: Try.A -> Try.FB) -> Try.FB {
         return self.flatMap(f)
     }
     
@@ -196,7 +196,7 @@ extension Try: Monad {
     - returns: If our given `Try` is a `Success(x)`, it will return a `Try` containing the result of `f(x)`.
     If not, it will wrap the original exception to a `Try` of type `B`.
     */
-    internal func flatMap<B>(f: T -> Try<B>) -> Try<B> {
+    public func flatMap<B>(f: T -> Try<B>) -> Try<B> {
         switch self.matchResult {
         case .Success(let value): return f(value)
         case .Failure(let ex): return Try<B>(.Failure(ex))
