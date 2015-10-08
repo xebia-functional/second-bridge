@@ -40,6 +40,27 @@ public struct PartialFunction<T, U> {
     }
 }
 
+public extension PartialFunction {
+    /**
+    Executes a given Partial Function.
+    - parameter i: The parameter to be passed to the internal function.
+    - returns: The result of the computation. Warning: the caller of `apply` is responsible of checking that the
+    given parameter is among the values defined by `isDefinedAt`.
+    */
+    func apply(i: T) -> U {
+        return self.function.apply(i)
+    }
+    
+    /**
+    Creates a new Partial Function, defining the same set of values for its entry, but applying the function `f`
+    to the result of the original computation.
+    - parameter f: The function to apply.
+    */
+    func flatMap<V>(f: U -> V) -> PartialFunction<T, V> {
+        return PartialFunction<T, V>(function: function >>> Function(f), isDefinedAt: isDefinedAt)
+    }
+}
+
 // MARK: - Or else / And then implementation
 
 /**
@@ -69,6 +90,16 @@ it will return the last of the given list which is implicitly considered as a de
 Users of `match` are responsible of making sure that the last function supplied is executable for all given values.
 */
 public func match<T, U>(listOfPartialFunctions: PartialFunction<T, U>...) -> Function<T, U> {
+    return match(listOfPartialFunctions)
+}
+
+/**
+Returns the first of the given list of Partial Functions to be satisfied by the given value `x`. If it doesn't satisfy any of them,
+it will return the last of the given list which is implicitly considered as a default function.
+
+Users of `match` are responsible of making sure that the last function supplied is executable for all given values.
+*/
+public func match<T, U>(listOfPartialFunctions: [PartialFunction<T, U>]) -> Function<T, U> {
     return Function.arr({ (x: T) -> U in
         let functions = listOfPartialFunctions.filter({ (item: PartialFunction<T, U>) -> Bool in
             return item.isDefinedAt.apply(x)
