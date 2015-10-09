@@ -245,29 +245,30 @@ func convertStringToInt(s: String) throws -> Int {
     }
 
 let tryParseCorrectString = Try<Int>(try self.convertStringToInt("47"))
-tryParseCorrectString.isFailure()		// false
-tryParseCorrectString.isSuccess()	// true
+tryParseCorrectString.isFailure()					// false
+tryParseCorrectString.isSuccess()					// true
 let value = tryParseCorrectString.getOrElse(0)		// 47
 
 let tryParseIncorrectString = Try<Int>(try self.convertStringToInt("47 Degrees"))
-tryParseCorrectString.isFailure()		// true
-tryParseCorrectString.isSuccess()	// false
-let invalidValue = tryParseIncorrectString.getOrElse(666)      // 666
+tryParseCorrectString.isFailure()							// true
+tryParseCorrectString.isSuccess()							// false
+let invalidValue = tryParseIncorrectString.getOrElse(666)   // 666
 
 // You can apply several Higher-Order Functions to Try instances
 // to apply functions to the encapsulated values:
 let f = { (n: Int) -> Int in n + 10 }
-let mapCorrectResult = tryParseCorrectString.map(f).getOrElse(666)      // 57
+let mapCorrectResult = tryParseCorrectString.map(f).getOrElse(666)	// 57
 
-let filterCorrectResult = tryParseCorrectString.filter({ $0 != 47 })     // .Failure(exception)
+let filterCorrectResult = 
+	tryParseCorrectString.filter({ $0 != 47 })		// .Failure(exception)
 
 func tryHalf(n: Int) -> Try<Int> {
 	// Returns a Try containing a function that divides any Int by two
 	// ...
 }
 let flatmapCorrectResultAgainstOKFunction = tryParseCorrectString.flatMap(tryHalf)
-flatmapCorrectResultAgainstOKFunction.isSuccess()       // true
-flatmapCorrectResultAgainstOKFunction.getOrElse(1)     // 23
+flatmapCorrectResultAgainstOKFunction.isSuccess()	// true
+flatmapCorrectResultAgainstOKFunction.getOrElse(1)	// 23
 
 
 // You can also use `recover` and `recoverWith` to chain a set of
@@ -277,8 +278,8 @@ let recoverResult = tryParseIncorrectString.recover({
                 return true
             } |-> {(e: ErrorType) -> (Int) in return 0})
 
-recoverResult.isSuccess()	// true
-let recoverResultGet = recoverResult.getOrElse(1)     // 0
+recoverResult.isSuccess()								// true
+let recoverResultGet = recoverResult.getOrElse(1)		// 0
 ```
 
 System Requirements
