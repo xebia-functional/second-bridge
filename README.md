@@ -247,6 +247,14 @@ func convertStringToInt(s: String) throws -> Int {
 let tryParseCorrectString = Try<Int>(try self.convertStringToInt("47"))
 tryParseCorrectString.isFailure()					// false
 tryParseCorrectString.isSuccess()					// true
+
+// You can get the result of the operations through pattern matching...
+switch tryParseCorrectString.matchResult {
+        case .Success(let value): print("Result is \(value)")
+        case .Failure(let ex): print("There has been an exception!")
+        }
+
+// ...or using convenience functions like getOrElse
 let value = tryParseCorrectString.getOrElse(0)		// 47
 
 let tryParseIncorrectString = Try<Int>(try self.convertStringToInt("47 Degrees"))

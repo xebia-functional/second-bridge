@@ -63,7 +63,7 @@ class TryTests: XCTestCase {
         let value = tryParseCorrectString.getOrElse(0)
         XCTAssertNotNil(value, "Correct operation inside a Try should yield a value")
         XCTAssertEqual(value, 47, "Correct operation inside a Try should yield the expected value")
-        
+                
         let tryParseIncorrectString = Try<Int>(try self.convertStringToInt("47 Degrees"))
         XCTAssertFalse(tryParseIncorrectString.isSuccess(), "Invalid operation inside a Try shouldn't be a success")
         XCTAssertTrue(tryParseIncorrectString.isFailure(), "Invalid operation inside a Try should be a failure")

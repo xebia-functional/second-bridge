@@ -30,7 +30,7 @@ private enum TryError : ErrorType {
 // MARK: - Try definition
 /// Defines a computation that either result in an exception, or return a successfully computed value.
 public struct Try<T> {
-    private let matchResult : TryMatcher<T>
+    public let matchResult : TryMatcher<T>
     
     /**
     - parameter op: A throwable computation to be executed and encapsulated
