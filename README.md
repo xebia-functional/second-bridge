@@ -226,10 +226,61 @@ matchTest.apply(1)			// "One"
 matchTest.apply(1000)		// "Moar!"
 ```
 
+####  UTILS
+
+**Try**
+
+`Try` is a monad that encapsulates an operation that can fail and throw an exception. As you may be aware, Swift now supports do-try-catch blocks to handle operations that can fail. `Try` can wrap throwable functions (those marked with the `throws` keyword) to handle these failures for you. The result of the wrapped operation is store in a `TryMatcher.Success(x)` if it's a valid result `x`, or `TryMatcher.Failure(ex)ryMatcher.Failure(ex)` if the operation has thrown an `ex` exception.
+
+```swift
+import SecondBridge
+
+// Throwable function
+func convertStringToInt(s: String) throws -> Int {
+        if let parsedInt = Int(s) {
+            return parsedInt
+        } else {
+            throw ParseError.InvalidString
+        }
+    }
+
+let tryParseCorrectString = Try<Int>(try self.convertStringToInt("47"))
+tryParseCorrectString.isFailure()		// false
+tryParseCorrectString.isSuccess()	// true
+let value = tryParseCorrectString.getOrElse(0)		// 47
+
+let tryParseIncorrectString = Try<Int>(try self.convertStringToInt("47 Degrees"))
+tryParseCorrectString.isFailure()		// true
+tryParseCorrectString.isSuccess()	// false
+let invalidValue = tryParseIncorrectString.getOrElse(666)      // 666
+
+// You can apply several Higher-Order Functions to Try instances to apply functions to the encapsulated values:
+let f = { (n: Int) -> Int in n + 10 }
+let mapCorrectResult = tryParseCorrectString.map(f).getOrElse(666)      // 57
+
+let filterCorrectResult = tryParseCorrectString.filter({ $0 != 47 })     // .Failure(exception)
+
+func tryHalf(n: Int) -> Try<Int> { // Returns a Try containing a function that divides any Int by two }
+let flatmapCorrectResultAgainstOKFunction = tryParseCorrectString.flatMap(tryHalf)
+flatmapCorrectResultAgainstOKFunction.isSuccess()       // true
+flatmapCorrectResultAgainstOKFunction.getOrElse(1)     // 23
+
+
+// You can also use `recover` and `recoverWith` to chain a set of Partial Functions that can handle failures in your `Try`s:
+
+let recoverResult = tryParseIncorrectString.recover({
+            (e: ErrorType) -> Bool in
+                return true
+            } |-> {(e: ErrorType) -> (Int) in return 0})
+
+recoverResult.isSuccess()	// true
+let recoverResultGet = recoverResult.getOrElse(1)     // 0
+```
+
 System Requirements
 ==================
 
-Second Bridge supports iOS 8.0+.
+Second Bridge supports iOS 8.0+ and Swift 2.0.
 
 Contribute
 =========
