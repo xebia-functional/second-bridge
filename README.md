@@ -230,7 +230,7 @@ matchTest.apply(1000)		// "Moar!"
 
 **Try**
 
-`Try` is a monad that encapsulates an operation that can fail and throw an exception. As you may be aware, Swift now supports do-try-catch blocks to handle operations that can fail. `Try` can wrap throwable functions (those marked with the `throws` keyword) to handle these failures for you. The result of the wrapped operation is store in a `TryMatcher.Success(x)` if it's a valid result `x`, or `TryMatcher.Failure(ex)ryMatcher.Failure(ex)` if the operation has thrown an `ex` exception.
+`Try` is a monad that encapsulates an operation that can fail and throw an exception. As you may be aware, Swift now supports do-try-catch blocks to handle operations that can fail. `Try` can wrap throwable functions (those marked with the `throws` keyword) to handle these failures for you. The result of the wrapped operation is store in a `TryMatcher.Success(x)` if it's a valid result `x`, or `TryMatcher.Failure(ex)` if the operation has thrown an `ex` exception.
 
 ```swift
 import SecondBridge
