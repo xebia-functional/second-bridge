@@ -254,20 +254,24 @@ tryParseCorrectString.isFailure()		// true
 tryParseCorrectString.isSuccess()	// false
 let invalidValue = tryParseIncorrectString.getOrElse(666)      // 666
 
-// You can apply several Higher-Order Functions to Try instances to apply functions to the encapsulated values:
+// You can apply several Higher-Order Functions to Try instances
+// to apply functions to the encapsulated values:
 let f = { (n: Int) -> Int in n + 10 }
 let mapCorrectResult = tryParseCorrectString.map(f).getOrElse(666)      // 57
 
 let filterCorrectResult = tryParseCorrectString.filter({ $0 != 47 })     // .Failure(exception)
 
-func tryHalf(n: Int) -> Try<Int> { // Returns a Try containing a function that divides any Int by two }
+func tryHalf(n: Int) -> Try<Int> {
+	// Returns a Try containing a function that divides any Int by two
+	// ...
+}
 let flatmapCorrectResultAgainstOKFunction = tryParseCorrectString.flatMap(tryHalf)
 flatmapCorrectResultAgainstOKFunction.isSuccess()       // true
 flatmapCorrectResultAgainstOKFunction.getOrElse(1)     // 23
 
 
-// You can also use `recover` and `recoverWith` to chain a set of Partial Functions that can handle failures in your `Try`s:
-
+// You can also use `recover` and `recoverWith` to chain a set of
+// Partial Functions that can handle failures in your `Try`s:
 let recoverResult = tryParseIncorrectString.recover({
             (e: ErrorType) -> Bool in
                 return true
