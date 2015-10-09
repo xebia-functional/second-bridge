@@ -237,12 +237,12 @@ import SecondBridge
 
 // Throwable function
 func convertStringToInt(s: String) throws -> Int {
-        if let parsedInt = Int(s) {
-            return parsedInt
-        } else {
-            throw ParseError.InvalidString
-        }
-    }
+     if let parsedInt = Int(s) {
+         return parsedInt
+     } else {
+         throw ParseError.InvalidString
+     }
+}
 
 let tryParseCorrectString = Try<Int>(try self.convertStringToInt("47"))
 tryParseCorrectString.isFailure()					// false
@@ -252,7 +252,7 @@ tryParseCorrectString.isSuccess()					// true
 switch tryParseCorrectString.matchResult {
         case .Success(let value): print("Result is \(value)")
         case .Failure(let ex): print("There has been an exception!")
-        }
+}
 
 // ...or using convenience functions like getOrElse
 let value = tryParseCorrectString.getOrElse(0)		// 47
