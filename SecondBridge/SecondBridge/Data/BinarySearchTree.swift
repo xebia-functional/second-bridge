@@ -15,7 +15,6 @@
 */
 
 import Foundation
-import Swiftz
 
 internal enum PartsTree {
     case Left
@@ -140,13 +139,19 @@ indirect enum BinarySearchTree<T:Comparable>: CustomStringConvertible {
 
 extension BinarySearchTree  {
     
-    func inOrderTraversal(root: BinarySearchTree<T>) -> [T] {
+    func inOrderTraversal() -> [T] {
+        
         var result:[T] = []
-        inOrderTraversal(self.get(.Left))
+        if (!self.get(.Left).isEmpty()){
+           result += self.get(.Left).inOrderTraversal()
+        }
         result.append(self.getHead()!)
-        inOrderTraversal(self.get(.Right))
+        if (!self.get(.Right).isEmpty()){
+            result += self.get(.Right).inOrderTraversal()
+        }
         return result
     }
+    
     
 }
 

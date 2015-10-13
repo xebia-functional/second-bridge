@@ -29,7 +29,7 @@ class BinarySearchTreeTests: XCTestCase {
         super.tearDown()
     }
     
-    func testBSTCreation() {
+    func testBST() {
         
         let tree = BinarySearchTree.Node(2, left: BinarySearchTree.Empty, right: BinarySearchTree.Empty)
         XCTAssertNotNil(tree.getHead(), "")
@@ -50,6 +50,10 @@ class BinarySearchTreeTests: XCTestCase {
         let tree7 = tree.add(4).add(8).add(5).add(1).add(3).add(7)
          XCTAssertTrue(tree7.search(8) == true, "Trees should contains value 8")
          XCTAssertTrue(tree7.search(10) == false, "Trees should contains value 8")
+        
+        let tree8 = tree.add(3)
+        XCTAssertTrue(tree8.inOrderTraversal() == [2, 3], "Trees should contains value 8")
+        
     }
 
 
