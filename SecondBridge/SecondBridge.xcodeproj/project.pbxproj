@@ -29,6 +29,8 @@
 		5982D68F1AE7B6DC00BA53D0 /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5982D68E1AE7B6DC00BA53D0 /* Vector.swift */; };
 		5982D6901AE7B6DC00BA53D0 /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5982D68E1AE7B6DC00BA53D0 /* Vector.swift */; };
 		599207CD1BC40D7800BB786D /* VectorIntegrityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599207CC1BC40D7800BB786D /* VectorIntegrityTests.swift */; settings = {ASSET_TAGS = (); }; };
+		59930F551BC7BBB200D9321F /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59930F541BC7BBB200D9321F /* Future.swift */; settings = {ASSET_TAGS = (); }; };
+		59930F561BC7BBB200D9321F /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59930F541BC7BBB200D9321F /* Future.swift */; settings = {ASSET_TAGS = (); }; };
 		59A911B11AEA2F6F00EE50CA /* VectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A911B01AEA2F6F00EE50CA /* VectorTests.swift */; };
 		59A911B21AEA2F6F00EE50CA /* SecondBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A183A1221AA85FA500C535A6 /* SecondBridge.framework */; };
 		59A911B91AEA2F8000EE50CA /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5982D68E1AE7B6DC00BA53D0 /* Vector.swift */; };
@@ -108,6 +110,7 @@
 		5982D6811AE647A100BA53D0 /* ArrayTTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayTTests.swift; sourceTree = "<group>"; };
 		5982D68E1AE7B6DC00BA53D0 /* Vector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vector.swift; sourceTree = "<group>"; };
 		599207CC1BC40D7800BB786D /* VectorIntegrityTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VectorIntegrityTests.swift; sourceTree = "<group>"; };
+		59930F541BC7BBB200D9321F /* Future.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Future.swift; sourceTree = "<group>"; };
 		59A911AC1AEA2F6F00EE50CA /* VectorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VectorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		59A911AF1AEA2F6F00EE50CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59A911B01AEA2F6F00EE50CA /* VectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorTests.swift; sourceTree = "<group>"; };
@@ -195,6 +198,14 @@
 				59800BFA1AD6BD200044D0ED /* Iterable.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		59930F531BC7BBA700D9321F /* Concurrency */ = {
+			isa = PBXGroup;
+			children = (
+				59930F541BC7BBB200D9321F /* Future.swift */,
+			);
+			path = Concurrency;
 			sourceTree = "<group>";
 		};
 		59A911AD1AEA2F6F00EE50CA /* VectorTests */ = {
@@ -309,6 +320,7 @@
 		A183A1241AA85FA500C535A6 /* SecondBridge */ = {
 			isa = PBXGroup;
 			children = (
+				59930F531BC7BBA700D9321F /* Concurrency */,
 				59BBB24A1AC466BD00D2F7C1 /* Extension */,
 				59C9BCA71AC2DD440043C96E /* Functions */,
 				59D811B21AA87B3B005F7761 /* Data */,
@@ -550,6 +562,7 @@
 				59D811B71AA87B7C005F7761 /* HashableAny.swift in Sources */,
 				594E50371BC40B85005866FE /* ArraySlice.swift in Sources */,
 				596D703D1AADB79B00CE9962 /* Map.swift in Sources */,
+				59930F551BC7BBB200D9321F /* Future.swift in Sources */,
 				5973D3081AD2A46200EBDE0B /* ArrayT.swift in Sources */,
 				597686161ACAA87B00756A9F /* Stack.swift in Sources */,
 				59BBB24E1AC466BD00D2F7C1 /* Range.swift in Sources */,
@@ -570,6 +583,7 @@
 				5982D6821AE647A100BA53D0 /* ArrayTTests.swift in Sources */,
 				5973D3091AD2A46200EBDE0B /* ArrayT.swift in Sources */,
 				59D811B81AA87B7C005F7761 /* HashableAny.swift in Sources */,
+				59930F561BC7BBB200D9321F /* Future.swift in Sources */,
 				597686191ACAB3DE00756A9F /* StackTests.swift in Sources */,
 				597686171ACAA87B00756A9F /* Stack.swift in Sources */,
 				59C9BCAA1AC2DD440043C96E /* PartialFunction.swift in Sources */,
