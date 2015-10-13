@@ -17,11 +17,39 @@
 import Foundation
 import Swiftz
 
+internal enum PartsTree {
+    case Left
+    case Right
+}
 
 indirect enum BinarySearchTree<T:Comparable>: CustomStringConvertible {
     
     case Empty
     case Node(T, left: BinarySearchTree, right: BinarySearchTree)
+    
+    func getHead() -> T? {
+        switch self{
+        case .Empty:
+            return .None
+        case let .Node(T, left: _, right: _):
+            return T
+        }
+    }
+    
+    
+    func get(part: PartsTree) -> BinarySearchTree {
+        
+        switch self {
+        case .Empty:
+            return .Empty
+        case let .Node(_, left: _, right: rigth) where part == .Right:
+            return rigth
+        case let .Node(_, left: left, right: _) where part == .Left:
+            return left
+        default:
+            return self
+        }
+    }
     
     func add(element:T) -> BinarySearchTree {
         switch self {
@@ -64,7 +92,7 @@ indirect enum BinarySearchTree<T:Comparable>: CustomStringConvertible {
         case let .Node(value, left, right) where value < element:
             return BinarySearchTree.Node(value, left:left, right: right.remove(element)!)
         case let .Node(value, .Empty, .Empty) where value == element:
-            return .None
+            return BinarySearchTree.Empty
         case let .Node(value, left, .Empty) where value == element:
             return left
         case let .Node(value, .Empty, right) where value == element:
@@ -72,10 +100,10 @@ indirect enum BinarySearchTree<T:Comparable>: CustomStringConvertible {
         case let .Node(value, left, right) where value == element:
             let a = findMin(right)
             switch a {
-            case let .Node(value, _,_)?:
+            case let .Node(value, _,_):
                 return BinarySearchTree.Node(value, left: left, right: right.remove(value)!)
             default:
-                print("Error")
+                return .Empty
             }
         default:
             print("Error")
@@ -85,7 +113,7 @@ indirect enum BinarySearchTree<T:Comparable>: CustomStringConvertible {
         
     }
     
-    func findMin( root:BinarySearchTree) -> BinarySearchTree?{
+    func findMin( root:BinarySearchTree) -> BinarySearchTree<T> {
         
         switch root{
         case .Node(_, .Empty, _):
@@ -93,11 +121,9 @@ indirect enum BinarySearchTree<T:Comparable>: CustomStringConvertible {
         case let .Node(_, left,_):
             return findMin(left)
         default:
-           return .Empty
+            return .Empty
         }
     }
-
-    
     
     var description: String {
         switch self {
@@ -109,3 +135,65 @@ indirect enum BinarySearchTree<T:Comparable>: CustomStringConvertible {
     }
     
 }
+
+// Traversal
+
+extension BinarySearchTree  {
+    
+    func inOrderTraversal(root: BinarySearchTree<T>) -> [T] {
+        var result:[T] = []
+        inOrderTraversal(self.get(.Left))
+        result.append(self.getHead()!)
+        inOrderTraversal(self.get(.Right))
+        return result
+    }
+    
+}
+
+
+extension BinarySearchTree {
+    
+    func count() -> Int{
+        if((self.getHead()) != nil){
+            return 1 + self.get(.Left).count() + self.get(.Right).count()
+        }else{
+            return 0
+        }
+    }
+    
+    func isEmpty() -> Bool{
+        switch self {
+        case .Empty:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    
+}
+
+//// MARK: - Operators
+
+func ==<T: Equatable>(lhs: BinarySearchTree<T>, rhs: BinarySearchTree<T>) -> Bool {
+    if( lhs.isEmpty() && rhs.isEmpty()){
+        return true
+    }
+    if( (lhs.isEmpty() && !rhs.isEmpty()) || ( !lhs.isEmpty() && rhs.isEmpty())){
+        return false
+    }
+    
+    if (lhs.getHead() == rhs.getHead() && (lhs.get(.Left) == rhs.get(.Left)) && (lhs.get(.Right) == rhs.get(.Right))){
+        return true
+    }else{
+        return false
+    }
+}
+
+
+
+
+
+
+
+
