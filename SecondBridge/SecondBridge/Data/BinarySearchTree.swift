@@ -26,6 +26,10 @@ indirect enum BinarySearchTree<T:Comparable>: CustomStringConvertible {
     case Empty
     case Node(T, left: BinarySearchTree, right: BinarySearchTree)
     
+    
+    /*
+    * Return the element the head the current BST
+    */
     func getHead() -> T? {
         switch self{
         case .Empty:
@@ -35,7 +39,9 @@ indirect enum BinarySearchTree<T:Comparable>: CustomStringConvertible {
         }
     }
     
-    
+    /*
+    * Return a new BST with the part provided in the parameter (left or right)
+    */
     func get(part: PartsTree) -> BinarySearchTree {
         
         switch self {
@@ -50,6 +56,9 @@ indirect enum BinarySearchTree<T:Comparable>: CustomStringConvertible {
         }
     }
     
+    /**
+    * Returns a new BinarySearchTree with the current contents and the provided item.
+    */
     func add(element:T) -> BinarySearchTree {
         switch self {
         case .Empty:
@@ -63,6 +72,14 @@ indirect enum BinarySearchTree<T:Comparable>: CustomStringConvertible {
         }
     }
     
+    /**
+    Checks if a certain element is included in the current BST.
+    
+    - parameter element: The element to be checked.
+    
+    - returns: True if the BST contains this element.
+
+    */
     func search(element:T) -> Bool{
         
         switch self{
@@ -80,7 +97,9 @@ indirect enum BinarySearchTree<T:Comparable>: CustomStringConvertible {
         return false
     }
     
-    
+    /**
+    *  Removes the provided element from the current BST, and returns a new BST without that element
+    */
     func remove(element:T) -> BinarySearchTree? {
         
         switch self {
@@ -124,6 +143,8 @@ indirect enum BinarySearchTree<T:Comparable>: CustomStringConvertible {
         }
     }
     
+    // MARK: - Printable
+    
     var description: String {
         switch self {
         case .Empty:
@@ -139,6 +160,9 @@ indirect enum BinarySearchTree<T:Comparable>: CustomStringConvertible {
 
 extension BinarySearchTree  {
     
+    /*
+    * Returns a sorted array of node items.
+    */
     func inOrderTraversal() -> [T] {
         
         var result:[T] = []
@@ -158,6 +182,9 @@ extension BinarySearchTree  {
 
 extension BinarySearchTree {
     
+    /**
+    * Returns the number of node contained in the provided BST.
+    */
     func count() -> Int{
         if((self.getHead()) != nil){
             return 1 + self.get(.Left).count() + self.get(.Right).count()
@@ -166,6 +193,9 @@ extension BinarySearchTree {
         }
     }
     
+    /**
+    *Returns true if this BST doesn't contain any node.
+    */
     func isEmpty() -> Bool{
         switch self {
         case .Empty:
@@ -179,6 +209,8 @@ extension BinarySearchTree {
 }
 
 //// MARK: - Operators
+
+// MARK: - Equality
 
 func ==<T: Equatable>(lhs: BinarySearchTree<T>, rhs: BinarySearchTree<T>) -> Bool {
     if( lhs.isEmpty() && rhs.isEmpty()){
