@@ -32,7 +32,7 @@ class BinarySearchTreeTests: XCTestCase {
     func testBST() {
         
         let tree = BinarySearchTree.Node(2, left: BinarySearchTree.Empty, right: BinarySearchTree.Empty)
-        XCTAssertNotNil(tree.getHead(), "")
+        XCTAssertNotNil(tree.head(), "")
         
         let tree2 = tree.add(4).add(8).add(5).add(1).add(3).add(7).add(10)
         XCTAssertEqual(tree2.count(), 8, "Tree should have all elements added")
@@ -41,7 +41,7 @@ class BinarySearchTreeTests: XCTestCase {
         XCTAssertEqual(tree3.count(), tree2.count(), "Tree3 and Tree2 should have all elements added")
         
         let tree4 = tree3.remove(8)
-        XCTAssertEqual(tree4?.count(), tree3.count()-1, "Tree4 shoulh have one less element")
+        XCTAssertEqual(tree4?.count(), tree3.count()-1, "Tree4 should have one less element")
         
         let tree5 = tree.add(4).add(8)
         let tree6 = tree.add(4).add(8)
@@ -49,10 +49,10 @@ class BinarySearchTreeTests: XCTestCase {
         
         let tree7 = tree.add(4).add(8).add(5).add(1).add(3).add(7)
          XCTAssertTrue(tree7.search(8) == true, "Trees should contains value 8")
-         XCTAssertTrue(tree7.search(10) == false, "Trees should contains value 8")
+         XCTAssertTrue(tree7.search(10) == false, "Trees shouldn't contains value 10")
         
         let tree8 = tree.add(3)
-        XCTAssertTrue(tree8.inOrderTraversal() == [2, 3], "Trees should contains value 8")
+        XCTAssertTrue(tree8.inOrderTraversal() == [2, 3], "Tree8 should contains value [2,3]")
         
     }
 

@@ -16,7 +16,7 @@
 
 import Foundation
 
-internal enum PartsTree {
+internal enum TreeBranch {
     case Left
     case Right
 }
@@ -30,7 +30,7 @@ indirect enum BinarySearchTree<T:Comparable>: CustomStringConvertible {
     /*
     * Return the element the head the current BST
     */
-    func getHead() -> T? {
+    func head() -> T? {
         switch self{
         case .Empty:
             return .None
@@ -40,24 +40,22 @@ indirect enum BinarySearchTree<T:Comparable>: CustomStringConvertible {
     }
     
     /*
-    * Return a new BST with the part provided in the parameter (left or right)
+    * Return a new BST with the provided branch as specified in the provided enum (left or right)
     */
-    func get(part: PartsTree) -> BinarySearchTree {
+    func getBranch(branch: TreeBranch) -> BinarySearchTree {
         
         switch self {
-        case .Empty:
-            return .Empty
-        case let .Node(_, left: _, right: rigth) where part == .Right:
-            return rigth
-        case let .Node(_, left: left, right: _) where part == .Left:
+        case let .Node(_, left: _, right: right) where branch == .Right:
+            return right
+        case let .Node(_, left: left, right: _) where branch == .Left:
             return left
         default:
-            return self
+            return .Empty
         }
     }
     
     /**
-    * Returns a new BinarySearchTree with the current contents and the provided item.
+    * Returns a new BinarySearchTree with the provided item added to the current contents.
     */
     func add(element:T) -> BinarySearchTree {
         switch self {
@@ -73,12 +71,12 @@ indirect enum BinarySearchTree<T:Comparable>: CustomStringConvertible {
     }
     
     /**
-    Checks if a certain element is included in the current BST.
+    Checks if a certain element is included in the current BinarySearchTree .
     
     - parameter element: The element to be checked.
     
-    - returns: True if the BST contains this element.
-
+    - returns: True if the BinarySearchTree  contains this element.
+    
     */
     func search(element:T) -> Bool{
         
@@ -92,13 +90,13 @@ indirect enum BinarySearchTree<T:Comparable>: CustomStringConvertible {
         case let .Node(value, _, right) where value < element:
             return right.search(element)
         default:
-            print("Error")
+            break
         }
         return false
     }
     
     /**
-    *  Removes the provided element from the current BST, and returns a new BST without that element
+    *  Removes the provided element from the current BinarySearchTree , and returns a new BinarySearchTree  without that element
     */
     func remove(element:T) -> BinarySearchTree? {
         
@@ -124,14 +122,14 @@ indirect enum BinarySearchTree<T:Comparable>: CustomStringConvertible {
                 return .Empty
             }
         default:
-            print("Error")
+            break
             
         }
         return self
         
     }
     
-    func findMin( root:BinarySearchTree) -> BinarySearchTree<T> {
+    private func findMin( root:BinarySearchTree) -> BinarySearchTree<T> {
         
         switch root{
         case .Node(_, .Empty, _):
@@ -166,12 +164,12 @@ extension BinarySearchTree  {
     func inOrderTraversal() -> [T] {
         
         var result:[T] = []
-        if (!self.get(.Left).isEmpty()){
-           result += self.get(.Left).inOrderTraversal()
+        if (!self.getBranch(.Left).isEmpty()){
+            result += self.getBranch(.Left).inOrderTraversal()
         }
-        result.append(self.getHead()!)
-        if (!self.get(.Right).isEmpty()){
-            result += self.get(.Right).inOrderTraversal()
+        result.append(self.head()!)
+        if (!self.getBranch(.Right).isEmpty()){
+            result += self.getBranch(.Right).inOrderTraversal()
         }
         return result
     }
@@ -183,18 +181,18 @@ extension BinarySearchTree  {
 extension BinarySearchTree {
     
     /**
-    * Returns the number of node contained in the provided BST.
+    * Returns the number of nodes contained in the provided BinarySearchTree.
     */
     func count() -> Int{
-        if((self.getHead()) != nil){
-            return 1 + self.get(.Left).count() + self.get(.Right).count()
+        if((self.head()) != nil){
+            return 1 + self.getBranch(.Left).count() + self.getBranch(.Right).count()
         }else{
             return 0
         }
     }
     
     /**
-    *Returns true if this BST doesn't contain any node.
+    *Returns true if this BinarySearchTree doesn't contain any node.
     */
     func isEmpty() -> Bool{
         switch self {
@@ -220,7 +218,7 @@ func ==<T: Equatable>(lhs: BinarySearchTree<T>, rhs: BinarySearchTree<T>) -> Boo
         return false
     }
     
-    if (lhs.getHead() == rhs.getHead() && (lhs.get(.Left) == rhs.get(.Left)) && (lhs.get(.Right) == rhs.get(.Right))){
+    if (lhs.head() == rhs.head() && (lhs.getBranch(.Left) == rhs.getBranch(.Left)) && (lhs.getBranch(.Right) == rhs.getBranch(.Right))){
         return true
     }else{
         return false
