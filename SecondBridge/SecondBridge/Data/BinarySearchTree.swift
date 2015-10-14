@@ -21,7 +21,7 @@ internal enum TreeBranch {
     case Right
 }
 
-indirect enum BinarySearchTree<T:Comparable>: CustomStringConvertible {
+public indirect enum BinarySearchTree<T:Comparable> {
     
     case Empty
     case Node(T, left: BinarySearchTree, right: BinarySearchTree)
@@ -128,7 +128,7 @@ indirect enum BinarySearchTree<T:Comparable>: CustomStringConvertible {
         return self
         
     }
-    
+   
     private func findMin( root:BinarySearchTree) -> BinarySearchTree<T> {
         
         switch root{
@@ -141,26 +141,35 @@ indirect enum BinarySearchTree<T:Comparable>: CustomStringConvertible {
         }
     }
     
-    // MARK: - Printable
-    
-    var description: String {
-        switch self {
-        case .Empty:
-            return "."
-        case let .Node(value, left, right):
-            return "[\(left) \(value) \(right)]"
+}
+
+
+// MARK: - Printable
+
+extension BinarySearchTree: CustomStringConvertible, CustomDebugStringConvertible {
+    public var description : String {
+        get {
+            switch self {
+            case .Empty:
+                return "."
+            case let .Node(value, left, right):
+                return "[\(left) \(value) \(right)]"
+            }
         }
     }
     
+    public var debugDescription: String {
+        get {
+            return self.description
+        }
+    }
 }
 
 // Traversal
 
 extension BinarySearchTree  {
     
-    /*
-    * Returns a sorted array of node items.
-    */
+    
     func inOrderTraversal() -> [T] {
         
         var result:[T] = []
@@ -173,6 +182,35 @@ extension BinarySearchTree  {
         }
         return result
     }
+
+    
+    func preOrderTraversal() -> [T] {
+        
+        var result:[T] = []
+        result.append(self.head()!)
+        if (!self.getBranch(.Left).isEmpty()){
+            result += self.getBranch(.Left).preOrderTraversal()
+        }
+        if (!self.getBranch(.Right).isEmpty()){
+            result += self.getBranch(.Right).preOrderTraversal()
+        }
+        return result
+    }
+    
+    
+    func postOrderTraversal() -> [T] {
+        
+        var result:[T] = []
+        if (!self.getBranch(.Left).isEmpty()){
+            result += self.getBranch(.Left).postOrderTraversal()
+        }
+        if (!self.getBranch(.Right).isEmpty()){
+            result += self.getBranch(.Right).postOrderTraversal()
+        }
+        result.append(self.head()!)
+        return result
+    }
+    
     
     
 }
@@ -202,7 +240,6 @@ extension BinarySearchTree {
             return false
         }
     }
-    
     
 }
 
