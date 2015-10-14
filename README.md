@@ -111,6 +111,22 @@ anArray.drop(4)  // [5,6]
 anArray.filterNot({ $0 == 1 }  // [2, 3, 4, 5, 6]
 ```
 
+**BinarySearchTree**
+
+An **immutable** binary search tree. 
+
+```swift
+import SecondBridge
+
+let tree = BinarySearchTree.Node(2, left: BinarySearchTree.Empty, right: BinarySearchTree.Empty) // [. 2 .]
+let tree2 = tree.add(4).add(8).add(5).add(1).add(3).add(7).add(10)  // [[. 1 .] 2 [[. 3 .] 4 [[. 5 [. 7 .]] 8 [. 10 .]]]]
+let tree3 = tree.remove(5)  // [[. 1 .] 2 [[. 3 .] 4 [[. 7 .] 8 [. 10 .]]]]
+tree2.count() // 8
+tree2.search(1)  // true
+tree2.inOrderTraversal() // [1, 2, 3, 4, 5, 7, 8, 10]
+
+```
+
 **ListT**
 
 An **immutable**, **traversable** and **typed** List.
@@ -125,7 +141,7 @@ a.length()  // 4
 a.filter({$0 % 3 == 0})  //  [1,2,4]
 ```
 
-[Interactive Playground about Lists](https://github.com/47deg/swift-poc/blob/master/Playgrounds/ExampleList.playground/section-1.swift)
+[Interactive Playground about Lists](https://github.com/47deg/swift-poc/blob/master/Playgrounds/ExampleList.playground/Contents.swift)
 
 **Map**
 
@@ -134,20 +150,20 @@ An **immutable**, **unordered**, **traversable** and **iterable** collection con
 ```C
 import SecondBridge
 
-var map : Map<Int> = ["a" : 1, 2 : 2, 4.5 : 3]
-map = map + ["c" : 4]			// map = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4]
-map += ("d"", 5)				// map = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "d" : 5]
-map += [("foo", 7), ("bar", 8)]	// map = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "d" : 5, "foo" : 7,  "bar" : 8]
+let map : Map<Int> = ["a" : 1, 2 : 2, 4.5 : 3]
+let map2 = map + ["c" : 4]			// map2 = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4]
+let map3 = map2 + ("d"", 5)			// map3 = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "d" : 5]
+let map4 = map3 + [("foo", 7), ("bar", 8)]	// map4 = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "d" : 5, "foo" : 7,  "bar" : 8]
 
-map -= "d"						// map = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "foo" : 7,  "bar" : 8]
-map --= ["foo", "bar"]			// map = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4]
+let map5 = map4 - "d"						// map5 = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "foo" : 7,  "bar" : 8]
+let map 6 = map5 -- ["foo", "bar"]			// map6 = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4]
 
-let filteredMap = map.filter({ (value) -> Bool in (value as Int) < 3})  // ("a" : 1, 2 : 2)
-let reducedResult = map.reduceByValue(0, combine: +)   					// 10
-let values = map.values 												// [1, 2, 3, 4]
+let filteredMap = map6.filter({ (value) -> Bool in (value as Int) < 3})  // ("a" : 1, 2 : 2)
+let reducedResult = map6.reduceByValue(0, combine: +)   					// 10
+let values = map6.values 												// [1, 2, 3, 4]
 
 ```
-[Interactive Playground about Maps](https://github.com/47deg/swift-poc/blob/master/Playgrounds/ExampleMap.playground/section-1.swift)
+[Interactive Playground about Maps](https://github.com/47deg/swift-poc/blob/master/Playgrounds/ExampleMap.playground/Contents.swift)
 
 **Stack**
 
@@ -156,18 +172,15 @@ An **immutable**, **traversable**, **iterable** and **typed** LIFO stack.
 ```swift
 import SecondBridge
 
-var stack = Stack<Int>()
-stack = stack.push(1)	// top -> 1 <- bottom
-stack = stack.push(2)	// top -> 2, 1 <- bottom
-stack = stack.push(3)	// top -> 3, 2, 1 <- bottom
+let stack = Stack<Int>()
+let stack2 = stack.push(1).push(2).push(3)    // top -> 3, 2, 1 <- bottom
 
-stack = stack.top()		// 3
-
-stack.pop()				// (3, Stack[2, 1])
+let topStack = stack2.top() // 3
+let popStack = stack2.pop()	// (3, Stack[2, 1])
 ```
 
-* [Interactive Playground about Stacks](https://github.com/47deg/swift-poc/blob/master/Playgrounds/ExampleStack.playground/section-1.swift)
-* [Interactive Playground to showcase the use of Stacks and functional algorithms to solve the N-Queens problem](https://github.com/47deg/swift-poc/blob/master/Playgrounds/ExampleNQueens.playground/section-1.swift)
+* [Interactive Playground about Stacks](https://github.com/47deg/swift-poc/blob/master/Playgrounds/ExampleStack.playground/Contents.swift)
+* [Interactive Playground to showcase the use of Stacks and functional algorithms to solve the N-Queens problem](https://github.com/47deg/swift-poc/blob/master/Playgrounds/ExampleNQueens.playground/Contents.swift)
 
 **Vector**
 
@@ -184,7 +197,7 @@ let value = vector[1]			// 2
 vector = vector.pop()			// [1, 2]
 ```
 
-[Interactive Playground about Vectors](https://github.com/47deg/swift-poc/blob/master/Playgrounds/ExampleVector.playground/section-1.swift)
+[Interactive Playground about Vectors](https://github.com/47deg/swift-poc/blob/master/Playgrounds/ExampleVector.playground/Contents.swift)
 
 ####  FUNCTIONS
 
