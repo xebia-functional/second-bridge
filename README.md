@@ -152,7 +152,7 @@ import SecondBridge
 
 let map : Map<Int> = ["a" : 1, 2 : 2, 4.5 : 3]
 let map2 = map + ["c" : 4]			// map2 = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4]
-let map3 = map2 + ("d"", 5)			// map3 = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "d" : 5]
+let map3 = map2 + ("d", 5)			// map3 = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "d" : 5]
 let map4 = map3 + [("foo", 7), ("bar", 8)]	// map4 = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "d" : 5, "foo" : 7,  "bar" : 8]
 
 let map5 = map4 - "d"						// map5 = ["a" : 1, 2 : 2, 4.5 : 3, "c" : 4, "foo" : 7,  "bar" : 8]
