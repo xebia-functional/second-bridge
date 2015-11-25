@@ -108,7 +108,7 @@ let list = anArray.toList()
 anArray.isEmpty()  // False
 anArray.size()  // 6
 anArray.drop(4)  // [5,6]
-anArray.filterNot({ $0 == 1 }  // [2, 3, 4, 5, 6]
+anArray.filterNot({ $0 == 1 })  // [2, 3, 4, 5, 6]
 ```
 
 **BinarySearchTree**
