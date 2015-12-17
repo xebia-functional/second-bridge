@@ -17,12 +17,24 @@
 import Foundation
 
 private let FutureDefaultTimeout: NSTimeInterval = 60
-private let FutureDefaultQueueRandomSuffix = 16
+private let FutureDefaultQueueRandomSuffixLength = 16
 
 enum FutureError: ErrorType {
     case OperationNotYetCompleted
     case Timeout
 }
+
+//internal struct ExecutionContext<T> {
+//    let queue: dispatch_queue_t
+//    let op: () -> T
+//    let resultDestination: TryMatcher<T>
+//    
+//    init(
+//    
+//    func run() {
+//        
+//    }
+//}
 
 /// Defines a computation to be executed concurrently, that will either result in an timeout, or return a successfully computed value.
 /// Future cannot encapsulate throwable functions, as these are not supported by GCD functions yet.
@@ -65,10 +77,13 @@ public class Future<T>: AnyObject {
         }
     }
     
+    /**
+    Runs the operation encapsulated within the Future, if it didn't start it automatically (i.e.: setting `shouldStartOperation` to `false`) while initializing)
+    */
     public func run() {
         if isNotCompleted() {
             timer = NSTimer.scheduledTimerWithTimeInterval(opTimeout, target: self, selector: "handleOperationFailure", userInfo: nil, repeats: false)
-            let queue = dispatch_queue_create(String.randomStringWithLength(FutureDefaultQueueRandomSuffix), DISPATCH_QUEUE_CONCURRENT)
+            let queue = dispatch_queue_create(String.randomStringWithLength(FutureDefaultQueueRandomSuffixLength), DISPATCH_QUEUE_CONCURRENT)
             dispatch_async(queue) { () -> Void in
                 let result = self.operation()
                 self.result = TryMatcher.Success(result)
@@ -85,6 +100,10 @@ public class Future<T>: AnyObject {
         }
     }
     
+    /**
+    - returns: `true` if the operation inside the Future is in progress and didn't time out. `false` if the Future finished,
+    with a Success or Failure results.
+    */
     public func isNotCompleted() -> Bool {
         switch result {
         case .Failure(let ex):
@@ -120,41 +139,58 @@ public class Future<T>: AnyObject {
         return newFuture
     }
     
-    public func onSuccess(callback: PartialFunction<T, Any>) -> Future<T> {
+    /**
+    - parameter callback: function to call if the Future finish with a succesful result.
+    - returns: a modified Future including the provided success callback.
+    */
+    public func onSuccess(callback: (T -> ())) -> Future<T> {
+        // To be able to return a new instance of the future (including the new callback), we need to stop the current timer and modify
+        // the timeout
         let spentTime = self.opLaunchTime.timeIntervalSinceNow
-        let successCallback = Future.partialFunctionToSuccessCallback(callback)
         
         if isNotCompleted() {
             self.timer?.invalidate()
-            return recreateFutureWithTimeout(self.opTimeout - spentTime, callbackSuccess: successCallback, callbackFailure: nil)
+            return recreateFutureWithTimeout(self.opTimeout - spentTime, callbackSuccess: callback, callbackFailure: nil)
         } else {
             switch result {
             case .Success(let value):
                 // As we have already a success, and the operation finished successfully, we first call the provided callback and then return the modified instance:
-                successCallback(value)
-                return recreateFutureWithTimeout(self.opTimeout - spentTime, callbackSuccess: successCallback, callbackFailure: nil)
+                callback(value)
+                return recreateFutureWithTimeout(self.opTimeout - spentTime, callbackSuccess: callback, callbackFailure: nil)
             default:
-                return recreateFutureWithTimeout(self.opTimeout - spentTime, callbackSuccess: successCallback, callbackFailure: nil)
+                return recreateFutureWithTimeout(self.opTimeout - spentTime, callbackSuccess: callback, callbackFailure: nil)
             }
         }
     }
     
-    public func onFailure(callback: PartialFunction<ErrorType, Any>) -> Future<T> {
+    /**
+    - parameter callback: function to call if the Future finish with a failed result.
+    - returns: a modified Future including the provided failure callback.
+    */
+    public func onFailure(callback: (ErrorType -> ())) -> Future<T> {
         let spentTime = self.opLaunchTime.timeIntervalSinceNow
-        let failureCallback = Future.partialFunctionToFailureCallback(callback)
         
         if isNotCompleted() {
             self.timer?.invalidate()
-            return recreateFutureWithTimeout(self.opTimeout - spentTime, callbackSuccess: nil, callbackFailure: failureCallback)
+            return recreateFutureWithTimeout(self.opTimeout - spentTime, callbackSuccess: nil, callbackFailure: callback)
         } else {
             switch result {
             case .Failure(let ex):
                 // As we have already a failure, and the operation finished with a failure, we first call the provided callback and then return the modified instance:
-                failureCallback(ex)
-                return recreateFutureWithTimeout(self.opTimeout - spentTime, callbackSuccess: nil, callbackFailure: failureCallback)
+                callback(ex)
+                return recreateFutureWithTimeout(self.opTimeout - spentTime, callbackSuccess: nil, callbackFailure: callback)
             case .Success(_):
                 return recreateFutureWithTimeout(self.opTimeout - spentTime, callbackSuccess: nil, callbackFailure: nil)
             }
         }
+    }
+    
+    /**
+    - parameter success: function to call if the Future finish with a succesful result.
+    - parameter failure: function to call if the Future finish with a failed result.
+    - returns: a modified Future including the provided callbacks.
+    */
+    public func onComplete(success: (T) -> (), failure: (ErrorType) -> ()) -> Future<T> {
+        return self.onSuccess(success).onFailure(failure)
     }
 }

@@ -25,7 +25,6 @@ class FutureTests: XCTestCase {
         while !shouldReturn {
             
         }
-        
         return 47
     }
     
@@ -41,7 +40,7 @@ class FutureTests: XCTestCase {
 
     func testCreateFutureWithSuccess() {
         let expectation = expectationWithDescription("A Future with an operation that doesn't time out will be executed correctly")
-        let future = Future<Int>({() -> Int in return self.complexOpDoneInTime(5.0)}).onSuccess({ (n: Int) -> Bool in return n == 47 } |-> { (n: Int) -> Any in print("n = \(n)"); expectation.fulfill(); return n })
+        let future = Future<Int>({() -> Int in return self.complexOpDoneInTime(5.0)}).onSuccess({ (n: Int) -> () in print("n = \(n)"); expectation.fulfill() }).onFailure({ (ErrorType) -> () in return ()})
         XCTAssertNil(future.value, "An unfinished Future should yield a nil value")
         
         waitForExpectationsWithTimeout(future.opTimeout) { (error) -> Void in
@@ -57,7 +56,7 @@ class FutureTests: XCTestCase {
     
     func testCreateFutureWithFailure() {
         weak var expectation = expectationWithDescription("A Future with an operation that times out will fail")
-        let future = Future<Int>({() -> Int in return self.complexOpDoneInTime(5.0)}, timeout: 2.0).onFailure({ (ErrorType) -> Bool in return true } |-> { (e: ErrorType) -> Any in expectation?.fulfill(); return ErrorType.self})
+        let future = Future<Int>({() -> Int in return self.complexOpDoneInTime(5.0)}, timeout: 2.0).onFailure({ (ErrorType) -> () in expectation?.fulfill() })
         XCTAssertNil(future.value, "An unfinished Future should yield a nil value")
         
         waitForExpectationsWithTimeout(future.opTimeout + 1) { (error) -> Void in
