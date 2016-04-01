@@ -44,10 +44,10 @@ extension ArrayT : SequenceType {
     public func generate() -> Generator {
         var index : Int = 0
         
-        return anyGenerator {
+        return AnyGenerator {
             if index < self.internalArray.count {
                 let result = self.internalArray[index]
-                index++
+                index += 1
                 return result
             }
             return nil

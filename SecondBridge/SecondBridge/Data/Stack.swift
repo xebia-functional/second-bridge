@@ -40,7 +40,7 @@ extension Stack : SequenceType {
     public func generate() -> Generator {
         let index : Int = 0
         
-        return anyGenerator {
+        return AnyGenerator {
             if index < self.internalArray.count {
                 return self.internalArray[index]
             }

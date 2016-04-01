@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5927AF651BC5066A00161247 /* TryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5927AF641BC5066A00161247 /* TryTests.swift */; settings = {ASSET_TAGS = (); }; };
+		5927AF651BC5066A00161247 /* TryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5927AF641BC5066A00161247 /* TryTests.swift */; };
 		59283E531B0A03B500EC3A9F /* SecondBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = A183A1271AA85FA500C535A6 /* SecondBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		594E50371BC40B85005866FE /* ArraySlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594E50361BC40B85005866FE /* ArraySlice.swift */; settings = {ASSET_TAGS = (); }; };
-		594E50381BC40B85005866FE /* ArraySlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594E50361BC40B85005866FE /* ArraySlice.swift */; settings = {ASSET_TAGS = (); }; };
-		594E50391BC40B85005866FE /* ArraySlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594E50361BC40B85005866FE /* ArraySlice.swift */; settings = {ASSET_TAGS = (); }; };
+		594E50371BC40B85005866FE /* ArraySlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594E50361BC40B85005866FE /* ArraySlice.swift */; };
+		594E50381BC40B85005866FE /* ArraySlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594E50361BC40B85005866FE /* ArraySlice.swift */; };
+		594E50391BC40B85005866FE /* ArraySlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594E50361BC40B85005866FE /* ArraySlice.swift */; };
 		596D703D1AADB79B00CE9962 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596D703C1AADB79B00CE9962 /* Map.swift */; };
 		596D703E1AADB79B00CE9962 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596D703C1AADB79B00CE9962 /* Map.swift */; };
 		596D70421AADB80400CE9962 /* MapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596D70401AADB80400CE9962 /* MapTests.swift */; };
@@ -28,9 +28,9 @@
 		5982D6821AE647A100BA53D0 /* ArrayTTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5982D6811AE647A100BA53D0 /* ArrayTTests.swift */; };
 		5982D68F1AE7B6DC00BA53D0 /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5982D68E1AE7B6DC00BA53D0 /* Vector.swift */; };
 		5982D6901AE7B6DC00BA53D0 /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5982D68E1AE7B6DC00BA53D0 /* Vector.swift */; };
-		599207CD1BC40D7800BB786D /* VectorIntegrityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599207CC1BC40D7800BB786D /* VectorIntegrityTests.swift */; settings = {ASSET_TAGS = (); }; };
-		599207D01BC4174400BB786D /* Try.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599207CF1BC4174400BB786D /* Try.swift */; settings = {ASSET_TAGS = (); }; };
-		599207D11BC4174400BB786D /* Try.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599207CF1BC4174400BB786D /* Try.swift */; settings = {ASSET_TAGS = (); }; };
+		599207CD1BC40D7800BB786D /* VectorIntegrityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599207CC1BC40D7800BB786D /* VectorIntegrityTests.swift */; };
+		599207D01BC4174400BB786D /* Try.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599207CF1BC4174400BB786D /* Try.swift */; };
+		599207D11BC4174400BB786D /* Try.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599207CF1BC4174400BB786D /* Try.swift */; };
 		59A911B11AEA2F6F00EE50CA /* VectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A911B01AEA2F6F00EE50CA /* VectorTests.swift */; };
 		59A911B21AEA2F6F00EE50CA /* SecondBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A183A1221AA85FA500C535A6 /* SecondBridge.framework */; };
 		59A911B91AEA2F8000EE50CA /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5982D68E1AE7B6DC00BA53D0 /* Vector.swift */; };
@@ -53,17 +53,17 @@
 		59D811B71AA87B7C005F7761 /* HashableAny.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D811B61AA87B7C005F7761 /* HashableAny.swift */; };
 		59D811B81AA87B7C005F7761 /* HashableAny.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D811B61AA87B7C005F7761 /* HashableAny.swift */; };
 		59D811C31AA8A4FC005F7761 /* SecondBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A183A1221AA85FA500C535A6 /* SecondBridge.framework */; };
-		97303884E08FE7E502542849 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 374373D53C1E1730C0517D5F /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		A10E3BE21BC7A6FB00ECF923 /* BinarySearchTreeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10E3BE11BC7A6FB00ECF923 /* BinarySearchTreeTest.swift */; settings = {ASSET_TAGS = (); }; };
+		90803D411CAF3B78003EAEF4 /* Swiftz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90803D401CAF3B78003EAEF4 /* Swiftz.framework */; };
+		90803D421CAF3C79003EAEF4 /* Swiftz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90803D401CAF3B78003EAEF4 /* Swiftz.framework */; };
+		90803D431CAF3C88003EAEF4 /* Swiftz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90803D401CAF3B78003EAEF4 /* Swiftz.framework */; };
+		A10E3BE21BC7A6FB00ECF923 /* BinarySearchTreeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10E3BE11BC7A6FB00ECF923 /* BinarySearchTreeTest.swift */; };
 		A10E3BE31BC7DDAD00ECF923 /* BinarySearchTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1BE586C1BC4106800EBBFF3 /* BinarySearchTree.swift */; };
 		A12A115B1AC31B2200FE8A80 /* RangeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12A115A1AC31B2200FE8A80 /* RangeTests.swift */; };
 		A183A1351AA85FA500C535A6 /* Swift47DegTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A183A1341AA85FA500C535A6 /* Swift47DegTests.swift */; };
 		A1B6F0EA1AE4ECB3006E7997 /* ListT.swift in Sources */ = {isa = PBXBuildFile; fileRef = A182FAFF1ADBC319005636C1 /* ListT.swift */; };
 		A1B6F0EB1AE4ECB3006E7997 /* Iterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59800BFA1AD6BD200044D0ED /* Iterable.swift */; };
-		A1BE586D1BC4106800EBBFF3 /* BinarySearchTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1BE586C1BC4106800EBBFF3 /* BinarySearchTree.swift */; settings = {ASSET_TAGS = (); }; };
+		A1BE586D1BC4106800EBBFF3 /* BinarySearchTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1BE586C1BC4106800EBBFF3 /* BinarySearchTree.swift */; };
 		A1DEF77D1B18767900BCBAC2 /* PartialFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C9BCA81AC2DD440043C96E /* PartialFunction.swift */; };
-		A1DEF77F1B1876A800BCBAC2 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1DEF77E1B1876A800BCBAC2 /* Pods.framework */; };
-		A1DEF7811B1876AE00BCBAC2 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1DEF7801B1876AE00BCBAC2 /* Pods.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,6 +123,7 @@
 		59C9BCA81AC2DD440043C96E /* PartialFunction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartialFunction.swift; sourceTree = "<group>"; };
 		59C9BCAD1AC2DD500043C96E /* PartialFunctionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartialFunctionTests.swift; sourceTree = "<group>"; };
 		59D811B61AA87B7C005F7761 /* HashableAny.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashableAny.swift; sourceTree = "<group>"; };
+		90803D401CAF3B78003EAEF4 /* Swiftz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Swiftz.framework; path = Carthage/Build/iOS/Swiftz.framework; sourceTree = "<group>"; };
 		A10E3BE11BC7A6FB00ECF923 /* BinarySearchTreeTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinarySearchTreeTest.swift; sourceTree = "<group>"; };
 		A12A115A1AC31B2200FE8A80 /* RangeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeTests.swift; sourceTree = "<group>"; };
 		A182FAFF1ADBC319005636C1 /* ListT.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListT.swift; sourceTree = "<group>"; };
@@ -144,8 +145,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1DEF7811B1876AE00BCBAC2 /* Pods.framework in Frameworks */,
 				59A911B21AEA2F6F00EE50CA /* SecondBridge.framework in Frameworks */,
+				90803D431CAF3C88003EAEF4 /* Swiftz.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -153,7 +154,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				97303884E08FE7E502542849 /* Pods.framework in Frameworks */,
+				90803D411CAF3B78003EAEF4 /* Swiftz.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,8 +162,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1DEF77F1B1876A800BCBAC2 /* Pods.framework in Frameworks */,
 				59D811C31AA8A4FC005F7761 /* SecondBridge.framework in Frameworks */,
+				90803D421CAF3C79003EAEF4 /* Swiftz.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,6 +173,7 @@
 		531A8D8FEB8591BDC16C0FD3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				90803D401CAF3B78003EAEF4 /* Swiftz.framework */,
 				A1DEF7801B1876AE00BCBAC2 /* Pods.framework */,
 				A1DEF77E1B1876A800BCBAC2 /* Pods.framework */,
 				374373D53C1E1730C0517D5F /* Pods.framework */,
@@ -397,6 +399,7 @@
 				59A911A81AEA2F6F00EE50CA /* Sources */,
 				59A911A91AEA2F6F00EE50CA /* Frameworks */,
 				59A911AA1AEA2F6F00EE50CA /* Resources */,
+				90803D451CAF3D2D003EAEF4 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -412,12 +415,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A183A1381AA85FA500C535A6 /* Build configuration list for PBXNativeTarget "SecondBridge" */;
 			buildPhases = (
-				0E92D043EB80EC955212B3A5 /* Check Pods Manifest.lock */,
 				A183A11D1AA85FA500C535A6 /* Sources */,
 				A183A11E1AA85FA500C535A6 /* Frameworks */,
 				A183A11F1AA85FA500C535A6 /* Headers */,
 				A183A1201AA85FA500C535A6 /* Resources */,
-				0DBDD214CBD912D0C462BA21 /* Copy Pods Resources */,
+				90803D3F1CAF3B02003EAEF4 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -436,6 +438,7 @@
 				A183A12A1AA85FA500C535A6 /* Frameworks */,
 				A183A12B1AA85FA500C535A6 /* Resources */,
 				59F0C71B1AA8B85F0070C03F /* CopyFiles */,
+				90803D441CAF3D19003EAEF4 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -513,35 +516,47 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0DBDD214CBD912D0C462BA21 /* Copy Pods Resources */ = {
+		90803D3F1CAF3B02003EAEF4 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Swiftz.framework",
 			);
-			name = "Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
-		0E92D043EB80EC955212B3A5 /* Check Pods Manifest.lock */ = {
+		90803D441CAF3D19003EAEF4 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Swiftz.framework",
 			);
-			name = "Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+		90803D451CAF3D2D003EAEF4 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Swiftz.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -636,12 +651,12 @@
 /* Begin XCBuildConfiguration section */
 		59A911B51AEA2F6F00EE50CA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FFED5D3AE512B747515A216C /* Pods.debug.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -657,13 +672,13 @@
 		};
 		59A911B61AEA2F6F00EE50CA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 484FE31132DFCAEC6C987ABF /* Pods.release.xcconfig */;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = VectorTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
@@ -763,7 +778,6 @@
 		};
 		A183A1391AA85FA500C535A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FFED5D3AE512B747515A216C /* Pods.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -772,7 +786,10 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = SecondBridge/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -785,7 +802,6 @@
 		};
 		A183A13A1AA85FA500C535A6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 484FE31132DFCAEC6C987ABF /* Pods.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -794,7 +810,10 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = SecondBridge/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -806,7 +825,6 @@
 		};
 		A183A13C1AA85FA500C535A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FFED5D3AE512B747515A216C /* Pods.debug.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -815,6 +833,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -829,7 +848,6 @@
 		};
 		A183A13D1AA85FA500C535A6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 484FE31132DFCAEC6C987ABF /* Pods.release.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -838,6 +856,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = SecondBridge/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
