@@ -60,10 +60,10 @@ extension Map : SequenceType {
     public func generate() -> Generator {
         var index : Int = 0
         
-        return anyGenerator {
+        return AnyGenerator {
             if index < self.internalDict.count {
                 let key = Array(self.internalDict.keys)[index]
-                index++
+                index += 1
                 return (key, self.internalDict[key]!)
             }
             return nil
@@ -98,7 +98,7 @@ extension Map : Traversable {
             case let sameTypeValue as Value: let key = HashableAny(intValue: index); result = result + (key, sameTypeValue)
             default: break
             }
-            index++
+            index += 1
         }
         return result
     }

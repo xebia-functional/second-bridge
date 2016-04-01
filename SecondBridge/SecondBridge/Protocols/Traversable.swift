@@ -21,7 +21,7 @@ import Swiftz
 Datatypes conforming to this protocol should expose certain functions that allow to traverse through them, and also being built from other Traversable types (although the latter has some limitations due to Swift type constraints restrictions). All Traversable instances have access to the methods declared in this protocol.
 */
 public protocol Traversable {
-    typealias ItemType
+    associatedtype ItemType
     
     /** 
     Traverse all items of the instance, and call the provided function on each one.
@@ -177,7 +177,7 @@ public func foldLeftT<S: Traversable, U>(source: S, initialValue: U, combine: (U
     var result = initialValue
     while(index >= 0) {
         result = combine(result, array[index])
-        index--
+        index -= 1
     }
     return result
 }

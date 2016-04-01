@@ -209,10 +209,10 @@ extension Vector : SequenceType {
     public func generate() -> Generator {
         var index : Int = 0
         
-        return anyGenerator {
+        return AnyGenerator {
             if index < self.count {
                 let result = self[index]
-                index++
+                index += 1
                 return result
             }
             return nil
@@ -414,8 +414,8 @@ public class VectorCaseGen<T> {
 
 
 protocol VectorCase {
-    typealias ItemType
-    typealias SelfType
+    associatedtype ItemType
+    associatedtype SelfType
     
     subscript(i: Int) -> Vector<ItemType>.Array1 { get }
     func update(i: Int, obj: ItemType) -> SelfType
